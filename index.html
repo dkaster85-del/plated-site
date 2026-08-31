@@ -1,0 +1,447 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Plated Fitness &mdash; Track macros, log every rep, share the work</title>
+<meta name="description" content="Plated is a nutrition and training app for people who log seriously. Barcode scanning, progressive overload, GPS runs, Apple Health, and a feed of people doing the same.">
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://plated-fitness.com/">
+<meta property="og:title" content="Plated Fitness">
+<meta property="og:description" content="Track macros, log every rep, share the work.">
+<meta name="theme-color" content="#0D0D0D">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;900&family=IBM+Plex+Mono:wght@400;500&display=swap">
+
+<style>
+  /* Single-theme by intent. The app itself is dark-only — userInterfaceStyle is
+     "dark" in app.json, with no light palette anywhere in it — so a landing page
+     that flipped to cream in daylight would be advertising a product that does
+     not exist. Every colour is painted explicitly rather than inherited. */
+  :root {
+    --ground:   #0D0D0D;
+    --surface:  #151515;
+    --raised:   #1C1C1C;
+    --border:   #262626;
+    --line:     #333333;
+    --text:     #F0F0F0;
+    --muted:    #8C8C8C;
+    --dim:      #5E5E5E;
+    --accent:   #FF4500;
+    --accent-d: #C93600;
+    --tint:     rgba(255, 69, 0, .10);
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    * { animation: none !important; transition: none !important; }
+  }
+
+  body {
+    margin: 0;
+    background: var(--ground);
+    color: var(--text);
+    font-family: Archivo, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap { width: 100%; max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+
+  a { color: var(--accent); }
+  a:focus-visible, button:focus-visible {
+    outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 3px;
+  }
+
+  .mono {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 11px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase;
+  }
+
+  /* ── Header ───────────────────────────────────────────────────────────── */
+  header {
+    border-bottom: 1px solid var(--border);
+    position: sticky; top: 0; z-index: 10;
+    background: rgba(13, 13, 13, .88);
+    backdrop-filter: blur(12px);
+  }
+  .bar { display: flex; align-items: center; justify-content: space-between; height: 62px; }
+  .wordmark {
+    font-weight: 900; font-size: 19px; letter-spacing: -.01em;
+    color: var(--text); text-decoration: none;
+  }
+  .wordmark span { color: var(--accent); }
+  nav { display: flex; gap: 26px; }
+  nav a {
+    color: var(--muted); text-decoration: none; font-size: 13.5px; font-weight: 500;
+  }
+  nav a:hover { color: var(--text); }
+  @media (max-width: 620px) { nav { display: none; } }
+
+  /* ── Hero ─────────────────────────────────────────────────────────────── */
+  .hero { padding: 88px 0 76px; }
+  .hero-grid {
+    display: grid; grid-template-columns: 1.15fr .85fr; gap: 56px; align-items: center;
+  }
+  @media (max-width: 900px) {
+    .hero { padding: 60px 0 56px; }
+    .hero-grid { grid-template-columns: 1fr; gap: 48px; }
+  }
+
+  .chip {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--tint); border: 1px solid rgba(255,69,0,.3);
+    color: var(--accent); padding: 6px 13px; border-radius: 999px; margin-bottom: 22px;
+  }
+  .dot {
+    width: 6px; height: 6px; border-radius: 50%; background: var(--accent);
+  }
+
+  h1 {
+    font-size: clamp(38px, 6.4vw, 62px); font-weight: 700; line-height: 1.02;
+    letter-spacing: -.035em; margin: 0 0 20px; text-wrap: balance;
+  }
+  h1 em { font-style: normal; color: var(--accent); }
+
+  .lede {
+    font-size: 18px; line-height: 1.6; color: var(--muted);
+    margin: 0 0 32px; max-width: 46ch; text-wrap: pretty;
+  }
+
+  .cta-row { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 9px;
+    background: var(--accent); color: #fff; text-decoration: none;
+    font-weight: 700; font-size: 14.5px; letter-spacing: .01em;
+    padding: 14px 24px; border-radius: 10px;
+    transition: background .15s ease;
+  }
+  .btn:hover { background: var(--accent-d); }
+  .btn-ghost {
+    background: transparent; color: var(--text);
+    border: 1px solid var(--line);
+  }
+  .btn-ghost:hover { background: var(--surface); }
+
+  /* ── Hero device ──────────────────────────────────────────────────────── */
+  /* Deliberately schematic rather than a fake screenshot: it shows the shape of
+     the product — a macro ring and a set grid — without claiming to be a
+     literal capture of a screen that may have moved on since. */
+  .device {
+    width: 100%; max-width: 300px; margin: 0 auto;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 26px; padding: 20px 18px 22px;
+    box-shadow: 0 30px 70px -30px rgba(0,0,0,.9);
+  }
+  .device-label { color: var(--dim); margin-bottom: 14px; }
+  .ring-wrap { display: flex; justify-content: center; margin-bottom: 6px; }
+  .kcal-n {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 27px; font-weight: 500; fill: var(--text);
+  }
+  .kcal-l {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 9px; letter-spacing: .14em; fill: var(--dim);
+  }
+  .macros { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 14px 0 18px; }
+  .macro { background: var(--raised); border-radius: 8px; padding: 9px 8px; text-align: center; }
+  .macro-v {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 15px; font-weight: 500; font-variant-numeric: tabular-nums; display: block;
+  }
+  .macro-l { font-size: 9px; letter-spacing: .1em; color: var(--dim); text-transform: uppercase; }
+
+  .sets { border-top: 1px solid var(--border); padding-top: 14px; }
+  .set-row {
+    display: grid; grid-template-columns: 1fr auto auto; gap: 12px;
+    padding: 7px 0; align-items: baseline;
+  }
+  .set-name { font-size: 12px; color: var(--muted); }
+  .set-v {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 12px; font-variant-numeric: tabular-nums; color: var(--text);
+  }
+  .set-up { color: var(--accent); font-size: 11px; font-weight: 700; }
+
+  /* ── Sections ─────────────────────────────────────────────────────────── */
+  section { padding: 76px 0; border-top: 1px solid var(--border); }
+  .sec-label { color: var(--accent); margin-bottom: 14px; }
+  h2 {
+    font-size: clamp(26px, 3.6vw, 34px); font-weight: 700; letter-spacing: -.025em;
+    margin: 0 0 14px; text-wrap: balance;
+  }
+  .sec-lede { font-size: 16.5px; color: var(--muted); margin: 0 0 44px; max-width: 58ch; }
+
+  .features { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  @media (max-width: 780px) { .features { grid-template-columns: 1fr; } }
+
+  .feat {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 14px; padding: 26px 26px 28px;
+  }
+  .feat-tab {
+    display: inline-block; background: var(--raised); color: var(--dim);
+    padding: 4px 9px; border-radius: 5px; margin-bottom: 16px;
+  }
+  .feat h3 { font-size: 18px; font-weight: 700; letter-spacing: -.015em; margin: 0 0 10px; }
+  .feat p { font-size: 14.5px; color: var(--muted); margin: 0 0 16px; }
+  .feat ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 9px; }
+  .feat li {
+    font-size: 14px; color: var(--muted); padding-left: 20px; position: relative;
+  }
+  .feat li::before {
+    content: ""; position: absolute; left: 0; top: 8px;
+    width: 7px; height: 7px; border-radius: 2px;
+    background: var(--accent); opacity: .75;
+  }
+  .feat li strong { color: var(--text); font-weight: 600; }
+
+  /* ── Pricing ──────────────────────────────────────────────────────────── */
+  .plans { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; max-width: 780px; }
+  @media (max-width: 780px) { .plans { grid-template-columns: 1fr; } }
+  .plan {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 14px; padding: 28px;
+  }
+  .plan.pro { border-color: var(--accent); background: linear-gradient(180deg, var(--tint), var(--surface) 55%); }
+  .plan-name { font-size: 17px; font-weight: 700; margin: 0 0 4px; }
+  .plan-price {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 32px; font-weight: 500; margin: 10px 0 2px; letter-spacing: -.02em;
+  }
+  .plan-per { font-size: 13px; color: var(--dim); margin: 0 0 20px; }
+  .plan ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+  .plan li { font-size: 14px; color: var(--muted); padding-left: 20px; position: relative; }
+  .plan li::before {
+    content: "→"; position: absolute; left: 0; color: var(--accent); font-size: 12px;
+  }
+
+  .note {
+    font-size: 13px; color: var(--dim); margin-top: 26px; max-width: 62ch; line-height: 1.65;
+  }
+
+  /* ── Footer ───────────────────────────────────────────────────────────── */
+  footer { border-top: 1px solid var(--border); padding: 44px 0 56px; }
+  .foot {
+    display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap;
+    align-items: flex-start;
+  }
+  .foot-links { display: flex; gap: 24px; flex-wrap: wrap; }
+  .foot-links a { color: var(--muted); text-decoration: none; font-size: 13.5px; }
+  .foot-links a:hover { color: var(--text); }
+  .copy { color: var(--dim); font-size: 12.5px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap bar">
+    <a href="/" class="wordmark"><span>PLA</span>TED</a>
+    <nav>
+      <a href="#features">Features</a>
+      <a href="#pricing">Pro</a>
+      <a href="/support/">Support</a>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap hero">
+  <div class="hero-grid">
+    <div>
+      <div class="chip mono"><span class="dot"></span>Coming soon to iOS</div>
+      <h1>Track macros. Log every rep. <em>Share the work.</em></h1>
+      <p class="lede">
+        Plated is a nutrition and training app for people who actually log. Scan a barcode,
+        finish a set, run a route &mdash; and see the whole picture in one place instead of
+        three apps that don't talk to each other.
+      </p>
+      <div class="cta-row">
+        <a class="btn" href="/support/">Get notified at launch</a>
+        <a class="btn btn-ghost" href="#features">See what it does</a>
+      </div>
+    </div>
+
+    <div class="device" role="img" aria-label="Illustration of Plated's daily view: 1,847 of 2,400 calories logged, with protein, carbs and fat totals, above a workout set list showing a progressive overload suggestion.">
+      <div class="device-label mono">Today</div>
+      <div class="ring-wrap">
+        <svg width="150" height="150" viewBox="0 0 150 150" aria-hidden="true">
+          <circle cx="75" cy="75" r="62" fill="none" stroke="#262626" stroke-width="11"/>
+          <circle cx="75" cy="75" r="62" fill="none" stroke="#FF4500" stroke-width="11"
+                  stroke-linecap="round" stroke-dasharray="390 500"
+                  transform="rotate(-90 75 75)"/>
+          <text class="kcal-n" x="75" y="74" text-anchor="middle">1,847</text>
+          <text class="kcal-l" x="75" y="92" text-anchor="middle">OF 2,400 KCAL</text>
+        </svg>
+      </div>
+      <div class="macros">
+        <div class="macro"><span class="macro-v">142g</span><span class="macro-l">Protein</span></div>
+        <div class="macro"><span class="macro-v">186g</span><span class="macro-l">Carbs</span></div>
+        <div class="macro"><span class="macro-v">61g</span><span class="macro-l">Fat</span></div>
+      </div>
+      <div class="sets">
+        <div class="set-row">
+          <span class="set-name">Bench Press</span>
+          <span class="set-v">185 × 8</span>
+          <span class="set-up">↑ 5</span>
+        </div>
+        <div class="set-row">
+          <span class="set-name">Incline DB</span>
+          <span class="set-v">70 × 10</span>
+          <span class="set-up">↑ 2</span>
+        </div>
+        <div class="set-row">
+          <span class="set-name">Cable Fly</span>
+          <span class="set-v">40 × 12</span>
+          <span class="set-up"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section id="features">
+  <div class="wrap">
+    <p class="sec-label mono">What's inside</p>
+    <h2>Five tabs, and none of them are filler</h2>
+    <p class="sec-lede">
+      Plated is built around the things you do every day, not around a dashboard you check once
+      and forget. Each tab does one job properly.
+    </p>
+
+    <div class="features">
+
+      <div class="feat">
+        <span class="feat-tab mono">Nutrition</span>
+        <h3>Logging that doesn't fight you</h3>
+        <p>The fastest path from a package in your hand to a number in your day.</p>
+        <ul>
+          <li><strong>Barcode scanning</strong> against Open Food Facts and USDA FoodData Central</li>
+          <li><strong>AI label scanner</strong> — photograph a nutrition label and it fills itself in, serving size included</li>
+          <li><strong>Recipes and meals</strong> you build once and log in a tap</li>
+          <li><strong>Fill My Macros</strong> suggests dinner based on what you have left</li>
+        </ul>
+      </div>
+
+      <div class="feat">
+        <span class="feat-tab mono">Train</span>
+        <h3>Every set, and what to do next</h3>
+        <p>A workout log that reads your history instead of just storing it.</p>
+        <ul>
+          <li><strong>Progressive overload</strong> suggestions anchored to your best over 90 days, not your last bad night</li>
+          <li><strong>Full exercise library</strong>, editable, plus your own custom movements</li>
+          <li><strong>Heart rate</strong> live from a Bluetooth strap or Apple Watch</li>
+          <li><strong>Import from Hevy</strong> so you don't start from zero</li>
+        </ul>
+      </div>
+
+      <div class="feat">
+        <span class="feat-tab mono">Progress</span>
+        <h3>Proof it's working</h3>
+        <p>The part that keeps you going when the mirror is being unhelpful.</p>
+        <ul>
+          <li><strong>GPS run tracking</strong> with route, distance, pace and elevation</li>
+          <li><strong>Muscle heatmap</strong> showing what you've actually trained</li>
+          <li><strong>Weight and measurements</strong> charted over time</li>
+          <li><strong>Apple Health</strong> sync, both directions</li>
+        </ul>
+      </div>
+
+      <div class="feat">
+        <span class="feat-tab mono">Feed</span>
+        <h3>People doing the same thing</h3>
+        <p>Small and accountable, not another place to perform.</p>
+        <ul>
+          <li><strong>Share workouts and meals</strong> with photos or video</li>
+          <li><strong>Follow friends</strong>, comment, and keep each other honest</li>
+          <li><strong>Public or private</strong> — your profile, your call</li>
+          <li><strong>Report and block</strong> on everything, enforced both ways</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="pricing">
+  <div class="wrap">
+    <p class="sec-label mono">Pricing</p>
+    <h2>Free to use. Pro if you want the clever bits.</h2>
+    <p class="sec-lede">
+      Logging food and training is free and stays free. Pro pays for the features that cost us
+      money to run, which is mostly the AI ones.
+    </p>
+
+    <div class="plans">
+      <div class="plan">
+        <p class="plan-name">Plated</p>
+        <p class="plan-price">Free</p>
+        <p class="plan-per">No account limits</p>
+        <ul>
+          <li>Barcode scanning and food logging</li>
+          <li>Full workout logging and history</li>
+          <li>Recipes, meals and streaks</li>
+          <li>The feed, profiles and following</li>
+          <li>Apple Health sync</li>
+        </ul>
+      </div>
+
+      <div class="plan pro">
+        <p class="plan-name">Plated Pro</p>
+        <p class="plan-price">$4.99</p>
+        <p class="plan-per">per month, auto-renewing</p>
+        <ul>
+          <li>AI label scanner and food lookup</li>
+          <li>Fill My Macros dinner suggestions</li>
+          <li>Progressive overload suggestions</li>
+          <li>Heart-rate tracking</li>
+          <li>GPS run tracking with live map</li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="note">
+      Subscriptions are billed through your Apple ID and renew automatically unless auto-renew is
+      switched off at least 24 hours before the period ends. You can cancel any time in your Apple
+      ID settings. Full details in the <a href="https://legal.plated-fitness.com/terms/">Terms of Use</a>.
+    </p>
+  </div>
+</section>
+
+<section id="health">
+  <div class="wrap">
+    <p class="sec-label mono">One honest note</p>
+    <h2>Plated is a tracking tool, not a doctor</h2>
+    <p class="sec-lede">
+      Calorie targets, macro splits and overload suggestions are estimates generated from formulas
+      and the numbers you enter. They are not medical or nutritional advice. Talk to a physician or
+      a registered dietitian before changing your diet or training &mdash; particularly if you are
+      pregnant, under 18, or managing any medical condition or eating disorder.
+    </p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <div>
+      <a href="/" class="wordmark"><span>PLA</span>TED</a>
+      <p class="copy" style="margin-top:8px">&copy; 2026 Plated Fitness. All rights reserved.</p>
+    </div>
+    <div class="foot-links">
+      <a href="/support/">Support</a>
+      <a href="mailto:support@plated-fitness.com">Contact</a>
+      <a href="https://legal.plated-fitness.com/privacy/">Privacy Policy</a>
+      <a href="https://legal.plated-fitness.com/terms/">Terms of Use</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

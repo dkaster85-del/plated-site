@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Support &mdash; Plated Fitness</title>
+<meta name="description" content="Get help with Plated Fitness: contact support, report content, delete your account, or manage your subscription.">
+<meta name="theme-color" content="#0D0D0D">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;900&family=IBM+Plex+Mono:wght@400;500&display=swap">
+
+<style>
+  /* Matches index.html — same single dark theme, same reasoning. */
+  :root {
+    --ground:#0D0D0D; --surface:#151515; --raised:#1C1C1C; --border:#262626; --line:#333333;
+    --text:#F0F0F0; --muted:#8C8C8C; --dim:#5E5E5E; --accent:#FF4500; --accent-d:#C93600;
+    --tint: rgba(255,69,0,.10);
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+  body {
+    margin:0; background:var(--ground); color:var(--text);
+    font-family: Archivo, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-size:16px; line-height:1.65; -webkit-font-smoothing:antialiased;
+  }
+  .wrap { width:100%; max-width:760px; margin:0 auto; padding:0 24px; }
+  a { color: var(--accent); }
+  a:focus-visible { outline:2px solid var(--accent); outline-offset:3px; border-radius:3px; }
+
+  .mono {
+    font-family:"IBM Plex Mono", ui-monospace, monospace;
+    font-size:11px; font-weight:500; letter-spacing:.16em; text-transform:uppercase;
+  }
+
+  header { border-bottom:1px solid var(--border); }
+  .bar { display:flex; align-items:center; justify-content:space-between; height:62px;
+         max-width:1080px; margin:0 auto; padding:0 24px; }
+  .wordmark { font-weight:900; font-size:19px; color:var(--text); text-decoration:none; letter-spacing:-.01em; }
+  .wordmark span { color:var(--accent); }
+  .back { color:var(--muted); text-decoration:none; font-size:13.5px; font-weight:500; }
+  .back:hover { color:var(--text); }
+
+  main { padding:64px 0 88px; }
+  h1 { font-size:clamp(30px,5vw,42px); font-weight:700; letter-spacing:-.03em; line-height:1.06;
+       margin:0 0 14px; text-wrap:balance; }
+  .lede { font-size:17px; color:var(--muted); margin:0 0 44px; max-width:54ch; text-wrap:pretty; }
+
+  .contact {
+    background:var(--surface); border:1px solid var(--accent);
+    background-image: linear-gradient(180deg, var(--tint), var(--surface) 60%);
+    border-radius:14px; padding:28px; margin-bottom:44px;
+  }
+  .contact p.mono { color:var(--accent); margin:0 0 10px; }
+  .contact h2 { font-size:20px; font-weight:700; margin:0 0 8px; letter-spacing:-.015em; }
+  .contact p.sub { color:var(--muted); font-size:14.5px; margin:0 0 18px; }
+  .btn {
+    display:inline-flex; align-items:center; gap:9px; background:var(--accent); color:#fff;
+    text-decoration:none; font-weight:700; font-size:14.5px; padding:13px 22px; border-radius:10px;
+    transition: background .15s ease;
+  }
+  .btn:hover { background:var(--accent-d); }
+
+  h2.sec { font-size:22px; font-weight:700; letter-spacing:-.02em; margin:44px 0 18px; }
+  h3 { font-size:16px; font-weight:600; margin:26px 0 7px; }
+  p { margin:0 0 14px; color:var(--muted); font-size:15px; }
+  p strong, li strong { color:var(--text); font-weight:600; }
+  ol, ul { color:var(--muted); font-size:15px; padding-left:22px; margin:0 0 14px; }
+  li { margin:7px 0; }
+
+  .card {
+    background:var(--surface); border:1px solid var(--border); border-radius:12px;
+    padding:22px 24px; margin-bottom:14px;
+  }
+  .card h3 { margin-top:0; }
+  .card p:last-child { margin-bottom:0; }
+
+  footer { border-top:1px solid var(--border); padding:36px 0 52px; }
+  .foot { display:flex; justify-content:space-between; gap:20px; flex-wrap:wrap;
+          max-width:1080px; margin:0 auto; padding:0 24px; }
+  .foot a { color:var(--muted); text-decoration:none; font-size:13.5px; margin-right:22px; }
+  .foot a:hover { color:var(--text); }
+  .copy { color:var(--dim); font-size:12.5px; margin:0; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="bar">
+    <a href="/" class="wordmark"><span>PLA</span>TED</a>
+    <a href="/" class="back">&larr; Back to site</a>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <h1>Support</h1>
+  <p class="lede">
+    Something broken, a question, or content that needs dealing with &mdash; this is the place.
+    A real person reads every message.
+  </p>
+
+  <div class="contact">
+    <p class="mono">Contact us</p>
+    <h2>support@plated-fitness.com</h2>
+    <p class="sub">
+      We answer within two business days. Reported content is dealt with within 24 hours, and
+      privacy requests within 30 days.
+    </p>
+    <a class="btn" href="mailto:support@plated-fitness.com?subject=Plated%20Fitness%20support">Email support</a>
+  </div>
+
+  <h2 class="sec">Common questions</h2>
+
+  <div class="card">
+    <h3>How do I delete my account?</h3>
+    <p>
+      In the app: <strong>Profile → Delete Account</strong>. It takes effect immediately &mdash;
+      there's no request to send us and no waiting period. Your profile, logs, media, posts and
+      subscription record are removed.
+    </p>
+    <p>
+      Comments you left on other people's posts are anonymised to <strong>[deleted]</strong> rather
+      than erased, so other people's conversations don't collapse into holes.
+    </p>
+  </div>
+
+  <div class="card">
+    <h3>How do I report a post, comment, or user?</h3>
+    <p>
+      Every post and comment has a <strong>Report</strong> action in its menu, and any user can be
+      <strong>blocked</strong> from their profile. Blocking works both directions &mdash; a blocked
+      user can't see or interact with you either.
+    </p>
+    <p>
+      Plated has zero tolerance for objectionable content or abusive behaviour. Reports are triaged
+      immediately and reviewed by a person, and we act within 24 hours. You can also email us
+      directly if something needs urgent attention.
+    </p>
+  </div>
+
+  <div class="card">
+    <h3>How do I cancel Plated Pro?</h3>
+    <p>
+      Pro is billed through your Apple ID, so it's cancelled there rather than in Plated:
+      <strong>Settings → [your name] → Subscriptions → Plated Pro → Cancel Subscription</strong>.
+    </p>
+    <p>
+      You keep Pro until the end of the period you've already paid for. <strong>Deleting the app
+      does not cancel the subscription.</strong> Refunds for App Store purchases are handled by
+      Apple, not by us &mdash; request one at
+      <a href="https://reportaproblem.apple.com">reportaproblem.apple.com</a>.
+    </p>
+  </div>
+
+  <div class="card">
+    <h3>I paid for Pro but it isn't unlocked</h3>
+    <p>
+      Open the upgrade screen and tap <strong>Restore Purchases</strong>. That re-applies any
+      subscription attached to your Apple ID, which also covers reinstalling the app or moving to a
+      new phone. If it still doesn't unlock, email us with the Apple ID email you purchased under.
+    </p>
+  </div>
+
+  <div class="card">
+    <h3>Why does Plated want my location?</h3>
+    <p>
+      Only for outdoor cardio. When you start a run, Plated records your route to measure distance,
+      pace and elevation, and it keeps recording with the phone locked so the run survives your
+      screen turning off. It is never collected at any other time.
+    </p>
+    <p>
+      Your route coordinates are stripped out of anything other users can see &mdash; they get the
+      summary, never the trail of where you were.
+    </p>
+  </div>
+
+  <div class="card">
+    <h3>What does Plated do with Apple Health data?</h3>
+    <p>
+      It reads your heart rate to display during a workout, and writes finished workouts back so
+      they appear alongside your other activity. Health data is <strong>never</strong> used for
+      advertising or marketing, never sold, and never shared with any third party.
+    </p>
+    <p>
+      You can revoke access any time in iOS <strong>Settings → Privacy &amp; Security → Health</strong>.
+    </p>
+  </div>
+
+  <div class="card">
+    <h3>Is Plated medical advice?</h3>
+    <p>
+      No. Calorie targets, macro splits and overload suggestions are estimates from standard
+      formulas and the numbers you enter &mdash; not medical, nutritional or clinical advice. Speak
+      to a physician or registered dietitian before changing your diet or training, especially if
+      you're pregnant, under 18, or managing a medical condition or eating disorder.
+    </p>
+  </div>
+
+  <h2 class="sec">Legal</h2>
+  <p>
+    <a href="https://legal.plated-fitness.com/privacy/">Privacy Policy</a> &nbsp;·&nbsp;
+    <a href="https://legal.plated-fitness.com/terms/">Terms of Use</a>
+  </p>
+
+</main>
+
+<footer>
+  <div class="foot">
+    <div>
+      <a href="/support/">Support</a>
+      <a href="https://legal.plated-fitness.com/privacy/">Privacy</a>
+      <a href="https://legal.plated-fitness.com/terms/">Terms</a>
+    </div>
+    <p class="copy">&copy; 2026 Plated Fitness</p>
+  </div>
+</footer>
+
+</body>
+</html>
