@@ -234,7 +234,8 @@
 
       <div id="errorState" style="display:none;">
         <h1>Link expired or invalid</h1>
-        <p class="subtext">This password reset link is no longer valid. Request a new one from the Plated app — <strong>Sign in → Forgot your password?</strong> — and try again.</p>
+        <p class="subtext" id="errorDetail" style="display:none;"></p>
+        <p class="subtext">Request a new one from the Plated app — <strong>Sign in → Forgot your password?</strong> — and try again. Open it as soon as it arrives.</p>
       </div>
 
       <div id="successState" style="display:none;">
@@ -298,30 +299,93 @@
     return li ? li.textContent : null;
   }
 
-  // Supabase's redirect appends the session as a URL hash fragment
-  // (#access_token=...&refresh_token=...&type=recovery). The client
-  // library picks this up automatically via detectSessionInUrl.
-  supabaseClient.auth.onAuthStateChange((event, session) => {
-    if (event === 'PASSWORD_RECOVERY' && session) {
-      loadingState.style.display = 'none';
-      formState.style.display = 'block';
-      passwordInput.focus();
-    }
-  });
+  // ── Working out what this link actually is ──────────────────────────────
+  //
+  // A recovery can arrive in two shapes, and which one depends entirely on how
+  // the email template is written:
+  //
+  //   #access_token=...&type=recovery   {{ .ConfirmationURL }} — Supabase
+  //                                     verified the token server-side and
+  //                                     redirected here with a live session
+  //   ?token_hash=...&type=recovery     {{ .TokenHash }} — an unspent token,
+  //                                     redeemed below, in this browser
+  //
+  // The second is the safer template and the one this page prefers, because
+  // the first is consumed by whoever loads it *first*. Gmail, Outlook and
+  // corporate mail scanners routinely prefetch links, and that GET spends the
+  // one-time token — so by the time a person taps it the link is genuinely
+  // dead, through no fault of theirs. A ?token_hash= URL survives a prefetch,
+  // since fetching this page redeems nothing on its own.
+  const hash = new URLSearchParams(location.hash.replace(/^#/, ''));
+  const query = new URLSearchParams(location.search);
+  const param = (k) => hash.get(k) || query.get(k);
 
-  // Fallback check in case the event already fired before this loaded
-  setTimeout(async () => {
-    if (formState.style.display === 'none' && errorState.style.display === 'none') {
-      const { data: { session } } = await supabaseClient.auth.getSession();
-      loadingState.style.display = 'none';
-      if (session) {
-        formState.style.display = 'block';
-        passwordInput.focus();
-      } else {
-        errorState.style.display = 'block';
-      }
+  function showForm() {
+    loadingState.style.display = 'none';
+    errorState.style.display = 'none';
+    formState.style.display = 'block';
+    passwordInput.focus();
+  }
+
+  // Says what actually went wrong instead of one message for every cause. An
+  // already-spent token and a genuinely stale one need different advice, and
+  // "expired or invalid" told the user nothing and told us less.
+  function showError(detail) {
+    loadingState.style.display = 'none';
+    formState.style.display = 'none';
+    errorState.style.display = 'block';
+    if (detail) {
+      const el = document.getElementById('errorDetail');
+      if (el) { el.textContent = detail; el.style.display = 'block'; }
     }
-  }, 2500);
+  }
+
+  function describe(code, description) {
+    const text = (description || '').replace(/\+/g, ' ');
+    if (/otp_expired|expired/i.test(code + ' ' + text)) {
+      return 'The link had already been used or had timed out. Reset links are '
+           + 'good for one use, and some email providers open them automatically '
+           + 'before you do.';
+    }
+    return text || null;
+  }
+
+  (async () => {
+    // An explicit error beats everything — no point looking for a session.
+    if (param('error') || param('error_code')) {
+      showError(describe(param('error_code') || '', param('error_description') || ''));
+      return;
+    }
+
+    // The unspent-token form: redeem it here, now, in the user's own browser.
+    const tokenHash = query.get('token_hash');
+    if (tokenHash) {
+      const { error } = await supabaseClient.auth.verifyOtp({
+        token_hash: tokenHash,
+        type: 'recovery',
+      });
+      if (error) { showError(describe('', error.message)); return; }
+      showForm();
+      return;
+    }
+
+    // The hash-fragment form. detectSessionInUrl consumes it during
+    // createClient, so the session may already be in place before this runs —
+    // check for it before waiting on an event that has been and gone.
+    const { data: { session } } = await supabaseClient.auth.getSession();
+    if (session) { showForm(); return; }
+
+    supabaseClient.auth.onAuthStateChange((event, s) => {
+      if ((event === 'PASSWORD_RECOVERY' || event === 'SIGNED_IN') && s) showForm();
+    });
+
+    // Nothing resolved: a link that was never valid, or one opened directly.
+    setTimeout(async () => {
+      if (formState.style.display !== 'none' || errorState.style.display !== 'none') return;
+      const { data: { session: late } } = await supabaseClient.auth.getSession();
+      if (late) showForm(); else showError(null);
+    }, 2500);
+  })();
 
   document.getElementById('resetForm').addEventListener('submit', async (e) => {
     e.preventDefault();
