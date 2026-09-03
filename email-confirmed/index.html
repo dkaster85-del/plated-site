@@ -76,6 +76,17 @@
         <p class="footer-note" style="margin-top:16px;">That button only works if Plated is installed on the device you're reading this on. Otherwise, just open the app on your phone.</p>
       </div>
 
+      <!-- Arriving with nothing at all: no token, no session, no error. Almost
+           always someone who typed the address, or came back to a page that
+           already did its job. Telling them a link failed would be inventing a
+           problem they don't have. -->
+      <div id="idleState" style="display:none;">
+        <h1>Nothing to confirm here</h1>
+        <p class="subtext">This page finishes the job when you open a confirmation link from your email. There's nothing to do on it directly.</p>
+        <a class="button" href="platedfitness://">Open Plated</a>
+        <p class="footer-note" style="margin-top:16px;">Waiting on a confirmation email? Check spam, then <a href="/support/">tell us</a> if it still hasn't arrived.</p>
+      </div>
+
       <div id="errorState" style="display:none;">
         <h1>This link is no longer valid</h1>
         <p class="subtext" id="errorDetail" style="display:none;"></p>
@@ -105,6 +116,7 @@
   var loadingState = document.getElementById('loadingState');
   var successState = document.getElementById('successState');
   var errorState   = document.getElementById('errorState');
+  var idleState    = document.getElementById('idleState');
 
   var hash  = new URLSearchParams(location.hash.replace(/^#/, ''));
   var query = new URLSearchParams(location.search);
@@ -119,6 +131,7 @@
   function succeed() {
     loadingState.style.display = 'none';
     errorState.style.display = 'none';
+    idleState.style.display = 'none';
     if (isEmailChange) {
       document.getElementById('successTitle').textContent = 'New email confirmed';
       document.getElementById('successBody').textContent =
@@ -127,9 +140,17 @@
     successState.style.display = 'block';
   }
 
+  function idle() {
+    loadingState.style.display = 'none';
+    successState.style.display = 'none';
+    errorState.style.display = 'none';
+    idleState.style.display = 'block';
+  }
+
   function fail(detail) {
     loadingState.style.display = 'none';
     successState.style.display = 'none';
+    idleState.style.display = 'none';
     if (detail) {
       var el = document.getElementById('errorDetail');
       el.textContent = detail;
@@ -179,9 +200,9 @@
     // already sitting in inboxes from before the templates changed.
     client.auth.getSession().then(function (res) {
       if (res.data && res.data.session) { dropWebSession(); succeed(); return; }
-      // Arriving with nothing at all. Most often someone revisiting a link
-      // that already worked, which the error copy addresses directly.
-      fail(null);
+      // A link that carried *something* and it didn't work is a failure worth
+      // naming. A bare visit is not — those get the idle panel instead.
+      if (location.search || location.hash) { fail(null); } else { idle(); }
     }).catch(function () { fail(null); });
   })();
 })();
