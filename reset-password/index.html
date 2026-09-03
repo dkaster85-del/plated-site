@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reset Your Password — Plated</title>
+<!-- Only ever reached from a one-time link in an email. An indexed copy would
+     be a permanently broken search result, and the recovery token must not ride
+     out on a referrer header to Google Fonts or the CDN. -->
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#0D0D0D">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Archivo+Black&display=swap" rel="stylesheet">
+<!-- Pinned rather than floating on @2: this page is reached once, from an email,
+     by someone who is already locked out. A breaking change shipped upstream on
+     a Tuesday must not be able to take it down. -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.115.0/dist/umd/supabase.min.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background-color: #0D0D0D;
+    font-family: 'Archivo', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    color: #FAFAFA;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .card {
+    background-color: #141414;
+    border-radius: 8px;
+    max-width: 420px;
+    width: 100%;
+    overflow: hidden;
+  }
+  .accent-bar {
+    height: 6px;
+    background-color: #FF4500;
+  }
+  .content {
+    padding: 40px 32px;
+  }
+  .logo {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+  .logo .word {
+    font-size: 32px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .logo .pla {
+    font-family: 'Archivo Black', 'Arial Black', Arial, sans-serif;
+    font-weight: 900;
+    color: #FF4500;
+  }
+  .logo .ted {
+    font-weight: 400;
+    color: #FAFAFA;
+  }
+  .logo .sub {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    color: #8A8A8A;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+  h1 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  p.subtext {
+    font-size: 14px;
+    line-height: 22px;
+    color: #A3A3A3;
+    margin-bottom: 24px;
+  }
+  label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #8A8A8A;
+    margin-bottom: 8px;
+  }
+  input[type="password"] {
+    width: 100%;
+    background-color: #1F1F1F;
+    border: 1px solid #2A2A2A;
+    border-radius: 6px;
+    padding: 14px 16px;
+    font-family: 'Archivo', sans-serif;
+    font-size: 15px;
+    color: #FAFAFA;
+    margin-bottom: 20px;
+    outline: none;
+  }
+  input[type="password"]:focus {
+    border-color: #FF4500;
+  }
+  /* The same five rules the app's signup form shows and enforces. Displaying
+     them live matters more here than at signup: this is a form you reach once,
+     from an email, holding a token a failed submit can burn. */
+  .rules {
+    list-style: none;
+    margin: -12px 0 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .rules li {
+    font-size: 12.5px;
+    line-height: 18px;
+    color: #666666;
+    padding-left: 20px;
+    position: relative;
+  }
+  .rules li::before {
+    content: "○";
+    position: absolute;
+    left: 2px;
+    top: 0;
+    color: #666666;
+  }
+  .rules li.met { color: #A3A3A3; }
+  .rules li.met::before { content: "●"; color: #4ADE80; }
+
+  button {
+    width: 100%;
+    background-color: #FF4500;
+    border: none;
+    border-radius: 6px;
+    padding: 14px;
+    font-family: 'Archivo', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: #FFFFFF;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+  }
+  button:disabled {
+    background-color: #5A2A16;
+    cursor: not-allowed;
+  }
+  a.button {
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    width: 100%;
+    background-color: #FF4500;
+    border-radius: 6px;
+    padding: 14px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #FFFFFF;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .message {
+    font-size: 13px;
+    line-height: 20px;
+    padding: 12px 14px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    display: none;
+  }
+  .message.error {
+    background-color: #2A1414;
+    color: #FF6B5A;
+    border: 1px solid #4A2020;
+    display: block;
+  }
+  .message.success {
+    background-color: #14241A;
+    color: #4ADE80;
+    border: 1px solid #1F4A2E;
+    display: block;
+  }
+  .footer-note {
+    font-size: 11px;
+    line-height: 16px;
+    color: #666666;
+    text-align: center;
+    margin-top: 24px;
+  }
+  .footer-note a { color: #8A8A8A; }
+</style>
+</head>
+<body>
+
+  <div class="card">
+    <div class="accent-bar"></div>
+    <div class="content">
+
+      <div class="logo">
+        <div class="word"><span class="pla">PLA</span><span class="ted">TED</span></div>
+        <div class="sub">Fitness</div>
+      </div>
+
+      <div id="loadingState">
+        <p class="subtext" style="text-align:center;">Verifying your reset link…</p>
+      </div>
+
+      <div id="formState" style="display:none;">
+        <h1>Set a new password</h1>
+        <p class="subtext">Choose a new password for your Plated account.</p>
+
+        <div id="message" class="message"></div>
+
+        <form id="resetForm" novalidate>
+          <label for="password">New password</label>
+          <input type="password" id="password" required autocomplete="new-password" placeholder="••••••••" spellcheck="false">
+
+          <ul class="rules" id="rules" aria-label="Password requirements">
+            <li data-rule="len">At least 8 characters</li>
+            <li data-rule="upper">An uppercase letter</li>
+            <li data-rule="lower">A lowercase letter</li>
+            <li data-rule="digit">A number</li>
+            <li data-rule="symbol">A symbol (!?@#…)</li>
+          </ul>
+
+          <label for="confirmPassword">Confirm password</label>
+          <input type="password" id="confirmPassword" required autocomplete="new-password" placeholder="Re-enter your password" spellcheck="false">
+
+          <button type="submit" id="submitBtn">Update Password</button>
+        </form>
+      </div>
+
+      <div id="errorState" style="display:none;">
+        <h1>Link expired or invalid</h1>
+        <p class="subtext">This password reset link is no longer valid. Request a new one from the Plated app — <strong>Sign in → Forgot your password?</strong> — and try again.</p>
+      </div>
+
+      <div id="successState" style="display:none;">
+        <h1>Password updated</h1>
+        <p class="subtext">Your password has been changed. Open Plated and sign in with it.</p>
+        <a class="button" href="platedfitness://">Open Plated</a>
+        <p class="footer-note" style="margin-top:16px;">That button only works if Plated is installed on the device you're reading this on. Otherwise, just open the app on your phone.</p>
+      </div>
+
+      <p class="footer-note" id="genericNote">If you didn't request this, you can close this page — your password won't change.<br><a href="/support/">Need help?</a></p>
+    </div>
+  </div>
+
+<script>
+  // ── CONFIG ────────────────────────────────────────────────
+  // Both values are publishable by design — the same pair reaches every copy of
+  // the app, where anyone can read it out of the bundle. The key can start an
+  // auth flow and nothing more; row-level security is what guards the data.
+  const SUPABASE_URL = 'https://talrlokyctyvwpxyvrwg.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRhbHJsb2t5Y3R5dndweHl2cndnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODEwOTM4OTEsImV4cCI6MjA5NjY2OTg5MX0.vqpMzAbwyhHbHk5cGSC7MxTTuHS5TGwHo7y_uqdnWUA';
+  // ──────────────────────────────────────────────────────────
+
+  // Mirrors PASSWORD_RULES in src/screens/AuthScreen.tsx. These two lists have
+  // to agree: a password the app would reject at signup must not be settable
+  // here, or the reset form quietly becomes a way around the policy.
+  const RULES = {
+    len:    p => p.length >= 8,
+    upper:  p => /[A-Z]/.test(p),
+    lower:  p => /[a-z]/.test(p),
+    digit:  p => /\d/.test(p),
+    symbol: p => /[^A-Za-z0-9]/.test(p),
+  };
+
+  const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  const loadingState = document.getElementById('loadingState');
+  const formState = document.getElementById('formState');
+  const errorState = document.getElementById('errorState');
+  const successState = document.getElementById('successState');
+  const genericNote = document.getElementById('genericNote');
+  const message = document.getElementById('message');
+
+  function showMessage(text, type) {
+    message.textContent = text;
+    message.className = 'message ' + type;
+  }
+
+  // ── Password rule checklist ───────────────────────────────
+  const passwordInput = document.getElementById('password');
+  const ruleEls = Array.from(document.querySelectorAll('#rules li'));
+
+  passwordInput.addEventListener('input', () => {
+    const value = passwordInput.value;
+    ruleEls.forEach(li => li.classList.toggle('met', RULES[li.dataset.rule](value)));
+  });
+
+  // The first rule the password fails, by its own label — so the error can name
+  // what's missing rather than restating the whole set.
+  function firstUnmetRule(value) {
+    const li = ruleEls.find(el => !RULES[el.dataset.rule](value));
+    return li ? li.textContent : null;
+  }
+
+  // Supabase's redirect appends the session as a URL hash fragment
+  // (#access_token=...&refresh_token=...&type=recovery). The client
+  // library picks this up automatically via detectSessionInUrl.
+  supabaseClient.auth.onAuthStateChange((event, session) => {
+    if (event === 'PASSWORD_RECOVERY' && session) {
+      loadingState.style.display = 'none';
+      formState.style.display = 'block';
+      passwordInput.focus();
+    }
+  });
+
+  // Fallback check in case the event already fired before this loaded
+  setTimeout(async () => {
+    if (formState.style.display === 'none' && errorState.style.display === 'none') {
+      const { data: { session } } = await supabaseClient.auth.getSession();
+      loadingState.style.display = 'none';
+      if (session) {
+        formState.style.display = 'block';
+        passwordInput.focus();
+      } else {
+        errorState.style.display = 'block';
+      }
+    }
+  }, 2500);
+
+  document.getElementById('resetForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+    const submitBtn = document.getElementById('submitBtn');
+
+    const unmet = firstUnmetRule(password);
+    if (unmet) {
+      showMessage('Your password still needs: ' + unmet.toLowerCase() + '.', 'error');
+      passwordInput.focus();
+      return;
+    }
+    if (password !== confirmPassword) {
+      showMessage('Passwords do not match.', 'error');
+      document.getElementById('confirmPassword').focus();
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Updating…';
+
+    const { error } = await supabaseClient.auth.updateUser({ password });
+
+    if (error) {
+      showMessage(error.message || 'Something went wrong. Try requesting a new reset link.', 'error');
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Update Password';
+    } else {
+      formState.style.display = 'none';
+      successState.style.display = 'block';
+      // The "didn't request this" line is addressed to someone who hasn't acted
+      // yet. Once the password is changed it's just confusing, and the success
+      // panel carries its own note.
+      genericNote.style.display = 'none';
+    }
+  });
+</script>
+
+</body>
+</html>
