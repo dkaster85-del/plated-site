@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Email Confirmed — Plated</title>
+<!-- Reached once, from a link in an email. An indexed copy would be a
+     permanently broken search result, and the token must not ride out on a
+     referrer header to the font CDN. -->
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#0D0D0D">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Archivo+Black&display=swap" rel="stylesheet">
+<!-- Pinned, for the same reason as the reset page: this is reached once, by
+     someone who cannot get into the app until it works. -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.115.0/dist/umd/supabase.min.js"></script>
+<style>
+  /* Deliberately identical to /reset-password/. These two pages are the only
+     things a new user sees outside the app, and they are one step apart. */
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background-color: #0D0D0D;
+    font-family: 'Archivo', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    color: #FAFAFA;
+    min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    padding: 24px;
+  }
+  .card { background-color: #141414; border-radius: 8px; max-width: 420px; width: 100%; overflow: hidden; }
+  .accent-bar { height: 6px; background-color: #FF4500; }
+  .content { padding: 40px 32px; }
+  .logo { text-align: center; margin-bottom: 32px; }
+  .logo .word { font-size: 32px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .logo .pla { font-family: 'Archivo Black', 'Arial Black', Arial, sans-serif; font-weight: 900; color: #FF4500; }
+  .logo .ted { font-weight: 400; color: #FAFAFA; }
+  .logo .sub { font-size: 12px; font-weight: 600; letter-spacing: 3px; color: #8A8A8A; text-transform: uppercase; margin-top: 4px; }
+  h1 { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+  p.subtext { font-size: 14px; line-height: 22px; color: #A3A3A3; margin-bottom: 24px; }
+  a.button {
+    display: block; text-align: center; text-decoration: none; width: 100%;
+    background-color: #FF4500; border-radius: 6px; padding: 14px;
+    font-size: 14px; font-weight: 700; color: #FFFFFF;
+    text-transform: uppercase; letter-spacing: 0.5px;
+  }
+  .tick {
+    width: 46px; height: 46px; border-radius: 50%;
+    background-color: #14241A; border: 1px solid #1F4A2E; color: #4ADE80;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px; margin-bottom: 18px;
+  }
+  .footer-note { font-size: 11px; line-height: 16px; color: #666666; text-align: center; margin-top: 24px; }
+  .footer-note a { color: #8A8A8A; }
+</style>
+</head>
+<body>
+
+  <div class="card">
+    <div class="accent-bar"></div>
+    <div class="content">
+
+      <div class="logo">
+        <div class="word"><span class="pla">PLA</span><span class="ted">TED</span></div>
+        <div class="sub">Fitness</div>
+      </div>
+
+      <div id="loadingState">
+        <p class="subtext" style="text-align:center;">Confirming your email…</p>
+      </div>
+
+      <div id="successState" style="display:none;">
+        <div class="tick" aria-hidden="true">✓</div>
+        <h1 id="successTitle">Email confirmed</h1>
+        <p class="subtext" id="successBody">You're all set. Open Plated and sign in to start logging.</p>
+        <a class="button" href="platedfitness://">Open Plated</a>
+        <p class="footer-note" style="margin-top:16px;">That button only works if Plated is installed on the device you're reading this on. Otherwise, just open the app on your phone.</p>
+      </div>
+
+      <div id="errorState" style="display:none;">
+        <h1>This link is no longer valid</h1>
+        <p class="subtext" id="errorDetail" style="display:none;"></p>
+        <!-- The likeliest cause by far is a link that has already done its job,
+             so lead with that rather than with failure. Telling someone their
+             confirmation broke when their account is in fact confirmed sends
+             them to support for nothing. -->
+        <p class="subtext">If you've already confirmed this address, there's nothing left to do — just open Plated and sign in. Otherwise, sign up again and we'll send a fresh link.</p>
+        <a class="button" href="platedfitness://">Open Plated</a>
+        <p class="footer-note" style="margin-top:16px;"><a href="/support/">Need help?</a></p>
+      </div>
+
+    </div>
+  </div>
+
+<script>
+(function () {
+  'use strict';
+
+  // Publishable by design — the same pair ships inside the app, where anyone
+  // can read it out of the bundle. It can start an auth flow and nothing more.
+  var SUPABASE_URL = 'https://talrlokyctyvwpxyvrwg.supabase.co';
+  var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRhbHJsb2t5Y3R5dndweHl2cndnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODEwOTM4OTEsImV4cCI6MjA5NjY2OTg5MX0.vqpMzAbwyhHbHk5cGSC7MxTTuHS5TGwHo7y_uqdnWUA';
+
+  var client = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  var loadingState = document.getElementById('loadingState');
+  var successState = document.getElementById('successState');
+  var errorState   = document.getElementById('errorState');
+
+  var hash  = new URLSearchParams(location.hash.replace(/^#/, ''));
+  var query = new URLSearchParams(location.search);
+  var param = function (k) { return hash.get(k) || query.get(k); };
+
+  // An email change confirms a *new address*, which is a different sentence
+  // from confirming a new account. Same page, because the mechanism is
+  // identical and a second near-copy would only drift.
+  var type = query.get('type') || 'signup';
+  var isEmailChange = type === 'email_change' || type === 'email';
+
+  function succeed() {
+    loadingState.style.display = 'none';
+    errorState.style.display = 'none';
+    if (isEmailChange) {
+      document.getElementById('successTitle').textContent = 'New email confirmed';
+      document.getElementById('successBody').textContent =
+        "That address is now the one on your Plated account. Use it next time you sign in.";
+    }
+    successState.style.display = 'block';
+  }
+
+  function fail(detail) {
+    loadingState.style.display = 'none';
+    successState.style.display = 'none';
+    if (detail) {
+      var el = document.getElementById('errorDetail');
+      el.textContent = detail;
+      el.style.display = 'block';
+    }
+    errorState.style.display = 'block';
+  }
+
+  // Confirming signs this browser in. Nothing here needs that session, and
+  // leaving it in localStorage on a shared or borrowed computer is a small
+  // thing worth not doing. Scoped local on purpose: a global sign-out would
+  // revoke every session for the account, including the app the user is about
+  // to open.
+  function dropWebSession() {
+    try { client.auth.signOut({ scope: 'local' }); } catch (e) {}
+  }
+
+  function describe(code, description) {
+    var text = (description || '').replace(/\+/g, ' ');
+    if (/expired|invalid|not_found/i.test(code + ' ' + text)) return null; // default copy covers it
+    return text || null;
+  }
+
+  (function run() {
+    if (param('error') || param('error_code')) {
+      fail(describe(param('error_code') || '', param('error_description') || ''));
+      return;
+    }
+
+    // The unspent-token form, which is what the templates now send. Redeeming
+    // it here means a mail scanner that merely fetches this page confirms
+    // nothing — the token is only spent once a real browser runs this.
+    var tokenHash = query.get('token_hash');
+    if (tokenHash) {
+      client.auth.verifyOtp({ token_hash: tokenHash, type: type })
+        .then(function (res) {
+          if (res.error) { fail(describe('', res.error.message)); return; }
+          dropWebSession();
+          succeed();
+        })
+        .catch(function () { fail('Could not reach the server. Check your connection and try again.'); });
+      return;
+    }
+
+    // The {{ .ConfirmationURL }} form: Supabase already verified server-side
+    // and redirected here with a session in the fragment. Kept for links
+    // already sitting in inboxes from before the templates changed.
+    client.auth.getSession().then(function (res) {
+      if (res.data && res.data.session) { dropWebSession(); succeed(); return; }
+      // Arriving with nothing at all. Most often someone revisiting a link
+      // that already worked, which the error copy addresses directly.
+      fail(null);
+    }).catch(function () { fail(null); });
+  })();
+})();
+</script>
+
+</body>
+</html>
