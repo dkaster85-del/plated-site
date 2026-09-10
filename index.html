@@ -585,22 +585,33 @@
     reveals.forEach(function (el) { ro.observe(el); });
   }
 
-  // Tour: the story crossing the middle of the viewport owns the phone. The
-  // observer's root is shrunk to a band across the centre, so exactly one
-  // step is "intersecting" at a time as you scroll.
+  // Tour: the story nearest the middle of the window owns the phone.
+  //
+  // This measures each story's distance from the centre rather than asking
+  // whether its box overlaps a band drawn across it. The boxes are
+  // deliberately tall — most of a screen each — and a tall box starts
+  // overlapping a thin band long before its text reaches the centre and stops
+  // long after, so a band test lit a story while its text was still down at
+  // the bottom of the window. Each step centres its own content, so the box's
+  // midpoint is the text's midpoint, and the nearest midpoint wins: the lit
+  // story is always the one actually in front of you.
   var steps = document.querySelectorAll('.tour-step');
   var shots = document.querySelectorAll('.screen img');
+  var current = null;
   function show(name) {
+    if (name === current) return;   // classList churn on every frame otherwise
+    current = name;
     steps.forEach(function (s) { s.classList.toggle('is-active', s.getAttribute('data-shot') === name); });
     shots.forEach(function (i) { i.classList.toggle('is-active', i.getAttribute('data-shot') === name); });
   }
-  if (hasIO && steps.length) {
-    var to = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) { if (e.isIntersecting) show(e.target.getAttribute('data-shot')); });
-    }, { rootMargin: '-45% 0px -45% 0px', threshold: 0 });
-    steps.forEach(function (s) { to.observe(s); });
-  } else {
-    steps.forEach(function (s) { s.classList.add('is-active'); });
+  function pickStep() {
+    var mid = window.innerHeight / 2, best = null, bestD = Infinity;
+    for (var i = 0; i < steps.length; i++) {
+      var r = steps[i].getBoundingClientRect();
+      var d = Math.abs(r.top + r.height / 2 - mid);
+      if (d < bestD) { bestD = d; best = steps[i]; }
+    }
+    if (best) show(best.getAttribute('data-shot'));
   }
 
   // Hero parallax: the three phones drift up at slightly different rates as
@@ -609,22 +620,23 @@
   // move — and never under reduced motion.
   var layers = document.querySelectorAll('[data-parallax]');
   var wide = matchMedia('(min-width: 901px)');
-  if (layers.length && !reduce) {
-    var queued = false;
-    function place() {
-      queued = false;
-      var y = wide.matches ? window.scrollY : 0;
-      layers.forEach(function (el) {
-        var k = parseFloat(el.getAttribute('data-parallax')) || 0;
-        el.style.setProperty('--py', (-y * k).toFixed(1) + 'px');
-      });
+  var queued = false;
+  function frame() {
+    queued = false;
+    pickStep();
+    if (reduce) return;
+    var y = wide.matches ? window.scrollY : 0;
+    for (var i = 0; i < layers.length; i++) {
+      var k = parseFloat(layers[i].getAttribute('data-parallax')) || 0;
+      layers[i].style.setProperty('--py', (-y * k).toFixed(1) + 'px');
     }
-    addEventListener('scroll', function () {
-      if (!queued) { queued = true; requestAnimationFrame(place); }
-    }, { passive: true });
-    wide.addEventListener('change', place);
-    place();
   }
+  addEventListener('scroll', function () {
+    if (!queued) { queued = true; requestAnimationFrame(frame); }
+  }, { passive: true });
+  addEventListener('resize', frame);
+  wide.addEventListener('change', frame);
+  frame();
 })();
 </script>
 
