@@ -140,15 +140,15 @@
      published from the app repo's own guide screenshots by one script, so a
      retake reaches here and the in-app guide together. */
   .phone {
-    --pr: 40px;
+    --pr: 40px; --pp: 9px;
     position: relative; width: 100%; max-width: 300px;
-    border-radius: var(--pr); padding: 9px;
+    border-radius: var(--pr); padding: var(--pp);
     background: #090909; border: 1px solid #2c2c2c;
     box-shadow: 0 40px 90px -35px rgba(0,0,0,.95), inset 0 0 0 1px rgba(255,255,255,.035);
   }
   .phone img, .phone .screen {
     display: block; width: 100%; height: auto;
-    border-radius: calc(var(--pr) - 9px); background: var(--surface);
+    border-radius: calc(var(--pr) - var(--pp)); background: var(--surface);
   }
 
   /* Three phones fanned in the hero, the front one straight and lit, the two
@@ -167,9 +167,12 @@
   .hp .phone { max-width: none; }
   .hp-l .phone, .hp-r .phone { --pr: 34px; filter: brightness(.7); }
   @media (max-width: 900px) {
-    .hero-phones { height: auto; display: flex; justify-content: center; }
-    .hp { position: static; transform: none; width: 236px; }
-    .hp-l, .hp-r { display: none; }
+    .hero-phones { height: 430px; max-width: 400px; margin: 0 auto; }
+    .hp-c { width: 176px; margin-left: -88px; }
+    .hp-l { width: 136px; top: 44px; left: 1%; }
+    .hp-r { width: 136px; top: 44px; right: 1%; }
+    .hp-c .phone { --pr: 28px; --pp: 7px; }
+    .hp-l .phone, .hp-r .phone { --pr: 24px; --pp: 6px; }
   }
 
   /* First paint. The copy rises in, then each phone — the front one first,
@@ -228,15 +231,23 @@
   .screen img.is-active { opacity: 1; transform: none; }
   @media (max-width: 860px) {
     .tour-grid { grid-template-columns: 1fr; gap: 0; }
-    .tour-phone { display: none; }
-    .tour-steps { padding-bottom: 0; }
-    .tour-step {
-      min-height: 0; opacity: 1; padding: 30px 0; border-top: 1px solid var(--border);
+    .tour-phone {
+      order: -1; position: sticky; top: 62px; z-index: 2;
+      display: flex; justify-content: center;
+      padding: 14px 0 26px;
+      /* Solid behind the phone, fading out under it, so a story sliding
+         beneath reads as passing under the phone rather than through it. */
+      background: linear-gradient(var(--ground) 86%, transparent);
     }
-    .tour-step:first-child { border-top: 0; padding-top: 4px; }
-    .tour-step h3, .tour-step.is-active h3 { color: #fff; }
-    .tour-step p, .tour-step.is-active p { color: var(--text); }
-    .tour-inline { display: block; max-width: 236px; margin: 22px auto 0; }
+    .tour-phone .phone { width: 172px; --pr: 28px; --pp: 7px; }
+    .tour-steps { padding-bottom: 8vh; }
+    /* One story at a time in the space left below the pinned phone. */
+    .tour-step { min-height: max(280px, calc(100vh - 500px)); }
+    @supports (height: 100dvh) { .tour-step { min-height: max(280px, calc(100dvh - 500px)); } }
+    .tour-inline { display: none; }
+    .no-js .tour-phone { display: none; }
+    .no-js .tour-inline { display: block; max-width: 236px; margin: 22px auto 0; }
+    .no-js .tour-step { min-height: 0; opacity: 1; padding: 30px 0; border-top: 1px solid var(--border); }
   }
 
   /* ── Reveal on scroll ─────────────────────────────────────────────────── */
@@ -598,8 +609,16 @@
     steps.forEach(function (s) { s.classList.toggle('is-active', s.getAttribute('data-shot') === name); });
     shots.forEach(function (i) { i.classList.toggle('is-active', i.getAttribute('data-shot') === name); });
   }
+  var narrow = matchMedia('(max-width: 860px)');
+  var phoneBox = document.querySelector('.tour-phone');
   function pickStep() {
-    var mid = window.innerHeight / 2, best = null, bestD = Infinity;
+    // On a narrow screen the phone is pinned across the top, so the reader's
+    // "middle" is the middle of what's left beneath it.
+    var top = 0;
+    if (narrow.matches && phoneBox) {
+      top = Math.max(0, Math.min(phoneBox.getBoundingClientRect().bottom, window.innerHeight));
+    }
+    var mid = (top + window.innerHeight) / 2, best = null, bestD = Infinity;
     for (var i = 0; i < steps.length; i++) {
       var r = steps[i].getBoundingClientRect();
       var d = Math.abs(r.top + r.height / 2 - mid);
@@ -610,16 +629,14 @@
 
   // Hero parallax: the three phones drift up at slightly different rates as
   // the page scrolls, which is what makes them read as sitting at different
-  // depths. Desktop only — on a phone there is one phone, and it shouldn't
-  // move — and never under reduced motion.
+  // depths. Never under reduced motion.
   var layers = document.querySelectorAll('[data-parallax]');
-  var wide = matchMedia('(min-width: 901px)');
   var queued = false;
   function frame() {
     queued = false;
     pickStep();
     if (reduce) return;
-    var y = wide.matches ? window.scrollY : 0;
+    var y = window.scrollY;
     for (var i = 0; i < layers.length; i++) {
       var k = parseFloat(layers[i].getAttribute('data-parallax')) || 0;
       layers[i].style.setProperty('--py', (-y * k).toFixed(1) + 'px');
@@ -629,7 +646,7 @@
     if (!queued) { queued = true; requestAnimationFrame(frame); }
   }, { passive: true });
   addEventListener('resize', frame);
-  wide.addEventListener('change', frame);
+  narrow.addEventListener('change', frame);
   frame();
 })();
 </script>
