@@ -78,6 +78,10 @@
     font-weight: 900; font-size: 19px; letter-spacing: -.01em;
     color: var(--text); text-decoration: none;
   }
+  /* The header's mark carries more weight than the footer's. On a phone the
+     nav collapses and it sits alone in the bar, with room to grow. */
+  header .wordmark { font-size: 22px; }
+  @media (max-width: 620px) { header .wordmark { font-size: 26px; } }
   .wordmark span { color: var(--accent); }
   nav { display: flex; gap: 26px; }
   nav a {
