@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="no-js">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -131,45 +131,117 @@
   }
   .btn-ghost:hover { background: var(--surface); }
 
-  /* ── Hero device ──────────────────────────────────────────────────────── */
-  /* Deliberately schematic rather than a fake screenshot: it shows the shape of
-     the product — a macro ring and a set grid — without claiming to be a
-     literal capture of a screen that may have moved on since. */
-  .device {
-    width: 100%; max-width: 300px; margin: 0 auto;
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: 26px; padding: 20px 18px 22px;
-    box-shadow: 0 30px 70px -30px rgba(0,0,0,.9);
+  /* ── Phones ───────────────────────────────────────────────────────────── */
+  /* Real captures, in a frame. The hero used to carry a schematic of the
+     product — a drawn macro ring over a drawn set list — on the reasoning
+     that a screenshot might fall out of date. It now shows the actual app,
+     because a landing page whose only picture is a diagram is asking to be
+     taken on trust. Staleness is handled where it should be: the images are
+     published from the app repo's own guide screenshots by one script, so a
+     retake reaches here and the in-app guide together. */
+  .phone {
+    --pr: 40px;
+    position: relative; width: 100%; max-width: 300px;
+    border-radius: var(--pr); padding: 9px;
+    background: #090909; border: 1px solid #2c2c2c;
+    box-shadow: 0 40px 90px -35px rgba(0,0,0,.95), inset 0 0 0 1px rgba(255,255,255,.035);
   }
-  .device-label { color: var(--dim); margin-bottom: 14px; }
-  .ring-wrap { display: flex; justify-content: center; margin-bottom: 6px; }
-  .kcal-n {
-    font-family: "IBM Plex Mono", ui-monospace, monospace;
-    font-size: 27px; font-weight: 500; fill: var(--text);
+  .phone img, .phone .screen {
+    display: block; width: 100%; height: auto;
+    border-radius: calc(var(--pr) - 9px); background: var(--surface);
   }
-  .kcal-l {
-    font-family: "IBM Plex Mono", ui-monospace, monospace;
-    font-size: 9px; letter-spacing: .14em; fill: var(--dim);
-  }
-  .macros { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 14px 0 18px; }
-  .macro { background: var(--raised); border-radius: 8px; padding: 9px 8px; text-align: center; }
-  .macro-v {
-    font-family: "IBM Plex Mono", ui-monospace, monospace;
-    font-size: 15px; font-weight: 500; font-variant-numeric: tabular-nums; display: block;
-  }
-  .macro-l { font-size: 9px; letter-spacing: .1em; color: var(--dim); text-transform: uppercase; }
 
-  .sets { border-top: 1px solid var(--border); padding-top: 14px; }
-  .set-row {
-    display: grid; grid-template-columns: 1fr auto auto; gap: 12px;
-    padding: 7px 0; align-items: baseline;
+  /* Three phones fanned in the hero, the front one straight and lit, the two
+     behind it turned away and dimmed so the eye lands in the middle. On a
+     narrow screen only the front one is drawn — three overlapping phones in a
+     360px column is a pile, not a fan. */
+  .hero-phones { position: relative; height: 610px; }
+  .hp {
+    position: absolute; top: 0;
+    transform: rotate(var(--r, 0deg)) translateY(var(--py, 0px));
+    will-change: transform;
   }
-  .set-name { font-size: 12px; color: var(--muted); }
-  .set-v {
-    font-family: "IBM Plex Mono", ui-monospace, monospace;
-    font-size: 12px; font-variant-numeric: tabular-nums; color: var(--text);
+  .hp-c { left: 50%; margin-left: -128px; width: 256px; z-index: 3; --r: 0deg; }
+  .hp-l { left: -2%;  top: 58px; width: 200px; z-index: 1; --r: -8deg; }
+  .hp-r { right: -2%; top: 58px; width: 200px; z-index: 2; --r: 8deg; }
+  .hp .phone { max-width: none; }
+  .hp-l .phone, .hp-r .phone { --pr: 34px; filter: brightness(.7); }
+  @media (max-width: 900px) {
+    .hero-phones { height: auto; display: flex; justify-content: center; }
+    .hp { position: static; transform: none; width: 236px; }
+    .hp-l, .hp-r { display: none; }
   }
-  .set-up { color: var(--accent); font-size: 11px; font-weight: 700; }
+
+  /* First paint. The copy rises in, then each phone — the front one first,
+     since it is the one that matters. Load-time only; scrolling has its own
+     rules below. */
+  @keyframes rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+  .hero-copy > * { animation: rise .7s cubic-bezier(.2,.7,.2,1) both; }
+  .hero-copy > :nth-child(2) { animation-delay: .07s; }
+  .hero-copy > :nth-child(3) { animation-delay: .14s; }
+  .hero-copy > :nth-child(4) { animation-delay: .21s; }
+  .hp .phone { animation: rise .9s cubic-bezier(.2,.7,.2,1) both; }
+  .hp-c .phone { animation-delay: .18s; }
+  .hp-l .phone { animation-delay: .34s; }
+  .hp-r .phone { animation-delay: .44s; }
+
+  /* ── Tour ─────────────────────────────────────────────────────────────── */
+  /* Four short stories down the left; one phone on the right that stays put
+     and changes screen as each story reaches the middle of the viewport. On
+     a narrow screen the phone can't sit beside the text, so each story
+     carries its own inline instead. */
+  .tour-grid {
+    display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 72px; align-items: start;
+  }
+  .tour-steps { display: flex; flex-direction: column; padding-bottom: 12vh; }
+  .tour-step {
+    /* Tall enough that only one story sits in the middle band at a time, but
+       capped: on a very tall window 62vh alone would space them out by more
+       than a screen of nothing. */
+    min-height: clamp(360px, 62vh, 640px);
+    display: flex; flex-direction: column; justify-content: center;
+    opacity: .3; transition: opacity .4s ease;
+  }
+  /* A flex column stretches an inline-block child to its full width; the tab
+     chip is a label, not a bar. */
+  .tour-step .feat-tab { align-self: flex-start; }
+  .tour-step.is-active { opacity: 1; }
+  .tour-step h3 {
+    font-size: clamp(22px, 2.8vw, 28px); font-weight: 700; letter-spacing: -.02em; margin: 0 0 12px;
+  }
+  .tour-step p { font-size: 16px; color: var(--muted); max-width: 44ch; margin: 0; text-wrap: pretty; }
+  .tour-inline { display: none; }
+  .tour-phone { position: sticky; top: 92px; }
+  .screen { position: relative; aspect-ratio: 1179 / 2556; overflow: hidden; }
+  .screen img {
+    position: absolute; inset: 0; width: 100%; height: 100%; border-radius: 0;
+    opacity: 0; transform: scale(.985);
+    transition: opacity .45s ease, transform .45s ease;
+  }
+  .screen img.is-active { opacity: 1; transform: none; }
+  @media (max-width: 860px) {
+    .tour-grid { grid-template-columns: 1fr; gap: 0; }
+    .tour-phone { display: none; }
+    .tour-steps { padding-bottom: 0; }
+    .tour-step {
+      min-height: 0; opacity: 1; padding: 30px 0; border-top: 1px solid var(--border);
+    }
+    .tour-step:first-child { border-top: 0; padding-top: 4px; }
+    .tour-inline { display: block; max-width: 236px; margin: 22px auto 0; }
+  }
+
+  /* ── Reveal on scroll ─────────────────────────────────────────────────── */
+  /* Anything marked .reveal starts a little low and faded, and settles as it
+     enters the viewport. --i staggers siblings. Two escape hatches: without
+     JavaScript everything is simply visible, and with reduced motion the
+     global rule above already strips the transition, so it lands instantly. */
+  .reveal {
+    opacity: 0; transform: translateY(18px);
+    transition: opacity .6s ease, transform .6s ease;
+    transition-delay: calc(var(--i, 0) * 70ms);
+  }
+  .reveal.in, .no-js .reveal { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; } }
 
   /* ── Sections ─────────────────────────────────────────────────────────── */
   section { padding: 76px 0; border-top: 1px solid var(--border); }
@@ -246,6 +318,7 @@
   <div class="wrap bar">
     <a href="/" class="wordmark"><span>PLA</span>TED</a>
     <nav>
+      <a href="#tour">Tour</a>
       <a href="#features">Features</a>
       <a href="#pricing">Pro</a>
       <a href="/support/">Support</a>
@@ -255,7 +328,7 @@
 
 <div class="wrap hero">
   <div class="hero-grid">
-    <div>
+    <div class="hero-copy">
       <div class="chip mono"><span class="dot"></span>Coming soon to iOS</div>
       <h1>Track macros. Log every rep. <em>Share the work.</em></h1>
       <p class="lede">
@@ -269,56 +342,93 @@
       </div>
     </div>
 
-    <div class="device" role="img" aria-label="Illustration of Plated's daily view: 1,847 of 2,400 calories logged, with protein, carbs and fat totals, above a workout set list showing a progressive overload suggestion.">
-      <div class="device-label mono">Today</div>
-      <div class="ring-wrap">
-        <svg width="150" height="150" viewBox="0 0 150 150" aria-hidden="true">
-          <circle cx="75" cy="75" r="62" fill="none" stroke="#262626" stroke-width="11"/>
-          <circle cx="75" cy="75" r="62" fill="none" stroke="#FF4500" stroke-width="11"
-                  stroke-linecap="round" stroke-dasharray="390 500"
-                  transform="rotate(-90 75 75)"/>
-          <text class="kcal-n" x="75" y="74" text-anchor="middle">1,847</text>
-          <text class="kcal-l" x="75" y="92" text-anchor="middle">OF 2,400 KCAL</text>
-        </svg>
-      </div>
-      <div class="macros">
-        <div class="macro"><span class="macro-v">142g</span><span class="macro-l">Protein</span></div>
-        <div class="macro"><span class="macro-v">186g</span><span class="macro-l">Carbs</span></div>
-        <div class="macro"><span class="macro-v">61g</span><span class="macro-l">Fat</span></div>
-      </div>
-      <div class="sets">
-        <div class="set-row">
-          <span class="set-name">Bench Press</span>
-          <span class="set-v">185 × 8</span>
-          <span class="set-up">↑ 5</span>
-        </div>
-        <div class="set-row">
-          <span class="set-name">Incline DB</span>
-          <span class="set-v">70 × 10</span>
-          <span class="set-up">↑ 2</span>
-        </div>
-        <div class="set-row">
-          <span class="set-name">Cable Fly</span>
-          <span class="set-v">40 × 12</span>
-          <span class="set-up"></span>
-        </div>
-      </div>
+    <div class="hero-phones" role="img" aria-label="Three phones showing Plated: a workout in progress on the Train tab, the Nutrition tab with the day's calories and macros, and a profile with its post grid.">
+      <div class="hp hp-l" data-parallax="0.06"><div class="phone"><img src="/assets/screens/train.png" alt="" width="600" height="1301" loading="eager"></div></div>
+      <div class="hp hp-c" data-parallax="0.02"><div class="phone"><img src="/assets/screens/nutrition.png" alt="" width="600" height="1301" loading="eager" fetchpriority="high"></div></div>
+      <div class="hp hp-r" data-parallax="0.09"><div class="phone"><img src="/assets/screens/profile.png" alt="" width="600" height="1301" loading="eager"></div></div>
     </div>
   </div>
 </div>
 
+<section id="tour">
+  <div class="wrap">
+    <p class="sec-label mono reveal">The app, not a mockup</p>
+    <h2 class="reveal" style="--i:1">Four tabs you'll actually open</h2>
+    <p class="sec-lede reveal" style="--i:2">
+      Real screens from a real account. Keep scrolling &mdash; the phone keeps up.
+    </p>
+
+    <div class="tour-grid">
+      <div class="tour-steps">
+
+        <article class="tour-step is-active" data-shot="nutrition">
+          <span class="feat-tab mono">Nutrition</span>
+          <h3>Your day against your targets</h3>
+          <p>
+            Calories left and a ring per macro, then three ways to log: scan a barcode, search
+            the database, or type it in. Recipes and meals you built once are a tap away.
+          </p>
+          <div class="phone tour-inline"><img src="/assets/screens/nutrition.png" alt="Plated's Nutrition tab: 2,038 of 2,700 kcal logged for the day, protein, carbs and fat rings, and buttons to scan a barcode, search foods, create a food and open recipes." width="600" height="1301" loading="lazy"></div>
+        </article>
+
+        <article class="tour-step" data-shot="train">
+          <span class="feat-tab mono">Train</span>
+          <h3>Every set, and what to do next</h3>
+          <p>
+            The clock, your volume and your set count stay up while you lift. Heart rate from a
+            strap, watch or band. Pro suggests the next weight and reps from what you've already done.
+          </p>
+          <div class="phone tour-inline"><img src="/assets/screens/train.png" alt="Plated's Train tab mid-workout: 23 minutes in, 6,886 lbs lifted, live heart rate 66 bpm, 8 of 32 sets done, and a Cable Fly card with a suggested 50 lbs for 11 reps." width="600" height="1301" loading="lazy"></div>
+        </article>
+
+        <article class="tour-step" data-shot="progress">
+          <span class="feat-tab mono">Progress</span>
+          <h3>Proof it's working</h3>
+          <p>
+            A calendar of every day you trained, steps and distance from Apple Health, and a
+            heatmap of which muscles your last week actually hit &mdash; and which it missed.
+          </p>
+          <div class="phone tour-inline"><img src="/assets/screens/progress.png" alt="Plated's Progress tab: a September workout calendar with trained days marked and 48 days total, above a front-and-back muscle activity heatmap." width="600" height="1301" loading="lazy"></div>
+        </article>
+
+        <article class="tour-step" data-shot="profile">
+          <span class="feat-tab mono">Feed &amp; Profile</span>
+          <h3>People doing the same thing</h3>
+          <p>
+            Your streak, your posts, your workouts &mdash; and the people you follow, keeping each
+            other honest. Public or private, your call.
+          </p>
+          <div class="phone tour-inline"><img src="/assets/screens/profile.png" alt="A Plated profile: 57 posts, 10 followers, 24 following, an 80-day streak and 63 workouts logged, above a grid of shared workouts and photos." width="600" height="1301" loading="lazy"></div>
+        </article>
+
+      </div>
+
+      <div class="tour-phone">
+        <div class="phone">
+          <div class="screen">
+            <img data-shot="nutrition" class="is-active" src="/assets/screens/nutrition.png" alt="" width="600" height="1301">
+            <img data-shot="train"    src="/assets/screens/train.png"    alt="" width="600" height="1301" loading="lazy">
+            <img data-shot="progress" src="/assets/screens/progress.png" alt="" width="600" height="1301" loading="lazy">
+            <img data-shot="profile"  src="/assets/screens/profile.png"  alt="" width="600" height="1301" loading="lazy">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section id="features">
   <div class="wrap">
-    <p class="sec-label mono">What's inside</p>
-    <h2>Five tabs, and none of them are filler</h2>
-    <p class="sec-lede">
+    <p class="sec-label mono reveal">What's inside</p>
+    <h2 class="reveal" style="--i:1">Five tabs, and none of them are filler</h2>
+    <p class="sec-lede reveal" style="--i:2">
       Plated is built around the things you do every day, not around a dashboard you check once
       and forget. Each tab does one job properly.
     </p>
 
     <div class="features">
 
-      <div class="feat">
+      <div class="feat reveal" style="--i:0">
         <span class="feat-tab mono">Nutrition</span>
         <h3>Logging that doesn't fight you</h3>
         <p>The fastest path from a package in your hand to a number in your day.</p>
@@ -330,7 +440,7 @@
         </ul>
       </div>
 
-      <div class="feat">
+      <div class="feat reveal" style="--i:1">
         <span class="feat-tab mono">Train</span>
         <h3>Every set, and what to do next</h3>
         <p>A workout log that reads your history instead of just storing it.</p>
@@ -342,7 +452,7 @@
         </ul>
       </div>
 
-      <div class="feat">
+      <div class="feat reveal" style="--i:2">
         <span class="feat-tab mono">Progress</span>
         <h3>Proof it's working</h3>
         <p>The part that keeps you going when the mirror is being unhelpful.</p>
@@ -354,7 +464,7 @@
         </ul>
       </div>
 
-      <div class="feat">
+      <div class="feat reveal" style="--i:3">
         <span class="feat-tab mono">Feed</span>
         <h3>People doing the same thing</h3>
         <p>Small and accountable, not another place to perform.</p>
@@ -372,15 +482,15 @@
 
 <section id="pricing">
   <div class="wrap">
-    <p class="sec-label mono">Pricing</p>
-    <h2>Free to use. Pro if you want the clever bits.</h2>
-    <p class="sec-lede">
+    <p class="sec-label mono reveal">Pricing</p>
+    <h2 class="reveal" style="--i:1">Free to use. Pro if you want the clever bits.</h2>
+    <p class="sec-lede reveal" style="--i:2">
       Logging food and training is free and stays free. Pro pays for the features that cost us
       money to run, which is mostly the AI ones.
     </p>
 
     <div class="plans">
-      <div class="plan">
+      <div class="plan reveal">
         <p class="plan-name">Plated</p>
         <p class="plan-price">Free</p>
         <p class="plan-per">No account limits</p>
@@ -393,7 +503,7 @@
         </ul>
       </div>
 
-      <div class="plan pro">
+      <div class="plan pro reveal" style="--i:1">
         <p class="plan-name">Plated Pro</p>
         <p class="plan-price" data-plated="pro-price">$9.99</p>
         <p class="plan-per" data-plated="pro-period">per month, auto-renewing</p>
@@ -417,9 +527,9 @@
 
 <section id="health">
   <div class="wrap">
-    <p class="sec-label mono">One honest note</p>
-    <h2>Plated is a tracking tool, not a doctor</h2>
-    <p class="sec-lede">
+    <p class="sec-label mono reveal">One honest note</p>
+    <h2 class="reveal" style="--i:1">Plated is a tracking tool, not a doctor</h2>
+    <p class="sec-lede reveal" style="--i:2">
       Calorie targets, macro splits and overload suggestions are estimates generated from formulas
       and the numbers you enter. They are not medical or nutritional advice. Talk to a physician or
       a registered dietitian before changing your diet or training &mdash; particularly if you are
@@ -442,6 +552,72 @@
     </div>
   </div>
 </footer>
+
+<script>
+(function () {
+  // Everything below is progressive. Without this script the page is fully
+  // visible and static; with it, things settle in as you reach them.
+  document.documentElement.classList.remove('no-js');
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var hasIO = 'IntersectionObserver' in window;
+
+  // Reveal: once, then stop watching — nothing re-hides on the way back up.
+  var reveals = document.querySelectorAll('.reveal');
+  if (!hasIO || reduce) {
+    reveals.forEach(function (el) { el.classList.add('in'); });
+  } else {
+    var ro = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        e.target.classList.add('in');
+        ro.unobserve(e.target);
+      });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.12 });
+    reveals.forEach(function (el) { ro.observe(el); });
+  }
+
+  // Tour: the story crossing the middle of the viewport owns the phone. The
+  // observer's root is shrunk to a band across the centre, so exactly one
+  // step is "intersecting" at a time as you scroll.
+  var steps = document.querySelectorAll('.tour-step');
+  var shots = document.querySelectorAll('.screen img');
+  function show(name) {
+    steps.forEach(function (s) { s.classList.toggle('is-active', s.getAttribute('data-shot') === name); });
+    shots.forEach(function (i) { i.classList.toggle('is-active', i.getAttribute('data-shot') === name); });
+  }
+  if (hasIO && steps.length) {
+    var to = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) show(e.target.getAttribute('data-shot')); });
+    }, { rootMargin: '-45% 0px -45% 0px', threshold: 0 });
+    steps.forEach(function (s) { to.observe(s); });
+  } else {
+    steps.forEach(function (s) { s.classList.add('is-active'); });
+  }
+
+  // Hero parallax: the three phones drift up at slightly different rates as
+  // the page scrolls, which is what makes them read as sitting at different
+  // depths. Desktop only — on a phone there is one phone, and it shouldn't
+  // move — and never under reduced motion.
+  var layers = document.querySelectorAll('[data-parallax]');
+  var wide = matchMedia('(min-width: 901px)');
+  if (layers.length && !reduce) {
+    var queued = false;
+    function place() {
+      queued = false;
+      var y = wide.matches ? window.scrollY : 0;
+      layers.forEach(function (el) {
+        var k = parseFloat(el.getAttribute('data-parallax')) || 0;
+        el.style.setProperty('--py', (-y * k).toFixed(1) + 'px');
+      });
+    }
+    addEventListener('scroll', function () {
+      if (!queued) { queued = true; requestAnimationFrame(place); }
+    }, { passive: true });
+    wide.addEventListener('change', place);
+    place();
+  }
+})();
+</script>
 
 </body>
 </html>
