@@ -89,6 +89,10 @@
   }
   nav a:hover { color: var(--text); }
   @media (max-width: 620px) { nav { display: none; } }
+  /* The web app button stays when the nav collapses: it's the one thing in
+     the bar a visitor can act on today. */
+  .bar-end { display: flex; align-items: center; gap: 26px; }
+  .btn.btn-sm { padding: 9px 16px; font-size: 13.5px; border-radius: 8px; }
 
   /* ── Hero ─────────────────────────────────────────────────────────────── */
   .hero { padding: 88px 0 76px; }
@@ -341,12 +345,15 @@
 <header>
   <div class="wrap bar">
     <a href="/" class="wordmark"><span>PLA</span>TED</a>
-    <nav>
-      <a href="#tour">Tour</a>
-      <a href="#features">Features</a>
-      <a href="#pricing">Pro</a>
-      <a href="/support/">Support</a>
-    </nav>
+    <div class="bar-end">
+      <nav>
+        <a href="#tour">Tour</a>
+        <a href="#features">Features</a>
+        <a href="#pricing">Pro</a>
+        <a href="/support/">Support</a>
+      </nav>
+      <a class="btn btn-sm" href="/app/">Open the web app</a>
+    </div>
   </div>
 </header>
 
