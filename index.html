@@ -142,6 +142,13 @@
     border: 1px solid var(--line);
   }
   .btn-ghost:hover { background: var(--surface); }
+  /* Apple's own badge (assets/app-store-badge.svg, the black US lockup from
+     Apple's marketing resources), used as supplied: never recoloured or
+     redrawn, at least 40px tall, with clear space around it. */
+  .store-badge { display: inline-block; line-height: 0; border-radius: 9px; }
+  .store-badge img { display: block; height: 50px; width: auto; }
+  .store-badge.store-badge-sm img { height: 40px; }
+  .store-badge:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 
   /* ── Phones ───────────────────────────────────────────────────────────── */
   /* Real captures, in a frame. The hero used to carry a schematic of the
@@ -358,7 +365,7 @@
       </nav>
       <div class="bar-btns">
         <a class="btn btn-sm btn-ghost web-btn" href="/app/">Open the web app</a>
-        <a class="btn btn-sm" href="https://apps.apple.com/us/app/plated-fitness/id6784593510">Get the iOS app</a>
+        <a class="store-badge store-badge-sm" href="https://apps.apple.com/us/app/plated-fitness/id6784593510"><img src="/assets/app-store-badge.svg" alt="Download on the App Store" width="120" height="40"></a>
       </div>
     </div>
   </div>
@@ -375,7 +382,7 @@
         three apps that don't talk to each other.
       </p>
       <div class="cta-row">
-        <a class="btn" href="https://apps.apple.com/us/app/plated-fitness/id6784593510">Download on the App Store</a>
+        <a class="store-badge" href="https://apps.apple.com/us/app/plated-fitness/id6784593510"><img src="/assets/app-store-badge.svg" alt="Download on the App Store" width="150" height="50"></a>
         <a class="btn btn-ghost" href="/app/">Open the web app</a>
       </div>
     </div>
