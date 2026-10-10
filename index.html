@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="apple-itunes-app" content="app-id=6784593510">
 <title>Plated Fitness &mdash; Track macros, log every rep, share the work</title>
 <meta name="description" content="Plated is a nutrition and training app for people who log seriously. Barcode scanning, progressive overload, GPS runs, Apple Health, and a feed of people doing the same.">
 
@@ -89,9 +90,12 @@
   }
   nav a:hover { color: var(--text); }
   @media (max-width: 620px) { nav { display: none; } }
-  /* The web app button stays when the nav collapses: it's the one thing in
-     the bar a visitor can act on today. */
+  /* The App Store button stays when the nav collapses; the web app one
+     joins the nav in stepping aside on a phone, where the App Store is the
+     thing to tap and two buttons don't fit beside the logo. */
   .bar-end { display: flex; align-items: center; gap: 26px; }
+  .bar-btns { display: flex; align-items: center; gap: 10px; }
+  @media (max-width: 620px) { .bar-btns .web-btn { display: none; } }
   .btn.btn-sm { padding: 9px 16px; font-size: 13.5px; border-radius: 8px; }
 
   /* ── Hero ─────────────────────────────────────────────────────────────── */
@@ -352,7 +356,10 @@
         <a href="#pricing">Pro</a>
         <a href="/support/">Support</a>
       </nav>
-      <a class="btn btn-sm" href="/app/">Open the web app</a>
+      <div class="bar-btns">
+        <a class="btn btn-sm btn-ghost web-btn" href="/app/">Open the web app</a>
+        <a class="btn btn-sm" href="https://apps.apple.com/us/app/plated-fitness/id6784593510">Get the iOS app</a>
+      </div>
     </div>
   </div>
 </header>
@@ -360,7 +367,7 @@
 <div class="wrap hero">
   <div class="hero-grid">
     <div class="hero-copy">
-      <div class="chip mono"><span class="dot"></span>Coming soon to iOS</div>
+      <div class="chip mono"><span class="dot"></span>Available on the App Store</div>
       <h1>Track macros. Log every rep. <em>Share the work.</em></h1>
       <p class="lede">
         Plated is a nutrition and training app for people who actually log. Scan a barcode,
@@ -368,8 +375,8 @@
         three apps that don't talk to each other.
       </p>
       <div class="cta-row">
-        <a class="btn" href="/app/">Open the web app</a>
-        <a class="btn btn-ghost" href="#features">See what it does</a>
+        <a class="btn" href="https://apps.apple.com/us/app/plated-fitness/id6784593510">Download on the App Store</a>
+        <a class="btn btn-ghost" href="/app/">Open the web app</a>
       </div>
     </div>
 
