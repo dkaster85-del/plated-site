@@ -238,6 +238,18 @@
   }
   .tour-step.is-active h3 { color: #fff; }
   .tour-step.is-active p { color: var(--text); }
+  /* Two or three short points per stop, quick to take in while scrolling. */
+  .tour-points {
+    list-style: none; margin: 0; padding: 0; display: grid; gap: 9px;
+    font-size: 16px; color: var(--muted); max-width: 44ch; transition: color .4s ease;
+  }
+  .tour-points li { position: relative; padding-left: 20px; }
+  .tour-points li::before {
+    content: ''; position: absolute; left: 2px; top: .62em; width: 7px; height: 7px;
+    border-radius: 50%; background: var(--accent); opacity: .55; transition: opacity .4s ease;
+  }
+  .tour-step.is-active .tour-points { color: var(--text); }
+  .tour-step.is-active .tour-points li::before { opacity: 1; }
   .tour-step.is-active .feat-tab { color: var(--muted); }
   .tour-inline { display: none; }
   .tour-phone { position: sticky; top: 92px; }
@@ -412,72 +424,87 @@
         <article class="tour-step is-active" data-shot="train">
           <span class="feat-tab mono">Train</span>
           <h3>Know your next weight</h3>
-          <p>
-            The clock, your volume and your set count stay up while you lift, with heart rate from a strap, watch or band. Pro suggests the next weight and reps from what you&rsquo;ve already done.
-          </p>
+          <ul class="tour-points">
+            <li>Timer, volume and sets on screen as you lift</li>
+            <li>Live heart rate from a strap, watch or band</li>
+            <li>Pro suggests your next weight and reps</li>
+          </ul>
           <div class="phone tour-inline"><img src="/assets/screens/train.png" alt="Plated&rsquo;s Train tab mid-workout: 23 minutes in, 6,886 lbs lifted, live heart rate 66 bpm, 8 of 32 sets done, and a Cable Fly card suggesting 50 lbs for 11 reps." width="600" height="1301" loading="lazy"></div>
         </article>
 
         <article class="tour-step" data-shot="nutrition">
           <span class="feat-tab mono">Nutrition</span>
           <h3>Lift. Run. Eat. One app.</h3>
-          <p>
-            Calories left and a ring per macro, then three ways to log: scan a barcode, search the database and restaurant menus, or type it in. Recipes you built once are a tap away.
-          </p>
+          <ul class="tour-points">
+            <li>Calories left, and a ring for each macro</li>
+            <li>Scan, search or type in any food</li>
+            <li>Restaurant menus and your own recipes built in</li>
+          </ul>
           <div class="phone tour-inline"><img src="/assets/screens/nutrition.png" alt="Plated&rsquo;s Nutrition tab: 2,038 of 2,700 kcal logged for the day, protein, carbs and fat rings, and buttons to scan a barcode, search foods, create a food and open recipes." width="600" height="1301" loading="lazy"></div>
         </article>
 
         <article class="tour-step" data-shot="barcode">
           <span class="feat-tab mono">Barcode scanner</span>
           <h3>Scan it. Log it.</h3>
-          <p>
-            Point the camera at a barcode and the food is ready to log: by the serving, in grams or ounces, or by the piece. Check it against the package and fix anything that&rsquo;s off.
-          </p>
+          <ul class="tour-points">
+            <li>Point your camera at any barcode</li>
+            <li>Log by the serving, in grams or ounces, or by the piece</li>
+            <li>Check it against the package and fix anything off</li>
+          </ul>
           <div class="phone tour-inline"><img src="/assets/screens/barcode.png" alt="A scanned barcode&rsquo;s result in Plated: a Matcha Wafer Bar at 125 calories for two pieces, with Looks Good and Fix Manually buttons and an Add button." width="600" height="1301" loading="lazy"></div>
         </article>
 
         <article class="tour-step" data-shot="label">
           <span class="feat-tab mono">AI label scan &middot; Pro</span>
           <h3>Any label. Any language.</h3>
-          <p>
-            Photograph a nutrition label and AI fills in every number, in any language, whether the label lists energy in kJ, salt instead of sodium, or values per 100 g.
-          </p>
+          <ul class="tour-points">
+            <li>Snap a nutrition label and AI fills it in</li>
+            <li>Works in any language</li>
+            <li>Converts kJ, salt and per-100 g labels for you</li>
+          </ul>
           <div class="phone tour-inline"><img src="/assets/screens/label.png" alt="Plated&rsquo;s Create Food screen filled in by AI from a Chinese nutrition label: the brand, the food name in Chinese, 100 g servings and 184 calories." width="600" height="1301" loading="lazy"></div>
         </article>
 
         <article class="tour-step" data-shot="plates">
           <span class="feat-tab mono">Plate calculator &middot; Pro</span>
           <h3>Load the bar right</h3>
-          <p>
-            Tell it your bar, collars and the plates you own once. It shows exactly what goes on each side, in kilograms or pounds, from the Train tab or straight into a set mid-workout.
-          </p>
+          <ul class="tour-points">
+            <li>Set your bar and plates once</li>
+            <li>See exactly what goes on each side</li>
+            <li>Kilograms or pounds, even mid-workout</li>
+          </ul>
           <div class="phone tour-inline"><img src="/assets/screens/plates.png" alt="Plated&rsquo;s plate calculator at 275 lb on a 45 lb bar: two 45s and a 25 on each side, with a Clear the Bar button and plates to add in pairs." width="600" height="1301" loading="lazy"></div>
         </article>
 
         <article class="tour-step" data-shot="muscle">
           <span class="feat-tab mono">Progress &middot; Pro</span>
           <h3>See what you trained</h3>
-          <p>
-            A heatmap of which muscles your recent training actually hit, and which it missed, built from your real workouts. Your bodyweight trend sits right underneath.
-          </p>
+          <ul class="tour-points">
+            <li>A heatmap of what you actually trained</li>
+            <li>Spot the muscles you&rsquo;re missing</li>
+            <li>Your bodyweight trend right below</li>
+          </ul>
           <div class="phone tour-inline"><img src="/assets/screens/muscle.png" alt="Plated&rsquo;s muscle heatmap, front and back, over the last 14 days, above a bodyweight chart at 149.8 lbs." width="600" height="1301" loading="lazy"></div>
         </article>
 
         <article class="tour-step" data-shot="progress">
           <span class="feat-tab mono">Progress</span>
           <h3>Show up every week</h3>
-          <p>
-            A calendar of every day you trained, with steps and walking distance from Apple Health right underneath it.
-          </p>
+          <ul class="tour-points">
+            <li>Every training day on one calendar</li>
+            <li>Steps and distance from Apple Health</li>
+          </ul>
           <div class="phone tour-inline"><img src="/assets/screens/progress.png" alt="Plated&rsquo;s Progress tab: a September workout calendar with trained days marked and 49 days total, above a Steps &amp; Distance card showing today&rsquo;s count and a seven-day bar chart." width="600" height="1301" loading="lazy"></div>
         </article>
 
         <article class="tour-step" data-shot="profile">
           <span class="feat-tab mono">Feed &amp; Profile</span>
           <h3>Share the grind</h3>
-          <p>
-            Post workouts, meals and runs, follow friends and keep each other honest. Go private and only the followers you approve see your posts.
-          </p>
+          <ul class="tour-points">
+            <li>Post workouts, meals and runs</li>
+            <li>Follow friends and keep each other honest</li>
+            <li>Go private any time</li>
+          </ul>
           <div class="phone tour-inline"><img src="/assets/screens/profile.png" alt="The Plated Fitness profile: 58 posts, 10 followers, 24 following, an 81-day streak and 64 workouts logged, above a grid of shared workouts, photos and a run&rsquo;s route." width="600" height="1301" loading="lazy"></div>
         </article>
 
