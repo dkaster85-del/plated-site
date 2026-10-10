@@ -208,7 +208,7 @@
   .hp-r .phone { animation-delay: .44s; }
 
   /* ── Tour ─────────────────────────────────────────────────────────────── */
-  /* Four short stories down the left; one phone on the right that stays put
+  /* Short stories down the left; one phone on the right that stays put
      and changes screen as each story reaches the middle of the viewport. On
      a narrow screen the phone can't sit beside the text, so each story
      carries its own inline instead. */
@@ -241,6 +241,15 @@
   .tour-step.is-active .feat-tab { color: var(--muted); }
   .tour-inline { display: none; }
   .tour-phone { position: sticky; top: 92px; }
+  #tour { overflow-x: clip; }
+  .tour-phone::before {
+    content: ''; position: absolute; z-index: -1; pointer-events: none;
+    left: 50%; top: 52%; width: 190%; height: 82%; transform: translate(-50%, -50%);
+    background: radial-gradient(closest-side, rgba(255, 69, 0, .34), rgba(255, 69, 0, .12) 55%, rgba(255, 69, 0, 0));
+  }
+  /* On a narrow screen the pinned phone sits in a full-width bar, so the glow
+     is sized to the phone rather than to the bar. */
+  @media (max-width: 860px) { .tour-phone::before { width: 340px; height: 92%; } }
   .screen { position: relative; aspect-ratio: 1179 / 2556; overflow: hidden; }
   .screen img {
     position: absolute; inset: 0; width: 100%; height: 100%; border-radius: 0;
@@ -400,44 +409,76 @@
     <div class="tour-grid">
       <div class="tour-steps">
 
-        <article class="tour-step is-active" data-shot="nutrition">
-          <span class="feat-tab mono">Nutrition</span>
-          <h3>Your day against your targets</h3>
+        <article class="tour-step is-active" data-shot="train">
+          <span class="feat-tab mono">Train</span>
+          <h3>Know your next weight</h3>
           <p>
-            Calories left and a ring per macro, then three ways to log: scan a barcode, search
-            the database, or type it in. Recipes and meals you built once are a tap away.
+            The clock, your volume and your set count stay up while you lift, with heart rate from a strap, watch or band. Pro suggests the next weight and reps from what you&rsquo;ve already done.
           </p>
-          <div class="phone tour-inline"><img src="/assets/screens/nutrition.png" alt="Plated's Nutrition tab: 2,038 of 2,700 kcal logged for the day, protein, carbs and fat rings, and buttons to scan a barcode, search foods, create a food and open recipes." width="600" height="1301" loading="lazy"></div>
+          <div class="phone tour-inline"><img src="/assets/screens/train.png" alt="Plated&rsquo;s Train tab mid-workout: 23 minutes in, 6,886 lbs lifted, live heart rate 66 bpm, 8 of 32 sets done, and a Cable Fly card suggesting 50 lbs for 11 reps." width="600" height="1301" loading="lazy"></div>
         </article>
 
-        <article class="tour-step" data-shot="train">
-          <span class="feat-tab mono">Train</span>
-          <h3>Every set, and what to do next</h3>
+        <article class="tour-step" data-shot="nutrition">
+          <span class="feat-tab mono">Nutrition</span>
+          <h3>Lift. Run. Eat. One app.</h3>
           <p>
-            The clock, your volume and your set count stay up while you lift. Heart rate from a
-            strap, watch or band. Pro suggests the next weight and reps from what you've already done.
+            Calories left and a ring per macro, then three ways to log: scan a barcode, search the database and restaurant menus, or type it in. Recipes you built once are a tap away.
           </p>
-          <div class="phone tour-inline"><img src="/assets/screens/train.png" alt="Plated's Train tab mid-workout: 23 minutes in, 6,886 lbs lifted, live heart rate 66 bpm, 8 of 32 sets done, and a Cable Fly card with a suggested 50 lbs for 11 reps." width="600" height="1301" loading="lazy"></div>
+          <div class="phone tour-inline"><img src="/assets/screens/nutrition.png" alt="Plated&rsquo;s Nutrition tab: 2,038 of 2,700 kcal logged for the day, protein, carbs and fat rings, and buttons to scan a barcode, search foods, create a food and open recipes." width="600" height="1301" loading="lazy"></div>
+        </article>
+
+        <article class="tour-step" data-shot="barcode">
+          <span class="feat-tab mono">Barcode scanner</span>
+          <h3>Scan it. Log it.</h3>
+          <p>
+            Point the camera at a barcode and the food is ready to log: by the serving, in grams or ounces, or by the piece. Check it against the package and fix anything that&rsquo;s off.
+          </p>
+          <div class="phone tour-inline"><img src="/assets/screens/barcode.png" alt="A scanned barcode&rsquo;s result in Plated: a Matcha Wafer Bar at 125 calories for two pieces, with Looks Good and Fix Manually buttons and an Add button." width="600" height="1301" loading="lazy"></div>
+        </article>
+
+        <article class="tour-step" data-shot="label">
+          <span class="feat-tab mono">AI label scan &middot; Pro</span>
+          <h3>Any label. Any language.</h3>
+          <p>
+            Photograph a nutrition label and AI fills in every number, in any language, whether the label lists energy in kJ, salt instead of sodium, or values per 100 g.
+          </p>
+          <div class="phone tour-inline"><img src="/assets/screens/label.png" alt="Plated&rsquo;s Create Food screen filled in by AI from a Chinese nutrition label: the brand, the food name in Chinese, 100 g servings and 184 calories." width="600" height="1301" loading="lazy"></div>
+        </article>
+
+        <article class="tour-step" data-shot="plates">
+          <span class="feat-tab mono">Plate calculator &middot; Pro</span>
+          <h3>Load the bar right</h3>
+          <p>
+            Tell it your bar, collars and the plates you own once. It shows exactly what goes on each side, in kilograms or pounds, from the Train tab or straight into a set mid-workout.
+          </p>
+          <div class="phone tour-inline"><img src="/assets/screens/plates.png" alt="Plated&rsquo;s plate calculator at 275 lb on a 45 lb bar: two 45s and a 25 on each side, with a Clear the Bar button and plates to add in pairs." width="600" height="1301" loading="lazy"></div>
+        </article>
+
+        <article class="tour-step" data-shot="muscle">
+          <span class="feat-tab mono">Progress &middot; Pro</span>
+          <h3>See what you trained</h3>
+          <p>
+            A heatmap of which muscles your recent training actually hit, and which it missed, built from your real workouts. Your bodyweight trend sits right underneath.
+          </p>
+          <div class="phone tour-inline"><img src="/assets/screens/muscle.png" alt="Plated&rsquo;s muscle heatmap, front and back, over the last 14 days, above a bodyweight chart at 149.8 lbs." width="600" height="1301" loading="lazy"></div>
         </article>
 
         <article class="tour-step" data-shot="progress">
           <span class="feat-tab mono">Progress</span>
-          <h3>Proof it's working</h3>
+          <h3>Show up every week</h3>
           <p>
-            A calendar of every day you trained, steps and distance from Apple Health, and a
-            heatmap of which muscles your last week actually hit &mdash; and which it missed.
+            A calendar of every day you trained, with steps and walking distance from Apple Health right underneath it.
           </p>
           <div class="phone tour-inline"><img src="/assets/screens/progress.png" alt="Plated&rsquo;s Progress tab: a September workout calendar with trained days marked and 49 days total, above a Steps &amp; Distance card showing today&rsquo;s count and a seven-day bar chart." width="600" height="1301" loading="lazy"></div>
         </article>
 
         <article class="tour-step" data-shot="profile">
           <span class="feat-tab mono">Feed &amp; Profile</span>
-          <h3>People doing the same thing</h3>
+          <h3>Share the grind</h3>
           <p>
-            Your streak, your posts, your workouts &mdash; and the people you follow, keeping each
-            other honest. Public or private, your call.
+            Post workouts, meals and runs, follow friends and keep each other honest. Go private and only the followers you approve see your posts.
           </p>
-          <div class="phone tour-inline"><img src="/assets/screens/profile.png" alt="The Plated Fitness profile: 58 posts, 10 followers, 24 following, an 81-day streak and 64 workouts logged, above a grid of shared workouts and photos." width="600" height="1301" loading="lazy"></div>
+          <div class="phone tour-inline"><img src="/assets/screens/profile.png" alt="The Plated Fitness profile: 58 posts, 10 followers, 24 following, an 81-day streak and 64 workouts logged, above a grid of shared workouts, photos and a run&rsquo;s route." width="600" height="1301" loading="lazy"></div>
         </article>
 
       </div>
@@ -445,10 +486,14 @@
       <div class="tour-phone">
         <div class="phone">
           <div class="screen">
-            <img data-shot="nutrition" class="is-active" src="/assets/screens/nutrition.png" alt="" width="600" height="1301">
-            <img data-shot="train"    src="/assets/screens/train.png"    alt="" width="600" height="1301" loading="lazy">
+            <img data-shot="train" class="is-active" src="/assets/screens/train.png" alt="" width="600" height="1301">
+            <img data-shot="nutrition" src="/assets/screens/nutrition.png" alt="" width="600" height="1301" loading="lazy">
+            <img data-shot="barcode" src="/assets/screens/barcode.png" alt="" width="600" height="1301" loading="lazy">
+            <img data-shot="label" src="/assets/screens/label.png" alt="" width="600" height="1301" loading="lazy">
+            <img data-shot="plates" src="/assets/screens/plates.png" alt="" width="600" height="1301" loading="lazy">
+            <img data-shot="muscle" src="/assets/screens/muscle.png" alt="" width="600" height="1301" loading="lazy">
             <img data-shot="progress" src="/assets/screens/progress.png" alt="" width="600" height="1301" loading="lazy">
-            <img data-shot="profile"  src="/assets/screens/profile.png"  alt="" width="600" height="1301" loading="lazy">
+            <img data-shot="profile" src="/assets/screens/profile.png" alt="" width="600" height="1301" loading="lazy">
           </div>
         </div>
       </div>
