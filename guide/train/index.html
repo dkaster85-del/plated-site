@@ -1,0 +1,865 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Train &mdash; How to use Plated</title>
+<meta name="description" content="How to log workouts in Plated: templates, sets and set types, supersets, the rest timer, GPS runs, PRs, stickers, the plate calculator, and importing from Hevy or Strong.">
+<meta name="theme-color" content="#0D0D0D">
+<link rel="canonical" href="https://plated-fitness.com/guide/train/">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://plated-fitness.com/guide/train/">
+<meta property="og:title" content="Train — How to use Plated">
+<meta property="og:description" content="How to log workouts in Plated: templates, sets and set types, supersets, the rest timer, GPS runs, PRs, stickers, the plate calculator, and importing from Hevy or Strong.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;900&family=IBM+Plex+Mono:wght@400;500&display=swap">
+
+<style>
+  :root {
+    --ground:#0D0D0D; --surface:#151515; --raised:#1C1C1C; --border:#262626; --line:#333333;
+    --text:#F0F0F0; --body:#C4C4C4; --muted:#8C8C8C; --dim:#5E5E5E; --accent:#FF4500; --accent-d:#C93600;
+    --tint: rgba(255,69,0,.10);
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  body {
+    margin:0; background:var(--ground); color:var(--text);
+    font-family: Archivo, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-size:16px; line-height:1.65; -webkit-font-smoothing:antialiased;
+    overflow-wrap: break-word;
+  }
+  .wrap { width:100%; max-width:760px; margin:0 auto; padding:0 24px; }
+  a { color: var(--accent); }
+  a:focus-visible, input:focus-visible, button:focus-visible {
+    outline:2px solid var(--accent); outline-offset:3px; border-radius:3px;
+  }
+  .skip { position:absolute; left:-9999px; top:8px; background:var(--accent); color:#fff;
+          padding:8px 14px; border-radius:8px; font-weight:600; text-decoration:none; z-index:20; }
+  .skip:focus { left:16px; }
+
+  .mono {
+    font-family:"IBM Plex Mono", ui-monospace, monospace;
+    font-size:11px; font-weight:500; letter-spacing:.16em; text-transform:uppercase;
+  }
+
+  header { border-bottom:1px solid var(--border); }
+  .bar { display:flex; align-items:center; justify-content:space-between; height:62px;
+         max-width:1080px; margin:0 auto; padding:0 24px; }
+  .wordmark { font-weight:900; font-size:19px; color:var(--text); text-decoration:none; letter-spacing:-.01em; }
+  .wordmark span { color:var(--accent); }
+  .back { color:var(--muted); text-decoration:none; font-size:13.5px; font-weight:500; }
+  .back:hover { color:var(--text); }
+
+  main.wrap { padding-top:56px; padding-bottom:88px; }
+  .eyebrow { color:var(--accent); margin:0 0 14px; }
+  .eyebrow a { color:var(--muted); text-decoration:none; }
+  .eyebrow a:hover { color:var(--text); }
+  h1 { font-size:clamp(30px,5vw,42px); font-weight:700; letter-spacing:-.03em; line-height:1.06;
+       margin:0 0 14px; text-wrap:balance; }
+  .lede { font-size:17px; color:var(--muted); margin:0 0 36px; max-width:58ch; text-wrap:pretty; }
+  .lede b { color:var(--text); font-weight:600; }
+
+  p { margin:0 0 14px; color:var(--muted); font-size:15px; }
+  b, strong { color:var(--text); font-weight:600; }
+
+  .badge {
+    display:inline-block; vertical-align:2px; margin-left:4px;
+    font-family:"IBM Plex Mono", ui-monospace, monospace; font-size:10px; font-weight:500;
+    letter-spacing:.1em; text-transform:uppercase; line-height:1; padding:4px 6px 3px; border-radius:5px;
+    white-space:nowrap;
+  }
+  .badge-pro { color:var(--accent); background:var(--tint); border:1px solid rgba(255,69,0,.45); }
+  .badge-ios { color:var(--muted); border:1px solid var(--line); }
+
+  /* On this page */
+  .toc { background:var(--surface); border:1px solid var(--border); border-radius:14px;
+         padding:22px 24px 10px; margin:0 0 20px; }
+  .toc > summary { color:var(--muted); margin:0 0 12px; cursor:pointer; list-style:none; display:flex; justify-content:space-between; gap:12px; }
+  .toc > summary::-webkit-details-marker { display:none; }
+  .toc > summary::after { content:"Hide"; color:var(--accent); letter-spacing:.12em; }
+  .toc:not([open]) > summary { margin-bottom:12px; }
+  .toc:not([open]) > summary::after { content:"Show"; }
+  .toc > summary:focus-visible { outline:2px solid var(--accent); outline-offset:4px; border-radius:3px; }
+  .toc ol { list-style:none; margin:0; padding:0; columns:2 250px; column-gap:32px; }
+  .toc li.g { break-inside:avoid; margin:0 0 16px; }
+  .toc li.g > a { color:var(--text); font-weight:600; font-size:15px; text-decoration:none; }
+  .toc ul { list-style:none; margin:4px 0 0; padding:0; }
+  .toc ul li { margin:3px 0; font-size:14px; line-height:1.45; }
+  .toc ul a { color:var(--muted); text-decoration:none; }
+  .toc a:hover { color:var(--accent); }
+  .toc .badge { font-size:9px; padding:3px 5px 2px; }
+
+  .legend-key { font-size:13.5px; color:var(--muted); margin:0 0 8px; }
+
+  /* Groups and how-tos */
+  h2.group { font-size:26px; font-weight:700; letter-spacing:-.02em; line-height:1.15;
+             margin:64px 0 6px; padding-top:28px; border-top:1px solid var(--border); scroll-margin-top:16px; }
+  .group-intro { margin-bottom:8px; }
+  .howto { margin:34px 0 0; scroll-margin-top:16px; }
+  .howto h3 { font-size:19px; font-weight:650; letter-spacing:-.01em; line-height:1.3; margin:0 0 12px; }
+  .howto h3 a.anchor { color:var(--dim); text-decoration:none; font-weight:400; margin-left:6px; opacity:0; }
+  .howto h3:hover a.anchor, .howto h3 a.anchor:focus-visible { opacity:1; }
+
+  ol.steps { list-style:none; counter-reset:step; margin:0 0 14px; padding:0; }
+  ol.steps > li { counter-increment:step; position:relative; padding:0 0 0 38px; margin:0 0 10px;
+                  color:var(--body); font-size:15.5px; line-height:1.6; }
+  ol.steps > li::before {
+    content:counter(step); position:absolute; left:0; top:1px; width:24px; height:24px; border-radius:50%;
+    background:var(--raised); border:1px solid var(--line); color:var(--accent);
+    font-family:"IBM Plex Mono", ui-monospace, monospace; font-size:12px; font-weight:500;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .tip { background:var(--surface); border:1px solid var(--border); border-left:3px solid var(--accent);
+         border-radius:8px; padding:12px 16px; margin:0 0 14px; color:var(--body); font-size:14.5px; }
+  .tip .mono { color:var(--accent); margin-right:8px; letter-spacing:.14em; }
+  .note { color:var(--body); font-size:14.5px; }
+
+  /* Phone screenshots */
+  figure.shot { margin:22px 0 22px; }
+  .phone {
+    --pr: 34px; --pp: 8px;
+    position:relative; width:100%; max-width:280px;
+    border-radius:var(--pr); padding:var(--pp);
+    background:#090909; border:1px solid #2c2c2c;
+    box-shadow:0 30px 70px -35px rgba(0,0,0,.95), inset 0 0 0 1px rgba(255,255,255,.035);
+  }
+  .phone img { display:block; width:100%; height:auto; border-radius:calc(var(--pr) - var(--pp)); background:var(--surface); }
+  figcaption { color:var(--muted); font-size:13.5px; margin-top:10px; max-width:300px; }
+
+  /* Anatomy */
+  .anatomy { display:grid; grid-template-columns:minmax(0,340px) minmax(0,1fr); gap:28px; align-items:start; margin:24px 0 36px; }
+  .anatomy figure { margin:0; }
+  .anatomy .phone { max-width:340px; }
+  .pinbox { position:relative; }
+  .pin {
+    position:absolute; transform:translate(-50%,-50%); width:22px; height:22px; border-radius:50%;
+    background:var(--accent); color:#fff; border:2px solid #0D0D0D; box-shadow:0 0 0 1px rgba(255,255,255,.25), 0 2px 6px rgba(0,0,0,.6);
+    font-family:"IBM Plex Mono", ui-monospace, monospace; font-size:11px; font-weight:500; line-height:1;
+    display:flex; align-items:center; justify-content:center; pointer-events:none;
+  }
+  ol.legend { list-style:none; margin:0; padding:0; counter-reset:pin; }
+  ol.legend li { counter-increment:pin; position:relative; padding:0 0 0 32px; margin:0 0 9px;
+                 color:var(--body); font-size:14.5px; line-height:1.5; }
+  ol.legend li::before {
+    content:counter(pin); position:absolute; left:0; top:0; width:21px; height:21px; border-radius:50%;
+    background:var(--accent); color:#fff; font-family:"IBM Plex Mono", ui-monospace, monospace;
+    font-size:11px; font-weight:500; display:flex; align-items:center; justify-content:center;
+  }
+  @media (max-width:700px) {
+    .anatomy { grid-template-columns:minmax(0,1fr); gap:20px; }
+    .anatomy .phone { max-width:360px; margin:0 auto; }
+    .anatomy figcaption { margin-left:auto; margin-right:auto; text-align:center; }
+  }
+
+  /* Pro table */
+  .table-wrap { margin:8px 0 14px; border:1px solid var(--border); border-radius:12px; overflow:hidden; }
+  table { width:100%; border-collapse:collapse; font-size:14.5px; }
+  th, td { text-align:left; vertical-align:top; padding:11px 14px; border-bottom:1px solid var(--border); }
+  tr:last-child td { border-bottom:0; }
+  th { background:var(--surface); color:var(--muted); font-weight:500; }
+  td:first-child { color:var(--text); font-weight:500; width:52%; }
+  td { color:var(--muted); }
+
+  /* Prev / next */
+  .pager { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:72px 0 0; }
+  .pager a { display:block; background:var(--surface); border:1px solid var(--border); border-radius:12px;
+             padding:16px 20px; text-decoration:none; color:var(--text); font-weight:600; font-size:16px; }
+  .pager a:hover { border-color:var(--accent); }
+  .pager .mono { display:block; color:var(--muted); margin-bottom:4px; font-weight:500; }
+  .pager .next { text-align:right; grid-column:2; }
+  .allguides { text-align:center; margin:22px 0 0; font-size:14.5px; }
+
+  /* Hub */
+  .search { margin:0 0 22px; }
+  .search label { display:block; color:var(--muted); margin:0 0 10px; }
+  .search input {
+    width:100%; background:var(--surface); color:var(--text); border:1px solid var(--line);
+    border-radius:12px; padding:15px 18px; font:inherit; font-size:16px;
+  }
+  .search input::placeholder { color:var(--dim); }
+  .search input:focus-visible { outline:2px solid var(--accent); outline-offset:2px; border-color:transparent; }
+  #count { color:var(--muted); font-size:13.5px; margin:10px 0 0; min-height:1.4em; }
+  .tour { display:block; text-decoration:none; color:var(--muted); border:1px solid var(--accent); border-radius:14px; padding:22px 24px; margin:0 0 36px; background:linear-gradient(180deg, var(--tint), var(--surface) 70%); }
+  .tour:hover h2 { color:var(--accent); }
+  .tour .mono { color:var(--accent); margin:0 0 8px; }
+  .tour h2 { color:var(--text); font-size:22px; font-weight:700; letter-spacing:-.015em; margin:0 0 6px; }
+  .tour p:last-child { margin:0; font-size:15px; }
+  .cards { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:0 0 56px; }
+  .cards a { display:block; background:var(--surface); border:1px solid var(--border); border-radius:14px;
+             padding:22px 22px 18px; text-decoration:none; transition:border-color .15s ease; }
+  .cards a:hover { border-color:var(--accent); }
+  .cards .mono { color:var(--accent); margin:0 0 8px; }
+  .cards h2 { color:var(--text); font-size:20px; font-weight:700; letter-spacing:-.015em; margin:0 0 6px; }
+  .cards p:last-child { margin:0; font-size:14.5px; }
+  h2.sec { font-size:22px; font-weight:700; letter-spacing:-.02em; margin:0 0 6px; }
+  .all-group { margin:22px 0 0; }
+  .all-group h3 { font-size:15px; font-weight:600; margin:0 0 6px; }
+  .all-group h3 a { color:var(--text); text-decoration:none; }
+  .all-group ul { list-style:none; padding:0; margin:0; columns:2 240px; column-gap:28px; }
+  .all-group li { margin:4px 0; font-size:14.5px; line-height:1.45; break-inside:avoid; }
+  .all-group li a { color:var(--muted); text-decoration:none; }
+  .all-group li a:hover { color:var(--accent); }
+  body.searching .cards, body.searching .browse { display:none; }
+  body.searching .all-group ul { columns:1; }
+
+  footer { border-top:1px solid var(--border); padding:36px 0 52px; }
+  .foot { display:flex; justify-content:space-between; gap:20px; flex-wrap:wrap;
+          max-width:1080px; margin:0 auto; padding:0 24px; }
+  .foot a { color:var(--muted); text-decoration:none; font-size:13.5px; margin-right:22px; }
+  .foot a:hover { color:var(--text); }
+  .copy { color:var(--dim); font-size:12.5px; margin:0; }
+
+  @media (max-width:600px) {
+    .wrap, .bar, .foot { padding-left:16px; padding-right:16px; }
+    main.wrap { padding-top:36px; }
+    .cards { grid-template-columns:1fr; }
+    .toc { padding:18px 18px 6px; }
+    .pager { grid-template-columns:1fr; }
+    .pager .next { grid-column:1; }
+    h2.group { font-size:23px; margin-top:52px; }
+    td:first-child { width:50%; }
+    th, td { padding:10px 12px; }
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header>
+  <div class="bar">
+    <a href="/" class="wordmark"><span>PLA</span>TED</a>
+    <a href="/guide/" class="back">&larr; All guides</a>
+  </div>
+</header>
+
+<main class="wrap" id="main">
+  <p class="mono eyebrow"><a href="/guide/">How to use Plated</a> &nbsp;/&nbsp; Train</p>
+  <h1>Train</h1>
+  <p class="lede">The <b>Train</b> tab is where you start, log and finish workouts. Along the top are three tabs: <b>Workouts</b>, <b>My library</b> and <b>Cardio</b>. Under them, the <b>Units</b> switch sets <b>lb / mi</b> or <b>kg / km</b> for training.</p>
+  <nav aria-label="On this page"><details class="toc" id="toc" open>
+    <summary class="mono">On this page &middot; 44 how-tos</summary>
+    <ol>
+      <li class="g"><a href="#anatomy-of-the-workout-screen">Anatomy of the workout screen</a></li>
+      <li class="g"><a href="#start-a-workout">Start a workout</a>
+        <ul>
+          <li><a href="#find-your-way-around-the-train-tab">Find your way around the Train tab</a></li>
+          <li><a href="#start-an-empty-workout">Start an empty workout</a></li>
+          <li><a href="#start-from-a-saved-workout-or-a-built-in-split">Start from a saved workout or a built-in split</a></li>
+          <li><a href="#build-a-template-without-starting-a-workout">Build a template without starting a workout</a></li>
+          <li><a href="#save-the-workout-you-re-doing-as-a-template">Save the workout you’re doing as a template</a></li>
+        </ul>
+      </li>
+      <li class="g"><a href="#exercises">Exercises</a>
+        <ul>
+          <li><a href="#add-exercises">Add exercises</a></li>
+          <li><a href="#create-a-custom-exercise">Create a custom exercise</a></li>
+          <li><a href="#edit-an-exercise">Edit an exercise</a></li>
+          <li><a href="#read-the-exercise-card">Read the exercise card</a></li>
+          <li><a href="#pick-the-machine-you-re-on">Pick the machine you’re on</a></li>
+          <li><a href="#switch-between-both-sides-and-one-side">Switch between Both sides and One side</a></li>
+          <li><a href="#make-a-superset">Make a superset</a></li>
+          <li><a href="#replace-remove-or-reorder-exercises">Replace, remove or reorder exercises</a></li>
+          <li><a href="#log-an-assisted-exercise">Log an assisted exercise</a></li>
+        </ul>
+      </li>
+      <li class="g"><a href="#sets-timers-and-live-tools">Sets, timers and live tools</a>
+        <ul>
+          <li><a href="#log-sets">Log sets</a></li>
+          <li><a href="#change-a-set-s-type">Change a set’s type</a></li>
+          <li><a href="#add-a-note-to-an-exercise">Add a note to an exercise</a></li>
+          <li><a href="#use-the-next-suggestion">Use the Next suggestion</a> <span class="badge badge-pro" title="Needs Plated Pro">PRO</span></li>
+          <li><a href="#use-the-rest-timer">Use the rest timer</a></li>
+          <li><a href="#adjust-the-workout-clock">Adjust the workout clock</a></li>
+          <li><a href="#minimise-the-workout">Minimise the workout</a></li>
+          <li><a href="#use-the-lock-screen-and-dynamic-island">Use the Lock Screen and Dynamic Island</a> <span class="badge badge-ios" title="In the iPhone app only">iPhone only</span></li>
+          <li><a href="#connect-heart-rate">Connect heart rate</a> <span class="badge badge-pro" title="Needs Plated Pro">PRO</span></li>
+        </ul>
+      </li>
+      <li class="g"><a href="#cardio-and-gps">Cardio and GPS</a>
+        <ul>
+          <li><a href="#log-cardio">Log cardio</a></li>
+          <li><a href="#track-a-run-walk-or-ride-with-gps">Track a run, walk or ride with GPS</a></li>
+          <li><a href="#see-splits-and-elevation">See splits and elevation</a></li>
+        </ul>
+      </li>
+      <li class="g"><a href="#finish-and-save">Finish and save</a>
+        <ul>
+          <li><a href="#finish-a-workout">Finish a workout</a></li>
+          <li><a href="#post-or-save-the-finished-workout">Post or save the finished workout</a></li>
+          <li><a href="#how-prs-work">How PRs work</a></li>
+          <li><a href="#discard-a-workout">Discard a workout</a></li>
+        </ul>
+      </li>
+      <li class="g"><a href="#history-and-clean-up">History and clean-up</a>
+        <ul>
+          <li><a href="#view-an-exercise-s-history">View an exercise’s history</a></li>
+          <li><a href="#edit-a-past-workout">Edit a past workout</a></li>
+          <li><a href="#merge-duplicate-exercises">Merge duplicate exercises</a></li>
+        </ul>
+      </li>
+      <li class="g"><a href="#stickers">Stickers</a>
+        <ul>
+          <li><a href="#make-a-sticker-when-you-finish-a-workout">Make a sticker when you finish a workout</a></li>
+          <li><a href="#make-a-sticker-from-a-post-you-shared">Make a sticker from a post you shared</a></li>
+          <li><a href="#set-up-a-run-sticker">Set up a run sticker</a></li>
+          <li><a href="#set-up-a-pr-sticker">Set up a PR sticker</a></li>
+          <li><a href="#set-up-a-workout-sticker">Set up a workout sticker</a> <span class="badge badge-pro" title="Needs Plated Pro">PRO</span></li>
+          <li><a href="#set-up-an-exercise-or-set-sticker">Set up an exercise or set sticker</a> <span class="badge badge-pro" title="Needs Plated Pro">PRO</span></li>
+          <li><a href="#save-or-share-a-sticker">Save or share a sticker</a></li>
+        </ul>
+      </li>
+      <li class="g"><a href="#plate-calculator">Plate calculator</a>
+        <ul>
+          <li><a href="#use-the-plate-calculator">Use the plate calculator</a> <span class="badge badge-pro" title="Needs Plated Pro">PRO</span></li>
+          <li><a href="#set-up-your-bar-collars-and-plates">Set up your bar, collars and plates</a> <span class="badge badge-pro" title="Needs Plated Pro">PRO</span></li>
+        </ul>
+      </li>
+      <li class="g"><a href="#move-your-history">Move your history</a>
+        <ul>
+          <li><a href="#import-your-history-from-hevy-strong-or-another-app">Import your history from Hevy, Strong or another app</a></li>
+          <li><a href="#export-your-workouts-as-a-csv">Export your workouts as a CSV</a></li>
+        </ul>
+      </li>
+    </ol>
+  </details></nav>
+  <script>if (window.matchMedia && matchMedia('(max-width:600px)').matches) document.getElementById('toc').open = false;</script>
+  <p class="legend-key"><span class="badge badge-pro" title="Needs Plated Pro">PRO</span> needs Plated Pro. &nbsp;<span class="badge badge-ios" title="In the iPhone app only">iPhone only</span> works in the iPhone app but not on the web.</p>
+
+  <h2 class="group" id="anatomy-of-the-workout-screen">Anatomy of the workout screen</h2>
+  <p class="group-intro">Here’s what each control on a running workout does. The numbers match the list beside the picture.</p>
+  <div class="anatomy">
+    <figure>
+      <div class="phone"><div class="pinbox">
+        <img src="/assets/guide/workout-screen.png" alt="A workout in progress called Truff Hammies &amp; Arms: the timer at 0:25:42, 0 lbs moved, 77 bpm heart rate and 0 of 35 sets, Save template and Finish buttons, Discard workout, the Rest between sets row set to Off, and a Leg Curl exercise card with Machine, Both sides, One side and Plates chips, a “Next: 135 lbs × 11” suggestion and a table of warm-up, normal and failure sets." width="600" height="1229" loading="lazy">
+        <span class="pin" style="left:27.1%;top:2.9%" aria-hidden="true">1</span>
+        <span class="pin" style="left:86.7%;top:8.2%" aria-hidden="true">2</span>
+        <span class="pin" style="left:80.2%;top:15.9%" aria-hidden="true">3</span>
+        <span class="pin" style="left:65%;top:21.4%" aria-hidden="true">4</span>
+        <span class="pin" style="left:13%;top:28.8%" aria-hidden="true">5</span>
+        <span class="pin" style="left:86.7%;top:28.8%" aria-hidden="true">6</span>
+        <span class="pin" style="left:31.4%;top:33.1%" aria-hidden="true">7</span>
+        <span class="pin" style="left:78%;top:39.2%" aria-hidden="true">8</span>
+        <span class="pin" style="left:80.2%;top:45.5%" aria-hidden="true">9</span>
+        <span class="pin" style="left:7.6%;top:49.7%" aria-hidden="true">10</span>
+        <span class="pin" style="left:50.9%;top:51.7%" aria-hidden="true">11</span>
+        <span class="pin" style="left:75.5%;top:49.7%" aria-hidden="true">12</span>
+        <span class="pin" style="left:83.6%;top:49.7%" aria-hidden="true">13</span>
+        <span class="pin" style="left:91.9%;top:49.7%" aria-hidden="true">14</span>
+        <span class="pin" style="left:8.1%;top:58.2%" aria-hidden="true">15</span>
+        <span class="pin" style="left:51.1%;top:56.3%" aria-hidden="true">16</span>
+        <span class="pin" style="left:74.8%;top:58.2%" aria-hidden="true">17</span>
+        <span class="pin" style="left:9%;top:63%" aria-hidden="true">18</span>
+        <span class="pin" style="left:12.5%;top:68.5%" aria-hidden="true">19</span>
+        <span class="pin" style="left:53.1%;top:70.4%" aria-hidden="true">20</span>
+        <span class="pin" style="left:91.3%;top:70.4%" aria-hidden="true">21</span>
+        <span class="pin" style="left:90.5%;top:85.4%" aria-hidden="true">22</span>
+      </div></div>
+      <figcaption>A workout in progress.</figcaption>
+    </figure>
+    <ol class="legend" aria-label="A workout in progress. Numbered controls">
+      <li>Swipe down on this bar (or tap it) to minimise the workout. The timer keeps running.</li>
+      <li>The workout’s name. Tap it to rename the workout.</li>
+      <li>The workout clock. Tap it to adjust the time. Under it: lbs moved, heart rate and sets done.</li>
+      <li>Heart rate <span class="badge badge-pro">PRO</span>. Tap the number for a chart; the Bluetooth icon looks for a strap.</li>
+      <li><b>Save template</b> saves this workout to My library. The workout keeps going.</li>
+      <li><b>Finish</b> wraps up and opens the share screen.</li>
+      <li><b>Discard workout</b> throws the session away.</li>
+      <li><b>Rest between sets</b>: a countdown that starts each time you tick a set.</li>
+      <li><b>Add</b> opens the exercise picker.</li>
+      <li>The six dots: tap to reorder your exercises.</li>
+      <li>The exercise’s name: tap it to open its history (below).</li>
+      <li>Link: group exercises into a superset.</li>
+      <li>Arrows: replace this exercise with another.</li>
+      <li><b>•••</b>: <b>Muscles</b> (edit the exercise) or <b>Remove from workout</b>.</li>
+      <li><b>Machine</b>: pick the machine you’re on. Each keeps its own history and PRs.</li>
+      <li><b>Both sides</b> | <b>One side</b>: is the weight you enter the total, or one side?</li>
+      <li><b>Plates</b> <span class="badge badge-pro">PRO</span>: what to load on the bar for your next set.</li>
+      <li><b>Next:</b> <span class="badge badge-pro">PRO</span>: tap to fill your unticked sets with the suggested weight and reps.</li>
+      <li>Set type: tap to switch between <b>N</b> normal, <b>W</b> warm-up, <b>F</b> failure and <b>D</b> drop set.</li>
+      <li>Type the weight and reps for each set.</li>
+      <li>Tap the circle to tick the set. It starts the rest timer if it’s on.</li>
+      <li><b>?</b> explains the icons on the exercise card.</li>
+    </ol>
+  </div>
+  <div class="anatomy">
+    <figure>
+      <div class="phone"><div class="pinbox">
+        <img src="/assets/guide/exercise-history.png" alt="The history of Leg Curl: a PR of 135 lbs, chart tabs for Max weight, Est. 1RM, Best set and Session vol, this session’s seven sets, a line chart of max weight since July with one point highlighted at 120 lbs on 10/1, and a table of sessions with the best one starred." width="600" height="1229" loading="lazy">
+        <span class="pin" style="left:13%;top:3.3%" aria-hidden="true">1</span>
+        <span class="pin" style="left:34.7%;top:9.5%" aria-hidden="true">2</span>
+        <span class="pin" style="left:4.3%;top:13.8%" aria-hidden="true">3</span>
+        <span class="pin" style="left:39%;top:21.9%" aria-hidden="true">4</span>
+        <span class="pin" style="left:32.5%;top:57.7%" aria-hidden="true">5</span>
+        <span class="pin" style="left:93.7%;top:93.7%" aria-hidden="true">6</span>
+      </div></div>
+      <figcaption>An exercise’s history. Tap the exercise’s name to get here.</figcaption>
+    </figure>
+    <ol class="legend" aria-label="An exercise’s history. Tap the exercise’s name to get here. Numbered controls">
+      <li>‹ goes back to the workout.</li>
+      <li>Your PR for the chart you’re looking at.</li>
+      <li>Chart tabs: <b>Max weight</b>, <b>Est. 1RM</b> <span class="badge badge-pro">PRO</span>, <b>Best set</b>, <b>Session vol</b> and <b>Total reps</b>. Swipe the row for more.</li>
+      <li>The sets you’ve done in this session.</li>
+      <li>The chart. Drag across it to read each point.</li>
+      <li>Every session, best one starred. Tap one to see its sets, and <b>Edit workout</b> to fix it.</li>
+    </ol>
+  </div>
+
+  <h2 class="group" id="start-a-workout">Start a workout</h2>
+  <section class="howto" id="find-your-way-around-the-train-tab" aria-labelledby="find-your-way-around-the-train-tab-h">
+    <h3 id="find-your-way-around-the-train-tab-h">Find your way around the Train tab<a class="anchor" href="#find-your-way-around-the-train-tab" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li><b>My library</b> has <b>Create blank workout</b>, <b>Start cardio session</b>, <b>Create template</b>, <b>Browse exercises</b> and <b>Plate calculator</b>.</li>
+      <li>Under those, <b>Your saved workouts</b> lists your workouts. Each card is marked <b>My template</b> or <b>Community</b> (saved from someone’s post).</li>
+      <li>Cards are sorted by when you last did them. Ones you’ve never done go to the bottom.</li>
+      <li><b>Workouts</b> lists Plated’s built-in splits, each with a <b>Start</b> button, and a search box.</li>
+      <li><b>Cardio</b> lists every run, walk, ride and row you’ve logged.</li>
+    </ol>
+    <p class="tip"><span class="mono">Tip</span>Free accounts keep 4 saved workouts in My library. Workouts saved from the feed don’t count toward the four. Pro has no limit.</p>
+  </section>
+  <section class="howto" id="start-an-empty-workout" aria-labelledby="start-an-empty-workout-h">
+    <h3 id="start-an-empty-workout-h">Start an empty workout<a class="anchor" href="#start-an-empty-workout" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>Tap <b>Create blank workout</b>. The timer starts right away.</li>
+      <li>Type a name in <b>Name your workout</b> and tap <b>Set name</b>, or tap <b>Skip</b>.</li>
+      <li>The exercise picker opens. Tap an exercise to add it.</li>
+      <li>To rename the workout later, tap the name line at the top of the workout.</li>
+    </ol>
+    <p class="tip"><span class="mono">Tip</span>If a workout is already running, <b>Start New Workout?</b> asks first. <b>Start New Workout</b> ends the current one without saving it.</p>
+  </section>
+  <section class="howto" id="start-from-a-saved-workout-or-a-built-in-split" aria-labelledby="start-from-a-saved-workout-or-a-built-in-split-h">
+    <h3 id="start-from-a-saved-workout-or-a-built-in-split-h">Start from a saved workout or a built-in split<a class="anchor" href="#start-from-a-saved-workout-or-a-built-in-split" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>On <b>My library</b>, tap <b>Use</b> on a saved workout. Or on <b>Workouts</b>, tap <b>Start</b> on a split.</li>
+      <li>The workout opens with its exercises in place.</li>
+      <li>Each exercise starts from the sets you did last time, or the template’s sets if it’s new to you. Weights carry over and ticks are cleared.</li>
+      <li>Notes and the <b>Both sides</b> / <b>One side</b> setting carry over from last time too.</li>
+    </ol>
+  </section>
+  <section class="howto" id="build-a-template-without-starting-a-workout" aria-labelledby="build-a-template-without-starting-a-workout-h">
+    <h3 id="build-a-template-without-starting-a-workout-h">Build a template without starting a workout<a class="anchor" href="#build-a-template-without-starting-a-workout" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>Tap <b>Create template</b>. No timer starts.</li>
+      <li>Name it, then add exercises. The picker stays open so you can keep adding. Tap <b>X</b> when you’re done.</li>
+      <li>Tap <b>Save template</b>, check the name and tap <b>Save</b>. It appears in My library.</li>
+      <li>To delete a template, tap <b>Delete</b> on its card in My library, then <b>Delete</b> again. For a Community workout the button is <b>Remove</b>.</li>
+    </ol>
+  </section>
+  <section class="howto" id="save-the-workout-you-re-doing-as-a-template" aria-labelledby="save-the-workout-you-re-doing-as-a-template-h">
+    <h3 id="save-the-workout-you-re-doing-as-a-template-h">Save the workout you’re doing as a template<a class="anchor" href="#save-the-workout-you-re-doing-as-a-template" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>Mid-workout, tap <b>Save template</b> in the timer card at the top.</li>
+      <li>Name it and tap <b>Save</b>. The workout keeps running.</li>
+    </ol>
+    <p class="tip"><span class="mono">Tip</span>A free account with 4 templates sees <b>Template limit reached</b>, with <b>Go to My Library</b> to make room, or <b>See Pro</b>.</p>
+  </section>
+
+  <h2 class="group" id="exercises">Exercises</h2>
+  <section class="howto" id="add-exercises" aria-labelledby="add-exercises-h">
+    <h3 id="add-exercises-h">Add exercises<a class="anchor" href="#add-exercises" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>In a workout, tap <b>Add</b> next to <b>Exercises</b>, or <b>Add exercise</b> at the bottom of the list.</li>
+      <li>Search with “Search exercises...”. Cardio matches words like “bike”, “jog” or “outdoor gps”.</li>
+      <li>Or tap a chip to filter: <b>All</b>, <b>Cardio</b>, or a muscle such as <b>Chest</b>, <b>Lats</b> or <b>Quads</b>.</li>
+      <li>Tap a tile to add it. Exercises already in the workout show <b>✓ Added</b>.</li>
+    </ol>
+    <p class="tip"><span class="mono">Tip</span>Press and hold a tile to see its photo larger.</p>
+  </section>
+  <section class="howto" id="create-a-custom-exercise" aria-labelledby="create-a-custom-exercise-h">
+    <h3 id="create-a-custom-exercise-h">Create a custom exercise<a class="anchor" href="#create-a-custom-exercise" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>In the picker, tap <b>Create custom exercise</b> (or <b>Can’t find it? Add custom exercise</b> at the bottom).</li>
+      <li>Fill in <b>Exercise name</b>, and add a <b>Photo</b> if you like.</li>
+      <li>Choose a <b>Primary muscle group</b>, and any <b>Secondary muscles</b>. These feed the muscle heatmap.</li>
+      <li>Tick <b>Bodyweight exercise</b> (what you log is added to your bodyweight) or <b>Assisted exercise</b> (what you log is the help you got). Or neither.</li>
+      <li>Tap <b>Add to workout</b>. If you already have one with a similar name, <b>Already In Your Library</b> lets you use that instead.</li>
+    </ol>
+  </section>
+  <section class="howto" id="edit-an-exercise" aria-labelledby="edit-an-exercise-h">
+    <h3 id="edit-an-exercise-h">Edit an exercise<a class="anchor" href="#edit-an-exercise" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>Tap the small pencil on a tile in the picker. Or tap <b>Browse exercises</b> in My library, or <b>•••</b> → <b>Muscles</b> on an exercise card.</li>
+      <li>On <b>Edit exercise</b>, change the <b>Exercise name</b>, muscles, <b>Bodyweight exercise</b> or <b>Assisted exercise</b>. A new name applies across your history.</li>
+      <li><b>Max weight, logged one side</b> sets how one-side sessions count toward PRs: <b>One side</b> or <b>Both sides added</b>.</li>
+      <li>Tap <b>Save</b>.</li>
+    </ol>
+  </section>
+  <section class="howto" id="read-the-exercise-card" aria-labelledby="read-the-exercise-card-h">
+    <h3 id="read-the-exercise-card-h">Read the exercise card<a class="anchor" href="#read-the-exercise-card" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>The header shows a reorder handle, the photo, the name (tap it for history) and a line like “2/6 sets · 1,830 lbs”.</li>
+      <li>On the right are three icons: link (superset), swap (replace) and <b>•••</b>.</li>
+      <li>Under the header is one row of chips: <b>Machine</b>, <b>Both sides</b> | <b>One side</b>, and <b>Plates</b>. Cardio cards show <b>History</b> instead.</li>
+      <li>Tap the photo to see it larger, or to add your own with <b>Take photo</b> or <b>Choose photo</b>.</li>
+    </ol>
+  </section>
+  <section class="howto" id="pick-the-machine-you-re-on" aria-labelledby="pick-the-machine-you-re-on-h">
+    <h3 id="pick-the-machine-you-re-on-h">Pick the machine you’re on<a class="anchor" href="#pick-the-machine-you-re-on" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>Tap <b>Machine</b> on the exercise card.</li>
+      <li>Pick from <b>YOUR MACHINES</b> or <b>BRANDS</b>, or type a name under “Another machine” and tap <b>Add</b>. <b>No specific machine</b> clears it.</li>
+      <li>The exercise gets its own history, PRs and charts for that machine. If you haven’t ticked sets yet, it loads that machine’s last sets.</li>
+      <li>For a new machine, Plated asks if you want to <b>Add photo</b>.</li>
+    </ol>
+  </section>
+  <section class="howto" id="switch-between-both-sides-and-one-side" aria-labelledby="switch-between-both-sides-and-one-side-h">
+    <h3 id="switch-between-both-sides-and-one-side-h">Switch between Both sides and One side<a class="anchor" href="#switch-between-both-sides-and-one-side" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>On the exercise card, tap <b>Both sides</b> (the weight you enter is the total) or <b>One side</b> (the weight is for one side, and volume counts it twice).</li>
+      <li>The first time, Plated asks how one-side sessions should count for max weight and PRs: <b>One side</b> or <b>Both sides added</b>. <b>Not now</b> asks again next time.</li>
+      <li>Change your answer any time in <b>Edit exercise</b>.</li>
+    </ol>
+    <p class="tip"><span class="mono">Tip</span>Next time, the exercise starts on whichever setting you used last.</p>
+  </section>
+  <section class="howto" id="make-a-superset" aria-labelledby="make-a-superset-h">
+    <h3 id="make-a-superset-h">Make a superset<a class="anchor" href="#make-a-superset" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>Tap the link icon on one of the exercises.</li>
+      <li>Tick the exercises to group and tap <b>Done</b>.</li>
+      <li>Grouped exercises get a matching coloured <b>Superset</b> badge. To take one out, open the sheet again and untick it.</li>
+    </ol>
+  </section>
+  <section class="howto" id="replace-remove-or-reorder-exercises" aria-labelledby="replace-remove-or-reorder-exercises-h">
+    <h3 id="replace-remove-or-reorder-exercises-h">Replace, remove or reorder exercises<a class="anchor" href="#replace-remove-or-reorder-exercises" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li><b>Replace:</b> tap the swap icon and pick the new exercise. It keeps the same place.</li>
+      <li><b>Remove:</b> tap <b>•••</b> → <b>Remove from workout</b>, then <b>Remove</b>.</li>
+      <li><b>Reorder:</b> tap the six-dot handle on any card. Drag the rows into order and tap <b>Done</b>.</li>
+    </ol>
+  </section>
+  <section class="howto" id="log-an-assisted-exercise" aria-labelledby="log-an-assisted-exercise-h">
+    <h3 id="log-an-assisted-exercise-h">Log an assisted exercise<a class="anchor" href="#log-an-assisted-exercise" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>Add <b>Assisted Pull Up</b> (under <b>Lats</b>), or your own exercise marked <b>Assisted exercise</b>.</li>
+      <li>The weight column reads <b>assist lbs</b>. Enter the machine’s help as a positive number.</li>
+      <li>Needing less help counts as progress. The PR is <b>Least assist</b>.</li>
+    </ol>
+  </section>
+
+  <h2 class="group" id="sets-timers-and-live-tools">Sets, timers and live tools</h2>
+  <section class="howto" id="log-sets" aria-labelledby="log-sets-h">
+    <h3 id="log-sets-h">Log sets<a class="anchor" href="#log-sets" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>Each row has <b>Type</b>, <b>#</b>, the weight (<b>lbs</b> or <b>kg</b>), <b>reps</b> and <b>✓</b>.</li>
+      <li>Type the weight and reps. On iPhone, <b>Done</b> above the number pad closes the keyboard.</li>
+      <li>Tap the circle at the end of the row to tick the set. Tap the <b>✓</b> heading to tick every set.</li>
+      <li>Tap <b>Add set</b> to add a row that copies the last set.</li>
+      <li>To delete a set, swipe the row left and tap the red bin.</li>
+    </ol>
+    <p class="tip"><span class="mono">Tip</span>A number far above your previous best gets a <b>Big Jump Detected</b> check, to catch typos.</p>
+  </section>
+  <section class="howto" id="change-a-set-s-type" aria-labelledby="change-a-set-s-type-h">
+    <h3 id="change-a-set-s-type-h">Change a set’s type<a class="anchor" href="#change-a-set-s-type" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>Tap the coloured letter at the start of the row. New sets start as <b>N</b>.</li>
+      <li>Choose <b>Normal</b> (N), <b>Warm-up</b> (W), <b>Failure</b> (F) or <b>Drop set</b> (D).</li>
+      <li>The badge changes colour: grey N, blue W, red F, amber D.</li>
+    </ol>
+  </section>
+  <section class="howto" id="add-a-note-to-an-exercise" aria-labelledby="add-a-note-to-an-exercise-h">
+    <h3 id="add-a-note-to-an-exercise-h">Add a note to an exercise<a class="anchor" href="#add-a-note-to-an-exercise" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>Tap <b>Note</b> next to <b>Add set</b>.</li>
+      <li>Type in “Session notes...”. It’s saved with this exercise.</li>
+      <li>Next time you do the exercise, your last note is there for you.</li>
+    </ol>
+  </section>
+  <section class="howto" id="use-the-next-suggestion" aria-labelledby="use-the-next-suggestion-h">
+    <h3 id="use-the-next-suggestion-h">Use the Next suggestion <span class="badge badge-pro" title="Needs Plated Pro">PRO</span><a class="anchor" href="#use-the-next-suggestion" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>A lift with history shows <b>Next: 240 lbs × 9</b> (for example), with a short reason underneath.</li>
+      <li>Tap it to copy those numbers into every unticked set.</li>
+      <li>The suggestion updates as you tick sets.</li>
+    </ol>
+  </section>
+  <section class="howto" id="use-the-rest-timer" aria-labelledby="use-the-rest-timer-h">
+    <h3 id="use-the-rest-timer-h">Use the rest timer<a class="anchor" href="#use-the-rest-timer" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>Tap <b>Rest between sets</b> under the timer card. It’s off to start with.</li>
+      <li>Choose a time from <b>30s</b> to <b>5:00</b>. One setting covers the whole workout, and it’s saved with the template.</li>
+      <li>Tick a set and a countdown bar appears near the bottom.</li>
+      <li>Tap <b>+15s</b> to add time (it’s remembered), or <b>Skip</b> to end the rest.</li>
+      <li>When the rest ends, the phone vibrates. With notifications on, you also get <b>Rest complete</b>.</li>
+    </ol>
+  </section>
+  <section class="howto" id="adjust-the-workout-clock" aria-labelledby="adjust-the-workout-clock-h">
+    <h3 id="adjust-the-workout-clock-h">Adjust the workout clock<a class="anchor" href="#adjust-the-workout-clock" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>Tap the big timer (it has a pencil icon).</li>
+      <li>In <b>Adjust workout time</b>, set <b>Hours</b> and <b>Minutes</b> and tap <b>Confirm</b>.</li>
+      <li>If you come back 30 minutes or more after leaving, <b>Welcome back</b> offers <b>Set workout length</b> or <b>Keep the timer running</b>.</li>
+    </ol>
+  </section>
+  <section class="howto" id="minimise-the-workout" aria-labelledby="minimise-the-workout-h">
+    <h3 id="minimise-the-workout-h">Minimise the workout<a class="anchor" href="#minimise-the-workout" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>Swipe down on the bar at the top of the workout, or tap it.</li>
+      <li>A <b>WORKOUT IN PROGRESS</b> bar with the timer stays at the bottom. Tap it to reopen the workout.</li>
+      <li>Switching tabs minimises the workout too. The timer keeps running.</li>
+    </ol>
+    <p class="tip"><span class="mono">Tip</span>Your workout is saved as you go. If the app closes, it comes back with your sets and timer.</p>
+  </section>
+  <section class="howto" id="use-the-lock-screen-and-dynamic-island" aria-labelledby="use-the-lock-screen-and-dynamic-island-h">
+    <h3 id="use-the-lock-screen-and-dynamic-island-h">Use the Lock Screen and Dynamic Island <span class="badge badge-ios" title="In the iPhone app only">iPhone only</span><a class="anchor" href="#use-the-lock-screen-and-dynamic-island" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>Start any workout. A Live Activity shows the workout name, sets done, the timer and your heart rate if it’s coming in.</li>
+      <li>On iOS 17 or later, the next set appears with its weight × reps. Tap <b>SET DONE</b> to tick it without opening Plated.</li>
+      <li>While you rest, the countdown shows instead. During a GPS session you get <b>PAUSE</b> and <b>RESUME</b>.</li>
+    </ol>
+    <p class="tip"><span class="mono">Tip</span>Live Activities need iOS 16.2 or later, with Live Activities turned on for Plated.</p>
+  </section>
+  <section class="howto" id="connect-heart-rate" aria-labelledby="connect-heart-rate-h">
+    <h3 id="connect-heart-rate-h">Connect heart rate <span class="badge badge-pro" title="Needs Plated Pro">PRO</span><a class="anchor" href="#connect-heart-rate" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>Start a workout. The middle stat in the timer card is heart rate.</li>
+      <li>Tap <b>Enable HR</b> to use Apple Health, or <b>Connect HR</b> to find a Bluetooth chest strap, watch or band. It searches for up to 30 seconds.</li>
+      <li>Garmin or WHOOP: turn on Broadcast Heart Rate first. Apple Watch: start a workout on the Watch itself.</li>
+      <li>Once connected, tap the BPM to open a <b>Heart rate this workout</b> chart.</li>
+    </ol>
+    <p class="tip"><span class="mono">Tip</span>Heart rate works in the phone app, not on the web.</p>
+  </section>
+
+  <h2 class="group" id="cardio-and-gps">Cardio and GPS</h2>
+  <section class="howto" id="log-cardio" aria-labelledby="log-cardio-h">
+    <h3 id="log-cardio-h">Log cardio<a class="anchor" href="#log-cardio" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>Tap <b>Start cardio session</b> and pick a type from <b>Recent</b>, <b>Outdoor</b> or <b>Indoor & machines</b>.</li>
+      <li>Indoor types, such as Treadmill or Rowing Machine, start a timed session straight away.</li>
+      <li>Outdoor types ask <b>How should we track it?</b>: <b>Track with GPS</b> or <b>Just time it</b>.</li>
+      <li>On an indoor card, <b>Time · auto</b> follows the workout clock until you change it. Fill in distance and the machine setting where they apply.</li>
+      <li>Tap the circle to tick it.</li>
+    </ol>
+    <p class="tip"><span class="mono">Tip</span>You can add cardio to any workout from the picker’s <b>Cardio</b> chip.</p>
+  </section>
+  <section class="howto" id="track-a-run-walk-or-ride-with-gps" aria-labelledby="track-a-run-walk-or-ride-with-gps-h">
+    <h3 id="track-a-run-walk-or-ride-with-gps-h">Track a run, walk or ride with GPS<a class="anchor" href="#track-a-run-walk-or-ride-with-gps" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>On an outdoor cardio card, tap <b>Start run (GPS)</b> (or walk, ride, hike). Allow location when asked.</li>
+      <li>The map shows distance, time, pace, speed, max speed and elevation climbed.</li>
+      <li>Tap <b>Pause</b> and <b>Resume</b> as you need. Tap <b>Back to workout</b> to log sets while GPS keeps recording.</li>
+      <li>Tap <b>Stop ride</b> (or run, walk), then <b>Finish Ride</b>.</li>
+      <li>Afterwards, <b>Continue ride</b> adds a new leg to the same ride. Handy for riding to the gym and home again.</li>
+    </ol>
+    <p class="tip"><span class="mono">Tip</span>Choose “Always” for location so tracking carries on with the phone locked. GPS tracking is free.</p>
+  </section>
+  <section class="howto" id="see-splits-and-elevation" aria-labelledby="see-splits-and-elevation-h">
+    <h3 id="see-splits-and-elevation-h">See splits and elevation<a class="anchor" href="#see-splits-and-elevation" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>On the <b>Cardio</b> tab, tap <b>Splits</b> on a recorded session.</li>
+      <li>Or tap a cardio exercise’s <b>History</b> chip in a workout. You’ll see <b>Longest</b>, <b>Best pace</b>, a table of sessions, route maps and splits.</li>
+      <li>Elevation climbed shows on the live map and the finish screen.</li>
+    </ol>
+  </section>
+
+  <h2 class="group" id="finish-and-save">Finish and save</h2>
+  <section class="howto" id="finish-a-workout" aria-labelledby="finish-a-workout-h">
+    <h3 id="finish-a-workout-h">Finish a workout<a class="anchor" href="#finish-a-workout" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>Tap <b>Finish</b> in the timer card, or <b>Finish workout</b> at the bottom.</li>
+      <li><b>Workout complete</b> shows the time, weight lifted and sets. Tap the time to adjust it.</li>
+      <li>Started from a template? Choose <b>Log & update template</b> or <b>Log, keep original template</b>. From a Community workout, <b>Log & save as my template</b> makes it yours. A blank workout shows <b>Log workout</b>.</li>
+      <li>The share screen opens next. Nothing is saved to your history until you choose <b>Post to feed</b> or <b>Finish without posting</b>.</li>
+    </ol>
+  </section>
+  <section class="howto" id="post-or-save-the-finished-workout" aria-labelledby="post-or-save-the-finished-workout-h">
+    <h3 id="post-or-save-the-finished-workout-h">Post or save the finished workout<a class="anchor" href="#post-or-save-the-finished-workout" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>Check your stats at the top of the share screen.</li>
+      <li>Turn on <b>Show heart rate on the post</b> or <b>Show route on the post</b> if you want followers to see them. Both start off.</li>
+      <li>Write a caption, and add up to 5 photos or a video of up to 90 seconds.</li>
+      <li>Tap <b>Post to feed</b>, or <b>Finish without posting</b> to save it to your history only.</li>
+      <li><b>Save for later</b> takes you back to the workout, unchanged.</li>
+    </ol>
+    <p class="tip"><span class="mono">Tip</span>When you share a route, the first and last 200 m (650 ft) are hidden so your start point stays private.</p>
+  </section>
+  <section class="howto" id="how-prs-work" aria-labelledby="how-prs-work-h">
+    <h3 id="how-prs-work-h">How PRs work<a class="anchor" href="#how-prs-work" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>When you tick a set that beats your past sessions, a <b>New PR!</b> card pops up: <b>Max weight</b>, <b>Max reps</b>, <b>Best set</b>, <b>Session vol</b> or <b>Least assist</b>.</li>
+      <li>When you save the workout, its PRs go onto the post.</li>
+      <li>An exercise’s first-ever session counts as a PR on the post, so a new machine gets its record on day one.</li>
+    </ol>
+  </section>
+  <section class="howto" id="discard-a-workout" aria-labelledby="discard-a-workout-h">
+    <h3 id="discard-a-workout-h">Discard a workout<a class="anchor" href="#discard-a-workout" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>Tap <b>Discard workout</b> under <b>Finish</b>.</li>
+      <li>Tap <b>Discard</b> to throw it away, or <b>Keep Going</b>.</li>
+    </ol>
+    <p class="tip"><span class="mono">Tip</span>From the share screen, tap <b>X</b>, then <b>Delete Workout</b>.</p>
+  </section>
+
+  <h2 class="group" id="history-and-clean-up">History and clean-up</h2>
+  <section class="howto" id="view-an-exercise-s-history" aria-labelledby="view-an-exercise-s-history-h">
+    <h3 id="view-an-exercise-s-history-h">View an exercise’s history<a class="anchor" href="#view-an-exercise-s-history" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>In a workout, tap the exercise’s name.</li>
+      <li>Pick a chart: <b>Max weight</b>, <b>Est. 1RM</b> (Pro), <b>Best set</b>, <b>Session vol</b> or <b>Total reps</b>. Drag across the chart to read each point.</li>
+      <li>In the table below, tap a session to see its sets.</li>
+    </ol>
+    <p class="tip"><span class="mono">Tip</span>Free accounts chart the last 7 days and list the last 60. Older sessions aren’t deleted; Plated Pro shows them all.</p>
+  </section>
+  <section class="howto" id="edit-a-past-workout" aria-labelledby="edit-a-past-workout-h">
+    <h3 id="edit-a-past-workout-h">Edit a past workout<a class="anchor" href="#edit-a-past-workout" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>In a workout, tap an exercise’s name (or its <b>History</b> chip for cardio).</li>
+      <li>Tap a past session, then <b>Edit workout</b>.</li>
+      <li>Change any weight or reps. Changed boxes are outlined in orange. Tap the bin to take a set out.</li>
+      <li>Tap <b>Save changes</b>. Your charts and PRs update. A post you already shared keeps its original numbers.</li>
+    </ol>
+    <p class="tip"><span class="mono">Tip</span>To delete a whole workout, open it under <b>Profile</b> → <b>Workouts</b>. Only workouts you never posted have <b>Delete</b> there.</p>
+  </section>
+  <section class="howto" id="merge-duplicate-exercises" aria-labelledby="merge-duplicate-exercises-h">
+    <h3 id="merge-duplicate-exercises-h">Merge duplicate exercises<a class="anchor" href="#merge-duplicate-exercises" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>Go to <b>Profile</b> → <b>☰</b> → <b>Settings</b>. Under <b>App</b>, tap <b>Duplicate exercises</b>. It only appears when Plated spots one.</li>
+      <li>Each card pairs two names: <b>Keep</b> and <b>Merge in</b>. Tap <b>Swap</b> to keep the other name.</li>
+      <li>Tap <b>Merge</b> and confirm. Every set moves to the name you keep. This can’t be undone.</li>
+      <li>If they really are different, tap <b>Not the same</b>.</li>
+    </ol>
+  </section>
+
+  <h2 class="group" id="stickers">Stickers</h2>
+  <section class="howto" id="make-a-sticker-when-you-finish-a-workout" aria-labelledby="make-a-sticker-when-you-finish-a-workout-h">
+    <h3 id="make-a-sticker-when-you-finish-a-workout-h">Make a sticker when you finish a workout<a class="anchor" href="#make-a-sticker-when-you-finish-a-workout" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>Finish your workout. On the share screen, tap <b>Make a sticker</b>.</li>
+      <li>Pick a sticker. <b>Route map</b> and <b>PRs</b> are free. <b>Whole workout</b>, <b>One exercise</b> and <b>One set</b> are Plated Pro.</li>
+      <li>Set it up with the chips under <b>Include</b>. A filled tick means that piece is on.</li>
+      <li>Tap <b>Save to Photos</b>.</li>
+    </ol>
+    <p class="tip"><span class="mono">Tip</span>Making a sticker doesn’t post anything. You can still post or save the workout afterwards.</p>
+    <figure class="shot">
+      <div class="phone"><img src="/assets/guide/run-sticker.png" alt="The Run sticker screen: a preview of a 3.84 mile route with time 21:52 and pace 5:41 per mile, Include chips for Route, Distance, Time, Avg pace, Elevation, Max speed, Heart rate, Splits, Name &amp; date and Plated mark, and a Save to Photos button." width="600" height="1301" loading="lazy"></div>
+      <figcaption>A run sticker. Each chip under Include turns a piece on or off.</figcaption>
+    </figure>
+  </section>
+  <section class="howto" id="make-a-sticker-from-a-post-you-shared" aria-labelledby="make-a-sticker-from-a-post-you-shared-h">
+    <h3 id="make-a-sticker-from-a-post-you-shared-h">Make a sticker from a post you shared<a class="anchor" href="#make-a-sticker-from-a-post-you-shared" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>Find your own workout post in the Feed or on your Profile.</li>
+      <li>Tap <b>•••</b>, then <b>Make a Sticker</b>.</li>
+      <li>Pick a sticker, set it up and tap <b>Save to Photos</b>.</li>
+    </ol>
+    <p class="tip"><span class="mono">Tip</span>For a PR sticker, tap the <b>N PRs</b> badge on your post, then <b>Make a sticker</b>. For a run, open the exercise’s history in a workout.</p>
+  </section>
+  <section class="howto" id="set-up-a-run-sticker" aria-labelledby="set-up-a-run-sticker-h">
+    <h3 id="set-up-a-run-sticker-h">Set up a run sticker<a class="anchor" href="#set-up-a-run-sticker" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>Choose <b>Route map</b>. The <b>Run sticker</b> screen opens.</li>
+      <li>Under <b>Include</b>, pick from <b>Route</b>, <b>Distance</b>, <b>Time</b>, <b>Avg pace</b>, <b>Elevation</b>, <b>Max speed</b>, <b>Heart rate</b>, <b>Splits</b>, <b>Name & date</b> and <b>Plated mark</b>.</li>
+      <li>The route is drawn as a line on a see-through background.</li>
+    </ol>
+  </section>
+  <section class="howto" id="set-up-a-pr-sticker" aria-labelledby="set-up-a-pr-sticker-h">
+    <h3 id="set-up-a-pr-sticker-h">Set up a PR sticker<a class="anchor" href="#set-up-a-pr-sticker" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>Choose <b>PRs</b>. The <b>PR sticker</b> screen opens.</li>
+      <li>Under <b>Style</b>, pick <b>Headline</b> (text straight on your photo) or <b>Card</b> (a dark card that reads on any photo).</li>
+      <li>If you set more than one PR, choose one under <b>Which PR</b>.</li>
+    </ol>
+  </section>
+  <section class="howto" id="set-up-a-workout-sticker" aria-labelledby="set-up-a-workout-sticker-h">
+    <h3 id="set-up-a-workout-sticker-h">Set up a workout sticker <span class="badge badge-pro" title="Needs Plated Pro">PRO</span><a class="anchor" href="#set-up-a-workout-sticker" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>Choose <b>Whole workout</b>. The <b>Workout sticker</b> screen opens.</li>
+      <li>Under <b>Include</b>, pick from <b>Name & date</b>, <b>Pounds lifted</b>, <b>Sets</b>, <b>Exercises</b>, <b>PR sets</b>, <b>Heart rate</b> and <b>Plated mark</b>.</li>
+      <li><b>Exercises</b> starts off because it makes the sticker much taller. Turn it on to list every exercise.</li>
+    </ol>
+    <figure class="shot">
+      <div class="phone"><img src="/assets/guide/workout-sticker.png" alt="The Workout sticker screen: a “Workout done” card for Quad day with 37,530 lbs lifted, two new PRs and average heart rate, Include chips for Name &amp; date, Pounds lifted, Sets, Exercises, PR sets, Heart rate and Plated mark, and a Save to Photos button." width="600" height="1301" loading="lazy"></div>
+      <figcaption>A workout sticker (Plated Pro).</figcaption>
+    </figure>
+  </section>
+  <section class="howto" id="set-up-an-exercise-or-set-sticker" aria-labelledby="set-up-an-exercise-or-set-sticker-h">
+    <h3 id="set-up-an-exercise-or-set-sticker-h">Set up an exercise or set sticker <span class="badge badge-pro" title="Needs Plated Pro">PRO</span><a class="anchor" href="#set-up-an-exercise-or-set-sticker" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>Choose <b>One exercise</b> or <b>One set</b>.</li>
+      <li>For an exercise, pick a <b>Style</b>: <b>Set list</b>, <b>Top set</b> or <b>Progress</b> (a bar chart of up to 6 sessions).</li>
+      <li>For a set, tap the set you want under <b>Set</b>.</li>
+      <li>Turn pieces on or off under <b>Include</b>.</li>
+    </ol>
+    <p class="tip"><span class="mono">Tip</span>These stickers count working sets only: Normal and Failure. Warm-ups and drop sets are left out.</p>
+  </section>
+  <section class="howto" id="save-or-share-a-sticker" aria-labelledby="save-or-share-a-sticker-h">
+    <h3 id="save-or-share-a-sticker-h">Save or share a sticker<a class="anchor" href="#save-or-share-a-sticker" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>Tap <b>Save to Photos</b>. The first time, allow Plated to add photos.</li>
+      <li>You’ll see <b>Saved to your Photos.</b> The sticker is a transparent PNG.</li>
+      <li>In Instagram (or any app), add a photo or video, then add the sticker from your camera roll on top.</li>
+    </ol>
+  </section>
+
+  <h2 class="group" id="plate-calculator">Plate calculator</h2>
+  <section class="howto" id="use-the-plate-calculator" aria-labelledby="use-the-plate-calculator-h">
+    <h3 id="use-the-plate-calculator-h">Use the plate calculator <span class="badge badge-pro" title="Needs Plated Pro">PRO</span><a class="anchor" href="#use-the-plate-calculator" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>Tap <b>Plate calculator</b> on My library, or the <b>Plates</b> chip on an exercise card.</li>
+      <li>Choose <b>kg</b> or <b>lb</b> at the top.</li>
+      <li>Tap a plate under <b>Add a pair</b> to put one on each side. Or type a total under <b>Load a weight</b> and tap <b>Load</b>.</li>
+      <li>Tap a plate’s <b>✕</b> to take that pair off, or <b>Clear the bar</b>.</li>
+      <li>From a workout, tap <b>Use … for this set</b> to put the weight into the next unfinished set.</li>
+    </ol>
+    <p class="tip"><span class="mono">Tip</span>If your plates can’t make a weight exactly, the calculator offers the closest weights above and below.</p>
+    <figure class="shot">
+      <div class="phone"><img src="/assets/screens/plates.png" alt="The plate calculator in kg: 140 kg on a 20 kg bar, drawn with two red 25s and a green 10 on each side, removable plate chips, a Clear the bar button, and an Add a pair row of coloured plates." width="600" height="1301" loading="lazy"></div>
+      <figcaption>The plate calculator shows what goes on each side of the bar.</figcaption>
+    </figure>
+  </section>
+  <section class="howto" id="set-up-your-bar-collars-and-plates" aria-labelledby="set-up-your-bar-collars-and-plates-h">
+    <h3 id="set-up-your-bar-collars-and-plates-h">Set up your bar, collars and plates <span class="badge badge-pro" title="Needs Plated Pro">PRO</span><a class="anchor" href="#set-up-your-bar-collars-and-plates" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>In the plate calculator, tap <b>Bar, collars and the plates you own</b> (or the sliders icon).</li>
+      <li><b>Bar:</b> tap a common weight, or type yours in <b>Other</b>.</li>
+      <li><b>Collars:</b> turn them on and set <b>Each collar</b>.</li>
+      <li><b>Plates you own:</b> use <b>−</b> and <b>+</b>. Count both sides together. Tap <b>Done</b>.</li>
+    </ol>
+    <p class="tip"><span class="mono">Tip</span>Your setup is remembered on this device, separately for kg and lb.</p>
+  </section>
+
+  <h2 class="group" id="move-your-history">Move your history</h2>
+  <section class="howto" id="import-your-history-from-hevy-strong-or-another-app" aria-labelledby="import-your-history-from-hevy-strong-or-another-app-h">
+    <h3 id="import-your-history-from-hevy-strong-or-another-app-h">Import your history from Hevy, Strong or another app<a class="anchor" href="#import-your-history-from-hevy-strong-or-another-app" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>Export your workouts as a CSV from your old app. In Hevy: <b>Settings → Export & Import Data → Export Workout Data</b>.</li>
+      <li>In Plated, go to <b>Profile</b> → <b>☰</b> → <b>Settings</b>. Under <b>App</b>, tap <b>Import workout history</b>.</li>
+      <li>Tap <b>Choose CSV file</b> and pick the file. (The screen is titled <b>Import from Hevy</b> whichever app it came from.)</li>
+      <li>If asked, choose the units your old app used, then tap <b>Continue</b>.</li>
+      <li>Review the counts and the matches under <b>Check these matches</b>. Tap a row to link it to a different exercise.</li>
+      <li>Tick routines under <b>Save as reusable workouts</b>, then tap <b>Import</b>.</li>
+    </ol>
+    <p class="tip"><span class="mono">Tip</span>Importing is free, and importing the same file twice won’t duplicate anything.</p>
+  </section>
+  <section class="howto" id="export-your-workouts-as-a-csv" aria-labelledby="export-your-workouts-as-a-csv-h">
+    <h3 id="export-your-workouts-as-a-csv-h">Export your workouts as a CSV<a class="anchor" href="#export-your-workouts-as-a-csv" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>Go to <b>Profile</b> → <b>☰</b> → <b>Settings</b>. Under <b>App</b>, tap <b>Export workout history</b>.</li>
+      <li>Save the file or send it from the share sheet.</li>
+      <li>You get one row per set, for your whole history. It opens in a spreadsheet, and imports back into Plated.</li>
+    </ol>
+  </section>
+
+  <nav class="pager" aria-label="More guides">
+    <a class="prev" href="/guide/nutrition/"><span class="mono">&larr; Previous</span>Nutrition</a>
+    <a class="next" href="/guide/progress/"><span class="mono">Next &rarr;</span>Progress</a>
+  </nav>
+  <p class="allguides"><a href="/guide/">All guides</a> &nbsp;·&nbsp; <a href="/support/">Contact support</a></p>
+</main>
+
+<footer>
+  <div class="foot">
+    <div>
+      <a href="/guide/">Guide</a>
+      <a href="/support/">Support</a>
+      <a href="/privacy/">Privacy</a>
+      <a href="/terms/">Terms</a>
+    </div>
+    <p class="copy">&copy; 2026 Plated Fitness</p>
+  </div>
+</footer>
+
+</body>
+</html>

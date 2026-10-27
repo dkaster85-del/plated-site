@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tour &mdash; How to use Plated</title>
+<meta name="description" content="Step through Plated one screen at a time: Nutrition, a workout, the exercise card, exercise history, Progress and the Feed, with every button explained.">
+<link rel="canonical" href="https://plated-fitness.com/guide/tour/">
+<meta name="theme-color" content="#0B0B0B">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;900&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+body { margin: 0; }
+:root { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+/* Layout: a phone frame that pans to follow a spotlight, beside a step card with live copies of the app's controls. Single dark theme, Plated's own. */
+:root {
+  --ground: #0B0B0B; --panel: #151515; --raised: #1C1C1C; --line: #262626;
+  --text: #F0F0F0; --muted: #9A9A9A; --dim: #6A6A6A; --accent: #FF4500; --accent-soft: rgba(255,69,0,.14);
+  --blue: #60A5FA; --red: #EF4444; --amber: #F59E0B; --grey: #A3A3A3;
+  --display: "Archivo", -apple-system, "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { background: var(--ground); color: var(--text); font: 16px/1.55 var(--display); -webkit-font-smoothing: antialiased;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 0 48px; }
+.wrap { max-width: 1040px; margin: 0 auto; }
+header { padding-block: 28px 18px; display: flex; flex-direction: column; gap: 14px; }
+.brand { font: 900 18px var(--display); letter-spacing: -.01em; }
+.brand span { color: var(--accent); }
+h1 { font: 700 clamp(26px, 4.4vw, 38px)/1.08 var(--display); letter-spacing: -.025em; margin: 0; text-wrap: balance; }
+.lede { color: var(--muted); margin: 0; max-width: 60ch; }
+.chapters { display: flex; gap: 8px; flex-wrap: wrap; }
+.chapters button { font: 600 14px var(--display); color: var(--muted); background: var(--panel); border: 1px solid var(--line);
+  border-radius: 999px; padding: 8px 14px; cursor: pointer; }
+.chapters button[aria-selected="true"] { color: var(--accent); border-color: rgba(255,69,0,.5); background: var(--accent-soft); }
+.chapters button:focus-visible, .ctl:focus-visible, .opt:focus-visible, .dot:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.stage { display: grid; grid-template-columns: minmax(0, 360px) minmax(0, 1fr); gap: 32px; align-items: start; }
+@media (max-width: 760px) { .stage { grid-template-columns: minmax(0, 1fr); gap: 16px; } }
+
+.phone { position: relative; width: 100%; max-width: 360px; margin: 0 auto; border-radius: 34px; border: 1px solid #2E2E2E;
+  background: #000; padding: 10px; box-shadow: 0 20px 60px rgba(0,0,0,.5); }
+.screen { position: relative; overflow: hidden; border-radius: 26px; height: min(640px, 62vh); background: #0D0D0D; touch-action: pan-y; cursor: pointer; }
+@media (max-width: 760px) { .screen { height: min(460px, 52vh); } }
+.shot { position: absolute; left: 0; top: 0; width: 100%; transition: transform .5s cubic-bezier(.2,.7,.2,1); }
+.shot img { display: block; width: 100%; height: auto; user-select: none; -webkit-user-drag: none; }
+.spot { position: absolute; border: 2px solid var(--accent); border-radius: 12px;
+  box-shadow: 0 0 0 2000px rgba(4,4,4,.72); transition: all .45s cubic-bezier(.2,.7,.2,1); pointer-events: none; }
+.spot::after { content: ""; position: absolute; inset: -6px; border-radius: 16px; border: 2px solid rgba(255,69,0,.45); animation: pulse 1.8s ease-out infinite; }
+@keyframes pulse { from { opacity: 1; transform: scale(1); } to { opacity: 0; transform: scale(1.06); } }
+.hot { position: absolute; width: 26px; height: 26px; margin: -13px 0 0 -13px; border-radius: 50%; border: 0; cursor: pointer;
+  background: rgba(255,69,0,.9); color: #0D0D0D; font: 700 12px var(--mono); display: grid; place-items: center; opacity: .55; transition: opacity .2s, transform .2s; }
+.hot:hover, .hot:focus-visible { opacity: 1; transform: scale(1.1); outline: none; }
+.hot[aria-current="step"] { opacity: 0; pointer-events: none; }
+
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 18px; padding: 22px; display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+@media (min-width: 761px) { .card { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 16px); } }
+.meta { display: flex; justify-content: space-between; align-items: center; font: 500 11px var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+.meta b { color: var(--accent); font-weight: 500; }
+.bar { height: 3px; background: var(--line); border-radius: 2px; overflow: hidden; }
+.bar i { display: block; height: 100%; background: var(--accent); transition: width .4s; }
+.card h2 { font: 700 24px/1.15 var(--display); letter-spacing: -.02em; margin: 0; text-wrap: balance; }
+.card p { margin: 0; color: #CFCFCF; max-width: 58ch; }
+.card p b { color: var(--text); }
+.tag { font: 600 10px var(--mono); letter-spacing: .08em; background: var(--accent); color: #0D0D0D; border-radius: 5px; padding: 2px 6px; vertical-align: 2px; margin-left: 6px; }
+
+/* One grid for the whole list, so the button column is as wide as its widest
+   button and every description starts on the same line after it. */
+.opts { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: max-content minmax(0, 1fr); column-gap: 16px; border-top: 1px solid var(--line); }
+.opts li { display: contents; }
+.opts .cell { padding: 11px 0; border-bottom: 1px solid var(--line); min-width: 0; }
+.opts .desc { font-size: 15px; color: #D4D4D4; line-height: 1.45; }
+.opts .desc b { color: var(--text); }
+.key { display: inline-block; font: 600 12px var(--display); color: #CFCFCF; background: var(--raised); border: 1px solid var(--line); border-radius: 999px; padding: 5px 10px; white-space: nowrap; }
+.key.set { width: 34px; height: 34px; border-radius: 9px; padding: 0; display: grid; place-items: center; font: 700 14px var(--display); border-width: 2px; }
+.key.set[data-c="N"] { color: var(--grey); border-color: #4A4A4A; } .key.set[data-c="W"] { color: var(--blue); border-color: var(--blue); background: rgba(96,165,250,.12); }
+.key.set[data-c="F"] { color: var(--red); border-color: var(--red); background: rgba(239,68,68,.12); } .key.set[data-c="D"] { color: var(--amber); border-color: var(--amber); background: rgba(245,158,11,.12); }
+.optrow { display: flex; flex-wrap: wrap; gap: 8px; }
+.opt { font: 600 13px var(--display); color: #BDBDBD; background: var(--raised); border: 1px solid var(--line); border-radius: 999px;
+  padding: 7px 12px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+.opt[aria-pressed="true"] { color: var(--accent); border-color: rgba(255,69,0,.55); background: var(--accent-soft); }
+.opt.set { width: 40px; height: 40px; border-radius: 10px; padding: 0; justify-content: center; font: 700 15px var(--display); border-width: 2px; }
+.opt.set[data-c="N"] { color: var(--grey); border-color: #4A4A4A; } .opt.set[data-c="W"] { color: var(--blue); border-color: var(--blue); background: rgba(96,165,250,.12); }
+.opt.set[data-c="F"] { color: var(--red); border-color: var(--red); background: rgba(239,68,68,.12); } .opt.set[data-c="D"] { color: var(--amber); border-color: var(--amber); background: rgba(245,158,11,.12); }
+.opt.set[aria-pressed="true"] { box-shadow: 0 0 0 3px rgba(255,69,0,.45); }
+.optnote { background: var(--raised); border-radius: 12px; padding: 12px 14px; font-size: 15px; color: #DADADA; min-height: 48px; }
+.optnote b { color: var(--text); }
+.hint { font: 500 11px var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--dim); }
+
+.nav { display: flex; gap: 10px; align-items: center; margin-top: 4px; }
+.ctl { font: 700 15px var(--display); border-radius: 12px; padding: 11px 18px; cursor: pointer; border: 1px solid var(--line); background: var(--raised); color: var(--text); }
+.ctl.primary { background: var(--accent); border-color: var(--accent); color: #0D0D0D; flex: 1; }
+.ctl:disabled { opacity: .35; cursor: default; }
+.dots { display: flex; gap: 6px; flex-wrap: wrap; }
+.dot { width: 9px; height: 9px; border-radius: 50%; background: #333; border: 0; padding: 0; cursor: pointer; }
+.dot[aria-current="step"] { background: var(--accent); width: 22px; border-radius: 5px; }
+.keys { color: var(--dim); font-size: 13px; }
+@media (max-width: 760px) {
+  header { padding-block: 16px 12px; gap: 10px; }
+  .lede { display: none; }
+  .chapters { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin-inline: calc(-1 * max(16px, env(safe-area-inset-left, 0px))); padding-inline: max(16px, env(safe-area-inset-left, 0px)); }
+  .chapters::-webkit-scrollbar { display: none; }
+  .chapters button { flex: none; }
+  h1 { font-size: 22px; }
+  .card { padding: 18px 16px 96px; border-radius: 16px; }
+  .nav { position: fixed; left: 0; right: 0; bottom: 0; z-index: 5; margin: 0; background: rgba(11,11,11,.94);
+    border-top: 1px solid var(--line); backdrop-filter: blur(8px);
+    padding: 12px max(16px, env(safe-area-inset-right, 0px)) calc(12px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); }
+  .keys { display: none; }
+  .opts { grid-template-columns: minmax(0, 1fr); }
+  .opts .cell:not(.desc) { padding: 12px 0 6px; border-bottom: 0; }
+  .opts .desc { padding-top: 0; }
+}
+@media (prefers-reduced-motion: reduce) { .shot, .spot, .bar i { transition: none; } .spot::after { animation: none; } }
+.brand a { color: inherit; text-decoration: none; }
+.more { color: var(--muted); font-size: 14px; margin: 0; }
+.more a { color: var(--accent); }
+</style>
+</head>
+<body>
+
+<main class="wrap">
+  <header>
+    <div class="brand"><a href="/guide/">PLA<span>TED</span> · HOW-TO</a></div>
+    <h1>Find your way around Plated</h1>
+    <p class="lede">Step through each screen one control at a time. The highlight moves to each button; where a button has options, each one is listed with what it does.</p>
+    <div class="chapters" role="tablist" id="chapters"></div>
+    <p class="more">Looking for something specific? <a href="/guide/">Search every how-to</a>.</p>
+  </header>
+
+  <div class="stage">
+    <div class="phone">
+      <div class="screen" id="screen">
+        <div class="shot" id="shot"><img id="img" alt="" width="600" height="1229"><div class="spot" id="spot"></div></div>
+      </div>
+    </div>
+    <section class="card" aria-live="polite">
+      <div class="meta"><span id="chap"></span><b id="count"></b></div>
+      <div class="bar"><i id="fill"></i></div>
+      <h2 id="title"></h2>
+      <p id="body"></p>
+      <ul class="opts" id="opts" hidden></ul>
+      <div class="nav">
+        <button class="ctl" id="back" type="button">Back</button>
+        <button class="ctl primary" id="next" type="button">Next</button>
+      </div>
+      <div class="dots" id="dots"></div>
+      <div class="keys">Tip: tap any control on the phone to jump to it, swipe across the phone, or use the ← → keys.</div>
+    </section>
+  </div>
+</main>
+
+<script>
+const IMG = { workout: '/assets/guide/workout-screen.png', history: '/assets/guide/exercise-history.png', nutrition: '/assets/guide/tour-nutrition.png', feed: '/assets/guide/tour-feed.png', steps: '/assets/guide/tour-steps.png', muscle: '/assets/guide/tour-muscle.png' };
+const ALT = { workout: 'Plated workout screen', history: 'Plated exercise history', nutrition: 'Plated Nutrition tab', feed: 'Plated Feed tab', steps: 'Plated Progress tab: calendar and steps', muscle: 'Plated Progress tab: muscle map and bodyweight' };
+const W = 600, H = 1229;
+const CHAPTERS = [
+  { id: 'nutrition', name: 'Nutrition', img: 'nutrition', steps: [
+    { r: [0, 1112, 600, 100], t: 'The five tabs', b: 'Always along the bottom. You can also swipe left or right on most screens to move between tabs.', o: [
+      { l: 'Feed', n: '<b>Feed</b>: posts from you and everyone you follow.' },
+      { l: 'Nutrition', n: '<b>Nutrition</b>: your food diary, one day at a time.' },
+      { l: 'Train', n: '<b>Train</b>: start and log workouts, runs and rides.' },
+      { l: 'Progress', n: '<b>Progress</b>: your calendar, steps, muscle map, bodyweight and lift charts.' },
+      { l: 'Profile', n: '<b>Profile</b>: your posts and workouts, and Settings behind ☰.' } ] },
+    { r: [355, 34, 240, 56], t: 'The top of every tab', b: 'The same three buttons sit at the top right of every tab.', o: [
+      { l: '🔍', n: '<b>Search</b> finds people to follow, and any feature in Plated: try "steps" or "rest timer".' },
+      { l: '🔔', n: '<b>Notifications</b>: likes, comments, follows and requests. An orange count means something is unread.' },
+      { l: 'Goals', n: '<b>Goals</b> sets your calorie and macro targets from your stats and your goal, or your own numbers.' } ] },
+    { r: [18, 128, 565, 96], t: 'Pick a day', b: 'Tap a date to open it. A dot means you logged food that day, and today has a ring. The arrows move a day at a time; swipe the strip to jump a week. Whatever you log goes on the day you have open, so you can fill in yesterday or plan tomorrow.' },
+    { r: [18, 244, 565, 78], t: 'The day at a glance', b: 'The date, and three things beside it.', o: [
+      { l: '🔥 113', n: '<b>Your streak</b>: days in a row you have logged food.' },
+      { l: 'Training day ⇄', n: '<b>Training day / Rest day</b>: tap to switch this one day. With rest-day targets on, a rest day gets fewer carbs.', pro: true },
+      { l: 'Summary', n: '<b>Summary</b>: your averages over a week, a month or any range you choose.' } ] },
+    { r: [18, 328, 565, 112], t: 'Calories', b: 'The big number is what you have eaten, against your target, with how much is left. The bar fills as you go and turns red if you go over.' },
+    { r: [30, 458, 540, 202], t: 'Protein, carbs and fat', b: 'Each ring shows the grams you have eaten in the middle and your target underneath. Tap one for a closer look.' },
+    { r: [18, 680, 565, 70], t: 'Tools & settings', b: 'Tap to open the panel. It holds four tools.', o: [
+      { l: 'Meal layout', n: '<b>Meal layout</b>: Breakfast, Lunch, Dinner and Snack, or numbered meals.' },
+      { l: 'Rest-day targets', n: '<b>Rest-day targets</b>: lower carbs and calories on the days you rest.', pro: true },
+      { l: 'Calorie calculator', n: '<b>Calorie calculator</b>: turn any grams of protein, carbs and fat into a calorie total.', pro: true },
+      { l: 'Micronutrients', n: '<b>Micronutrients</b>: vitamins and minerals for the day against the FDA Daily Value.', pro: true } ] },
+    { r: [20, 776, 562, 78], t: 'Log a food', b: 'Two ways in.', o: [
+      { l: 'Search', n: '<b>Search foods and restaurants</b>: type a food, a brand or a restaurant meal. Your own foods and recent foods come first; tap one, pick the amount and tap <b>Add</b>.' },
+      { l: 'Scan', n: '<b>The orange scan button</b> reads a barcode with the camera and opens the food, ready to log.' } ] },
+    { r: [20, 864, 520, 52], t: 'Shortcuts', b: 'Three links under the search box.', o: [
+      { l: 'Create food', n: '<b>Create food</b>: type in a label, or scan it with AI (Pro). Your foods appear under <b>My foods</b>; tap ••• on one to edit or delete it.' },
+      { l: 'My recipes', n: '<b>My recipes</b>: build a dish from its ingredients once, then log a portion by weight.' },
+      { l: 'Copy a day', n: '<b>Copy a day</b>: pick foods from an earlier day and copy them onto the day you have open.' } ] },
+    { r: [18, 962, 565, 148], t: 'Your meals', b: 'One section per meal, with its calories. Tap a food to change the amount or remove it; swipe it left to delete. Tap the meal\'s name for its totals. <b>Copy previous</b> under a meal fills it from the last time you ate that meal.' },
+    { r: [495, 995, 82, 82], t: 'Help on this tab', b: 'The round ? button explains the features on the Nutrition tab.' },
+  ]},
+  { id: 'screen', name: 'Workout screen', img: 'workout', steps: [
+    { r: [0, 12, 600, 40], t: 'Minimise the workout', b: 'Swipe down on this bar, or tap it, to use the rest of the app. The workout keeps running, and switching tabs minimises it too.' },
+    { r: [22, 80, 556, 40], t: 'Name your workout', b: 'Tap the name to change it. The pencil at the right does the same.' },
+    { r: [130, 156, 335, 76], t: 'The workout clock', b: 'It runs from the moment you start. Tap it to set the hours and minutes yourself, for a workout you forgot to start on time. The Lock Screen timer follows.' },
+    { r: [55, 240, 490, 70], t: 'Your session at a glance', b: 'Three live numbers, updated as you tick sets.', o: [
+      { l: 'lbs moved', n: '<b>lbs moved</b> adds up weight × reps for every set you tick, across all exercises.' },
+      { l: '♥ bpm', n: '<b>Heart rate</b> comes from Apple Health or a Bluetooth chest strap (tap the Bluetooth icon to pair one). Tap the number for a live chart.', pro: true },
+      { l: '0/35 sets', n: '<b>Sets</b>: how many you have ticked, out of every set planned in this workout.' } ] },
+    { r: [95, 318, 410, 106], t: 'Save, finish or throw away', b: 'The three ways out of a workout.', o: [
+      { l: 'Save template', n: '<b>Save template</b> keeps these exercises and sets as a saved workout in My library, so you can start it again next time. The workout keeps going.' },
+      { l: 'Finish', n: '<b>Finish</b> ends the session, shows your PRs, and offers to post it or make a sticker.' },
+      { l: 'Discard workout', n: '<b>Discard workout</b> throws the whole session away after you confirm. Nothing is saved.' } ] },
+    { r: [22, 440, 556, 84], t: 'Rest between sets', b: 'Off until you choose a time. Once set, a countdown starts every time you tick a set, and it tells you when to go again.' },
+    { r: [498, 538, 84, 42], t: 'Add exercises', b: 'Opens the exercise picker. Search, filter by muscle or by Cardio, and tap as many as you like. Each one gets its own card below.' },
+  ]},
+  { id: 'card', name: 'Exercise card', img: 'workout', steps: [
+    { r: [22, 612, 556, 74], t: 'The top of each exercise', b: 'Everything about the exercise itself, left to right.', o: [
+      { l: '⋮⋮', n: '<b>The six dots</b> open the reorder sheet, to move this exercise up or down the workout.' },
+      { l: 'Photo', n: '<b>The photo</b> opens larger. Take or choose your own picture of the machine, or go back to the default.' },
+      { l: 'Leg Curl ›', n: '<b>The name</b> opens its history: your PR, every past session and charts. The line under it shows sets done and pounds lifted so far.' },
+      { l: '🔗', n: '<b>Superset</b>: link this exercise with others so you alternate between them. Linked cards share a colour.' },
+      { l: '⇄', n: '<b>Replace</b> swaps this exercise for another from the picker, keeping your place in the workout.' },
+      { l: '•••', n: '<b>More</b>: <b>Muscles</b> to change which muscles it counts toward (they drive the muscle map), and <b>Remove from workout</b>.' } ] },
+    { r: [20, 688, 520, 54], t: 'The chip row', b: 'How this exercise is set up.', o: [
+      { l: 'Machine ▾', n: '<b>Machine</b>: pick the brand you are on, like Cybex or Hammer Strength, or type your own. Each machine keeps its own history, PRs and photo, because the same lift feels different on each.' },
+      { l: 'Both sides', n: '<b>Both sides</b>: the weight you type is the total, like a barbell or a stack.' },
+      { l: 'One side', n: '<b>One side</b>: the weight you type is one side or one dumbbell, and volume is doubled. The first time you switch, Plated asks whether your max weight should count one side or both added.' },
+      { l: 'Plates', n: '<b>Plates</b> shows what to load on each side of the bar for your next set, from the plates you own.', pro: true } ] },
+    { r: [20, 745, 560, 56], t: 'Next: your suggested set', b: 'Plated looks at what you lifted last time and suggests the weight and reps to aim for. Tap it to fill those numbers into every set you haven\'t ticked yet; it then shows why it chose them.', pro: true },
+    { r: [18, 832, 66, 394], t: 'Set types', b: 'The coloured letter at the start of each row. Tap it in the app to change the type.', set: true, o: [
+      { l: 'N', c: 'N', n: '<b>Normal</b>: a standard working set. New sets start as N.' },
+      { l: 'W', c: 'W', n: '<b>Warm-up</b>: a lighter set before the real work. It doesn\'t count toward your working sets on stickers.' },
+      { l: 'F', c: 'F', n: '<b>Failure</b>: taken until you can\'t do another rep. It counts as a working set.' },
+      { l: 'D', c: 'D', n: '<b>Drop set</b>: drop the weight and keep going. It doesn\'t count toward your working sets on stickers.' } ] },
+    { r: [118, 832, 462, 62], t: 'Log a set', b: 'Type the weight and the reps, then tap the circle to tick the set. Ticking updates your totals, checks for a PR, and starts the rest timer if it\'s on. Swipe a row left to delete it.' },
+    { r: [490, 1062, 90, 90], t: 'Help on this screen', b: 'The round ? button explains the icons on the exercise card, any time you forget one.' },
+  ]},
+  { id: 'history', name: 'Exercise history', img: 'history', steps: [
+    { r: [22, 20, 48, 42], t: 'Back to the workout', b: 'You reach this screen by tapping an exercise\'s name. The arrow takes you back to your workout.' },
+    { r: [18, 96, 200, 40], t: 'Your record', b: 'Your heaviest weight on this exercise. Each machine keeps its own.' },
+    { r: [18, 160, 582, 58], t: 'Four ways to measure', b: 'Each tab charts a different number.', o: [
+      { l: 'Max weight', n: '<b>Max weight</b>: the heaviest set each session.' },
+      { l: 'Est. 1RM', n: '<b>Est. 1RM</b>: the most you could lift once, estimated from your sets.', pro: true },
+      { l: 'Best set', n: '<b>Best set</b>: the set with the most weight × reps each session.' },
+      { l: 'Session vol', n: '<b>Session vol</b>: total weight × reps for the whole session.' } ] },
+    { r: [18, 236, 564, 398], t: 'Today\'s sets', b: 'The sets you have logged in this session, with the volume of each on the right.' },
+    { r: [18, 676, 564, 300], t: 'The chart', b: 'Tap any point to see that session\'s number and date. Free accounts chart the last 7 days; Plated Pro charts every session.' },
+    { r: [18, 1012, 564, 216], t: 'Every session', b: 'One row per session: sets, max weight and volume. The ★ marks a PR. Tap a past session to open it and edit it.' },
+  ]},
+  { id: 'progress', name: 'Progress', img: 'steps', steps: [
+    { r: [18, 128, 565, 480], t: 'Workout calendar', b: 'Every day you trained is a filled orange circle; today has a ring. Tap a filled day to see that day\'s sessions, exercises and sets. The arrows change month, and the count at the bottom is every day you have ever trained. Free accounts browse the last 60 days.' },
+    { r: [395, 650, 190, 46], t: 'Steps & distance', b: 'From Apple Health, on iPhone. Connect it once from this card.', o: [
+      { l: 'Steps', n: '<b>Steps</b>: the big number is today\'s steps.' },
+      { l: 'mi', n: '<b>mi</b> (or km): walking and running distance instead.' },
+      { l: '↻', n: '<b>Reload</b>: fetch the latest from Apple Health.' } ] },
+    { r: [18, 800, 565, 290], t: 'The steps chart', b: 'Tap a bar to show that day\'s figure in place of today\'s. Under the chart, pick 7D, 14D, 30D, 90D, 1Y or a custom range; longer ranges show weekly or monthly bars, with the total and daily average below.' },
+    { img: 'muscle', r: [375, 130, 212, 46], t: 'Muscle map window', b: 'How far back the muscle map looks.', pro: true, o: [
+      { l: '7D', n: '<b>7D</b>: the last week.' },
+      { l: '14D', n: '<b>14D</b>: the last two weeks.' },
+      { l: '30D', n: '<b>30D</b>: the last month.' } ] },
+    { img: 'muscle', r: [40, 195, 520, 610], t: 'Muscle map', b: 'Each muscle glows by how many sets it got, from light to heavy. Tap a muscle to see its sets, sessions, when you last trained it and which exercises did the most. Exercises that work a muscle secondarily count for part of a set.', pro: true },
+    { img: 'muscle', r: [18, 845, 565, 265], t: 'Bodyweight', b: 'Type your weight in the box under the chart and tap <b>Log</b>; tap the date first to log a past day. The badge shows the change since your first weigh-in. <b>lb / in</b> and <b>kg / cm</b> switch the units for bodyweight and measurements. Further down: body measurements and lift charts.' },
+  ]},
+  { id: 'feed', name: 'Feed', img: 'feed', steps: [
+    { r: [18, 115, 570, 70], t: 'Who posted', b: 'The handle, what they did and when.', o: [
+      { l: '@handle', n: '<b>The name</b> opens their profile, where you can follow them.' },
+      { l: '•••', n: '<b>•••</b> on your own post: add or replace photos, make a sticker, edit the note, archive or delete. On someone else\'s: report the post or block them.' } ] },
+    { r: [0, 192, 600, 600], t: 'Photos', b: 'Photos are square. Swipe across when there are several, and tap one to see it full screen. A post can carry up to five photos or a 90-second video.' },
+    { r: [18, 886, 440, 62], t: 'The workout in numbers', b: 'Volume, time and sets for a workout. Runs show time, distance and pace, and meals show calories and macros.' },
+    { r: [20, 958, 360, 40], t: 'Highlights', b: 'Badges you can open.', o: [
+      { l: '🏆 2 PRs', n: '<b>PRs</b>: the records set in this workout. On your own post, make a PR sticker from here.' },
+      { l: '♥ 136 avg bpm', n: '<b>Heart rate</b>: the session\'s heart-rate chart.' } ] },
+    { r: [22, 1010, 556, 56], t: 'Exercises', b: 'Tap to list every exercise and its sets. Tap an exercise to compare it with your own, or <b>Add to my library</b> to keep it (Pro on other people\'s posts).' },
+    { r: [14, 1072, 574, 42], t: 'Like, comment, save', b: 'Under every post.', o: [
+      { l: '♥', n: '<b>Like</b>: tap again to unlike. The author is told.' },
+      { l: '💬', n: '<b>Comments</b>: read and add comments.' },
+      { l: 'Save workout', n: '<b>Save workout</b> puts the whole workout into your saved workouts on Train. Free on your own posts; Pro on other people\'s.' } ] },
+  ]},
+];
+
+const $ = id => document.getElementById(id);
+const screen = $('screen'), shot = $('shot'), img = $('img'), spot = $('spot');
+let ci = 0, si = 0, sel = 0, shown = '';
+
+CHAPTERS.forEach((c, i) => {
+  const b = document.createElement('button');
+  b.type = 'button'; b.setAttribute('role', 'tab'); b.textContent = c.name; b.id = 'tab-' + c.id;
+  b.onclick = () => go(i, 0);
+  $('chapters').append(b);
+});
+
+// Tap a control on the phone to jump to its step: the smallest highlighted
+// region under the finger wins.
+shot.addEventListener('click', e => {
+  const box = shot.getBoundingClientRect();
+  const x = (e.clientX - box.left) / box.width * W, y = (e.clientY - box.top) / box.height * H;
+  let best = -1, area = Infinity;
+  CHAPTERS[ci].steps.forEach((s, i) => {
+    if ((s.img || CHAPTERS[ci].img) !== shown) return;
+    const [rx, ry, rw, rh] = s.r;
+    if (x >= rx && x <= rx + rw && y >= ry && y <= ry + rh && rw * rh < area) { best = i; area = rw * rh; }
+  });
+  if (best >= 0) go(ci, best);
+});
+
+function pan(s) {
+  const scale = shot.clientWidth / W, imgH = H * scale, frameH = screen.clientHeight;
+  const center = (s.r[1] + s.r[3] / 2) * scale;
+  const y = Math.max(0, Math.min(imgH - frameH, center - frameH / 2));
+  shot.style.transform = 'translateY(' + (-y) + 'px)';
+}
+
+function go(c, s) {
+  ci = c; si = s; sel = 0;
+  const ch = CHAPTERS[ci], st = ch.steps[si];
+  // A step can show another screenshot than its chapter's (Progress uses two).
+  const want = st.img || ch.img;
+  if (want !== shown) { shown = want; img.src = IMG[want]; img.alt = ALT[want]; }
+  document.querySelectorAll('#chapters button').forEach((b, i) => {
+    b.setAttribute('aria-selected', i === ci);
+    if (i === ci) b.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+  });
+  Object.assign(spot.style, { left: st.r[0] / W * 100 + '%', top: st.r[1] / H * 100 + '%', width: st.r[2] / W * 100 + '%', height: st.r[3] / H * 100 + '%' });
+  $('chap').textContent = ch.name;
+  $('count').textContent = (si + 1) + ' / ' + ch.steps.length;
+  $('fill').style.width = ((si + 1) / ch.steps.length * 100) + '%';
+  $('title').innerHTML = st.t + (st.pro ? '<span class="tag">PRO</span>' : '');
+  $('body').innerHTML = st.b;
+  renderOpts(st);
+  $('back').disabled = ci === 0 && si === 0;
+  const last = si === ch.steps.length - 1;
+  $('next').textContent = last ? (ci < CHAPTERS.length - 1 ? 'Next: ' + CHAPTERS[ci + 1].name : 'Start again') : 'Next';
+  const dots = $('dots'); dots.innerHTML = '';
+  ch.steps.forEach((_, i) => { const d = document.createElement('button'); d.type = 'button'; d.className = 'dot'; d.setAttribute('aria-label', 'Step ' + (i + 1)); if (i === si) d.setAttribute('aria-current', 'step'); d.onclick = () => go(ci, i); dots.append(d); });
+  requestAnimationFrame(() => pan(st));
+  // On a phone the text sits under the frame; after a step, bring the frame
+  // back into view if the reader had scrolled down to the list.
+  if (window.matchMedia('(max-width: 760px)').matches) {
+    const top = screen.getBoundingClientRect().top;
+    if (top < 0) screen.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+  }
+  if (img.complete) pan(st); else img.onload = () => pan(st);
+}
+
+// Every option of a group at once: a copy of the control, then what it does.
+function renderOpts(st) {
+  const list = $('opts');
+  list.hidden = !st.o;
+  list.innerHTML = '';
+  (st.o || []).forEach(o => {
+    const li = document.createElement('li');
+    const cell = document.createElement('div');
+    cell.className = 'cell';
+    const key = document.createElement('span');
+    key.className = 'key' + (st.set ? ' set' : '');
+    if (o.c) key.dataset.c = o.c;
+    key.textContent = o.l;
+    key.setAttribute('aria-hidden', 'true');
+    cell.append(key);
+    const d = document.createElement('div');
+    d.className = 'cell desc';
+    d.innerHTML = o.n + (o.pro ? ' <span class="tag">PRO</span>' : '');
+    li.append(cell, d);
+    list.append(li);
+  });
+}
+
+function step(d) {
+  const ch = CHAPTERS[ci];
+  if (si + d >= 0 && si + d < ch.steps.length) return go(ci, si + d);
+  if (d > 0) return go(ci < CHAPTERS.length - 1 ? ci + 1 : 0, 0);
+  if (ci > 0) go(ci - 1, CHAPTERS[ci - 1].steps.length - 1);
+}
+$('next').onclick = () => step(1);
+$('back').onclick = () => step(-1);
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight') step(1);
+  if (e.key === 'ArrowLeft') step(-1);
+});
+let sx = null;
+screen.addEventListener('touchstart', e => { sx = e.touches[0].clientX; }, { passive: true });
+screen.addEventListener('touchend', e => {
+  if (sx === null) return;
+  const dx = e.changedTouches[0].clientX - sx; sx = null;
+  if (Math.abs(dx) > 40) step(dx < 0 ? 1 : -1);
+});
+window.addEventListener('resize', () => pan(CHAPTERS[ci].steps[si]));
+const start = CHAPTERS.findIndex(c => c.id === location.hash.slice(1));
+go(start > 0 ? start : 0, 0);
+</script>
+</body>
+</html>

@@ -1,0 +1,638 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nutrition &mdash; How to use Plated</title>
+<meta name="description" content="How to log food in Plated: search, barcode scanning, restaurant meals, recipes, copying meals, rest-day targets, micronutrients and your nutrition summary.">
+<meta name="theme-color" content="#0D0D0D">
+<link rel="canonical" href="https://plated-fitness.com/guide/nutrition/">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://plated-fitness.com/guide/nutrition/">
+<meta property="og:title" content="Nutrition — How to use Plated">
+<meta property="og:description" content="How to log food in Plated: search, barcode scanning, restaurant meals, recipes, copying meals, rest-day targets, micronutrients and your nutrition summary.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;900&family=IBM+Plex+Mono:wght@400;500&display=swap">
+
+<style>
+  :root {
+    --ground:#0D0D0D; --surface:#151515; --raised:#1C1C1C; --border:#262626; --line:#333333;
+    --text:#F0F0F0; --body:#C4C4C4; --muted:#8C8C8C; --dim:#5E5E5E; --accent:#FF4500; --accent-d:#C93600;
+    --tint: rgba(255,69,0,.10);
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  body {
+    margin:0; background:var(--ground); color:var(--text);
+    font-family: Archivo, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-size:16px; line-height:1.65; -webkit-font-smoothing:antialiased;
+    overflow-wrap: break-word;
+  }
+  .wrap { width:100%; max-width:760px; margin:0 auto; padding:0 24px; }
+  a { color: var(--accent); }
+  a:focus-visible, input:focus-visible, button:focus-visible {
+    outline:2px solid var(--accent); outline-offset:3px; border-radius:3px;
+  }
+  .skip { position:absolute; left:-9999px; top:8px; background:var(--accent); color:#fff;
+          padding:8px 14px; border-radius:8px; font-weight:600; text-decoration:none; z-index:20; }
+  .skip:focus { left:16px; }
+
+  .mono {
+    font-family:"IBM Plex Mono", ui-monospace, monospace;
+    font-size:11px; font-weight:500; letter-spacing:.16em; text-transform:uppercase;
+  }
+
+  header { border-bottom:1px solid var(--border); }
+  .bar { display:flex; align-items:center; justify-content:space-between; height:62px;
+         max-width:1080px; margin:0 auto; padding:0 24px; }
+  .wordmark { font-weight:900; font-size:19px; color:var(--text); text-decoration:none; letter-spacing:-.01em; }
+  .wordmark span { color:var(--accent); }
+  .back { color:var(--muted); text-decoration:none; font-size:13.5px; font-weight:500; }
+  .back:hover { color:var(--text); }
+
+  main.wrap { padding-top:56px; padding-bottom:88px; }
+  .eyebrow { color:var(--accent); margin:0 0 14px; }
+  .eyebrow a { color:var(--muted); text-decoration:none; }
+  .eyebrow a:hover { color:var(--text); }
+  h1 { font-size:clamp(30px,5vw,42px); font-weight:700; letter-spacing:-.03em; line-height:1.06;
+       margin:0 0 14px; text-wrap:balance; }
+  .lede { font-size:17px; color:var(--muted); margin:0 0 36px; max-width:58ch; text-wrap:pretty; }
+  .lede b { color:var(--text); font-weight:600; }
+
+  p { margin:0 0 14px; color:var(--muted); font-size:15px; }
+  b, strong { color:var(--text); font-weight:600; }
+
+  .badge {
+    display:inline-block; vertical-align:2px; margin-left:4px;
+    font-family:"IBM Plex Mono", ui-monospace, monospace; font-size:10px; font-weight:500;
+    letter-spacing:.1em; text-transform:uppercase; line-height:1; padding:4px 6px 3px; border-radius:5px;
+    white-space:nowrap;
+  }
+  .badge-pro { color:var(--accent); background:var(--tint); border:1px solid rgba(255,69,0,.45); }
+  .badge-ios { color:var(--muted); border:1px solid var(--line); }
+
+  /* On this page */
+  .toc { background:var(--surface); border:1px solid var(--border); border-radius:14px;
+         padding:22px 24px 10px; margin:0 0 20px; }
+  .toc > summary { color:var(--muted); margin:0 0 12px; cursor:pointer; list-style:none; display:flex; justify-content:space-between; gap:12px; }
+  .toc > summary::-webkit-details-marker { display:none; }
+  .toc > summary::after { content:"Hide"; color:var(--accent); letter-spacing:.12em; }
+  .toc:not([open]) > summary { margin-bottom:12px; }
+  .toc:not([open]) > summary::after { content:"Show"; }
+  .toc > summary:focus-visible { outline:2px solid var(--accent); outline-offset:4px; border-radius:3px; }
+  .toc ol { list-style:none; margin:0; padding:0; columns:2 250px; column-gap:32px; }
+  .toc li.g { break-inside:avoid; margin:0 0 16px; }
+  .toc li.g > a { color:var(--text); font-weight:600; font-size:15px; text-decoration:none; }
+  .toc ul { list-style:none; margin:4px 0 0; padding:0; }
+  .toc ul li { margin:3px 0; font-size:14px; line-height:1.45; }
+  .toc ul a { color:var(--muted); text-decoration:none; }
+  .toc a:hover { color:var(--accent); }
+  .toc .badge { font-size:9px; padding:3px 5px 2px; }
+
+  .legend-key { font-size:13.5px; color:var(--muted); margin:0 0 8px; }
+
+  /* Groups and how-tos */
+  h2.group { font-size:26px; font-weight:700; letter-spacing:-.02em; line-height:1.15;
+             margin:64px 0 6px; padding-top:28px; border-top:1px solid var(--border); scroll-margin-top:16px; }
+  .group-intro { margin-bottom:8px; }
+  .howto { margin:34px 0 0; scroll-margin-top:16px; }
+  .howto h3 { font-size:19px; font-weight:650; letter-spacing:-.01em; line-height:1.3; margin:0 0 12px; }
+  .howto h3 a.anchor { color:var(--dim); text-decoration:none; font-weight:400; margin-left:6px; opacity:0; }
+  .howto h3:hover a.anchor, .howto h3 a.anchor:focus-visible { opacity:1; }
+
+  ol.steps { list-style:none; counter-reset:step; margin:0 0 14px; padding:0; }
+  ol.steps > li { counter-increment:step; position:relative; padding:0 0 0 38px; margin:0 0 10px;
+                  color:var(--body); font-size:15.5px; line-height:1.6; }
+  ol.steps > li::before {
+    content:counter(step); position:absolute; left:0; top:1px; width:24px; height:24px; border-radius:50%;
+    background:var(--raised); border:1px solid var(--line); color:var(--accent);
+    font-family:"IBM Plex Mono", ui-monospace, monospace; font-size:12px; font-weight:500;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .tip { background:var(--surface); border:1px solid var(--border); border-left:3px solid var(--accent);
+         border-radius:8px; padding:12px 16px; margin:0 0 14px; color:var(--body); font-size:14.5px; }
+  .tip .mono { color:var(--accent); margin-right:8px; letter-spacing:.14em; }
+  .note { color:var(--body); font-size:14.5px; }
+
+  /* Phone screenshots */
+  figure.shot { margin:22px 0 22px; }
+  .phone {
+    --pr: 34px; --pp: 8px;
+    position:relative; width:100%; max-width:280px;
+    border-radius:var(--pr); padding:var(--pp);
+    background:#090909; border:1px solid #2c2c2c;
+    box-shadow:0 30px 70px -35px rgba(0,0,0,.95), inset 0 0 0 1px rgba(255,255,255,.035);
+  }
+  .phone img { display:block; width:100%; height:auto; border-radius:calc(var(--pr) - var(--pp)); background:var(--surface); }
+  figcaption { color:var(--muted); font-size:13.5px; margin-top:10px; max-width:300px; }
+
+  /* Anatomy */
+  .anatomy { display:grid; grid-template-columns:minmax(0,340px) minmax(0,1fr); gap:28px; align-items:start; margin:24px 0 36px; }
+  .anatomy figure { margin:0; }
+  .anatomy .phone { max-width:340px; }
+  .pinbox { position:relative; }
+  .pin {
+    position:absolute; transform:translate(-50%,-50%); width:22px; height:22px; border-radius:50%;
+    background:var(--accent); color:#fff; border:2px solid #0D0D0D; box-shadow:0 0 0 1px rgba(255,255,255,.25), 0 2px 6px rgba(0,0,0,.6);
+    font-family:"IBM Plex Mono", ui-monospace, monospace; font-size:11px; font-weight:500; line-height:1;
+    display:flex; align-items:center; justify-content:center; pointer-events:none;
+  }
+  ol.legend { list-style:none; margin:0; padding:0; counter-reset:pin; }
+  ol.legend li { counter-increment:pin; position:relative; padding:0 0 0 32px; margin:0 0 9px;
+                 color:var(--body); font-size:14.5px; line-height:1.5; }
+  ol.legend li::before {
+    content:counter(pin); position:absolute; left:0; top:0; width:21px; height:21px; border-radius:50%;
+    background:var(--accent); color:#fff; font-family:"IBM Plex Mono", ui-monospace, monospace;
+    font-size:11px; font-weight:500; display:flex; align-items:center; justify-content:center;
+  }
+  @media (max-width:700px) {
+    .anatomy { grid-template-columns:minmax(0,1fr); gap:20px; }
+    .anatomy .phone { max-width:360px; margin:0 auto; }
+    .anatomy figcaption { margin-left:auto; margin-right:auto; text-align:center; }
+  }
+
+  /* Pro table */
+  .table-wrap { margin:8px 0 14px; border:1px solid var(--border); border-radius:12px; overflow:hidden; }
+  table { width:100%; border-collapse:collapse; font-size:14.5px; }
+  th, td { text-align:left; vertical-align:top; padding:11px 14px; border-bottom:1px solid var(--border); }
+  tr:last-child td { border-bottom:0; }
+  th { background:var(--surface); color:var(--muted); font-weight:500; }
+  td:first-child { color:var(--text); font-weight:500; width:52%; }
+  td { color:var(--muted); }
+
+  /* Prev / next */
+  .pager { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:72px 0 0; }
+  .pager a { display:block; background:var(--surface); border:1px solid var(--border); border-radius:12px;
+             padding:16px 20px; text-decoration:none; color:var(--text); font-weight:600; font-size:16px; }
+  .pager a:hover { border-color:var(--accent); }
+  .pager .mono { display:block; color:var(--muted); margin-bottom:4px; font-weight:500; }
+  .pager .next { text-align:right; grid-column:2; }
+  .allguides { text-align:center; margin:22px 0 0; font-size:14.5px; }
+
+  /* Hub */
+  .search { margin:0 0 22px; }
+  .search label { display:block; color:var(--muted); margin:0 0 10px; }
+  .search input {
+    width:100%; background:var(--surface); color:var(--text); border:1px solid var(--line);
+    border-radius:12px; padding:15px 18px; font:inherit; font-size:16px;
+  }
+  .search input::placeholder { color:var(--dim); }
+  .search input:focus-visible { outline:2px solid var(--accent); outline-offset:2px; border-color:transparent; }
+  #count { color:var(--muted); font-size:13.5px; margin:10px 0 0; min-height:1.4em; }
+  .tour { display:block; text-decoration:none; color:var(--muted); border:1px solid var(--accent); border-radius:14px; padding:22px 24px; margin:0 0 36px; background:linear-gradient(180deg, var(--tint), var(--surface) 70%); }
+  .tour:hover h2 { color:var(--accent); }
+  .tour .mono { color:var(--accent); margin:0 0 8px; }
+  .tour h2 { color:var(--text); font-size:22px; font-weight:700; letter-spacing:-.015em; margin:0 0 6px; }
+  .tour p:last-child { margin:0; font-size:15px; }
+  .cards { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:0 0 56px; }
+  .cards a { display:block; background:var(--surface); border:1px solid var(--border); border-radius:14px;
+             padding:22px 22px 18px; text-decoration:none; transition:border-color .15s ease; }
+  .cards a:hover { border-color:var(--accent); }
+  .cards .mono { color:var(--accent); margin:0 0 8px; }
+  .cards h2 { color:var(--text); font-size:20px; font-weight:700; letter-spacing:-.015em; margin:0 0 6px; }
+  .cards p:last-child { margin:0; font-size:14.5px; }
+  h2.sec { font-size:22px; font-weight:700; letter-spacing:-.02em; margin:0 0 6px; }
+  .all-group { margin:22px 0 0; }
+  .all-group h3 { font-size:15px; font-weight:600; margin:0 0 6px; }
+  .all-group h3 a { color:var(--text); text-decoration:none; }
+  .all-group ul { list-style:none; padding:0; margin:0; columns:2 240px; column-gap:28px; }
+  .all-group li { margin:4px 0; font-size:14.5px; line-height:1.45; break-inside:avoid; }
+  .all-group li a { color:var(--muted); text-decoration:none; }
+  .all-group li a:hover { color:var(--accent); }
+  body.searching .cards, body.searching .browse { display:none; }
+  body.searching .all-group ul { columns:1; }
+
+  footer { border-top:1px solid var(--border); padding:36px 0 52px; }
+  .foot { display:flex; justify-content:space-between; gap:20px; flex-wrap:wrap;
+          max-width:1080px; margin:0 auto; padding:0 24px; }
+  .foot a { color:var(--muted); text-decoration:none; font-size:13.5px; margin-right:22px; }
+  .foot a:hover { color:var(--text); }
+  .copy { color:var(--dim); font-size:12.5px; margin:0; }
+
+  @media (max-width:600px) {
+    .wrap, .bar, .foot { padding-left:16px; padding-right:16px; }
+    main.wrap { padding-top:36px; }
+    .cards { grid-template-columns:1fr; }
+    .toc { padding:18px 18px 6px; }
+    .pager { grid-template-columns:1fr; }
+    .pager .next { grid-column:1; }
+    h2.group { font-size:23px; margin-top:52px; }
+    td:first-child { width:50%; }
+    th, td { padding:10px 12px; }
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header>
+  <div class="bar">
+    <a href="/" class="wordmark"><span>PLA</span>TED</a>
+    <a href="/guide/" class="back">&larr; All guides</a>
+  </div>
+</header>
+
+<main class="wrap" id="main">
+  <p class="mono eyebrow"><a href="/guide/">How to use Plated</a> &nbsp;/&nbsp; Nutrition</p>
+  <h1>Nutrition</h1>
+  <p class="lede">The <b>Nutrition</b> tab is your food diary, one day at a time. From the top: a week strip, the day’s totals, a <b>Tools & settings</b> panel, the search box and <b>Scan</b> button, and then one section for each meal. The round <b>?</b> button in the corner explains each tool.</p>
+  <nav aria-label="On this page"><details class="toc" id="toc" open>
+    <summary class="mono">On this page &middot; 31 how-tos</summary>
+    <ol>
+      <li class="g"><a href="#your-day">Your day</a>
+        <ul>
+          <li><a href="#read-your-day-at-a-glance">Read your day at a glance</a></li>
+          <li><a href="#move-between-days">Move between days</a></li>
+          <li><a href="#set-your-calorie-and-macro-targets">Set your calorie and macro targets</a></li>
+          <li><a href="#keep-a-logging-streak">Keep a logging streak</a></li>
+          <li><a href="#see-your-nutrition-summary">See your nutrition summary</a></li>
+        </ul>
+      </li>
+      <li class="g"><a href="#log-food">Log food</a>
+        <ul>
+          <li><a href="#log-a-food-by-searching">Log a food by searching</a></li>
+          <li><a href="#choose-a-serving-size-and-unit">Choose a serving size and unit</a></li>
+          <li><a href="#log-a-restaurant-meal">Log a restaurant meal</a></li>
+          <li><a href="#scan-a-barcode">Scan a barcode</a> <span class="badge badge-ios" title="In the iPhone app only">iPhone only</span></li>
+          <li><a href="#scan-a-barcode-from-a-photo">Scan a barcode from a photo</a> <span class="badge badge-ios" title="In the iPhone app only">iPhone only</span></li>
+          <li><a href="#check-or-correct-a-scanned-food">Check or correct a scanned food</a></li>
+          <li><a href="#read-a-nutrition-label-with-ai">Read a nutrition label with AI</a> <span class="badge badge-pro" title="Needs Plated Pro">PRO</span> <span class="badge badge-ios" title="In the iPhone app only">iPhone only</span></li>
+          <li><a href="#look-up-a-food-with-ai">Look up a food with AI</a> <span class="badge badge-pro" title="Needs Plated Pro">PRO</span></li>
+          <li><a href="#create-your-own-food">Create your own food</a></li>
+          <li><a href="#edit-or-delete-one-of-your-foods">Edit or delete one of your foods</a></li>
+        </ul>
+      </li>
+      <li class="g"><a href="#recipes-copying-and-editing">Recipes, copying and editing</a>
+        <ul>
+          <li><a href="#build-a-recipe">Build a recipe</a></li>
+          <li><a href="#log-edit-or-delete-a-recipe">Log, edit or delete a recipe</a></li>
+          <li><a href="#copy-food-from-a-past-day">Copy food from a past day</a></li>
+          <li><a href="#copy-a-previous-meal">Copy a previous meal</a></li>
+          <li><a href="#edit-or-delete-a-logged-food">Edit or delete a logged food</a></li>
+          <li><a href="#see-one-meal-s-totals">See one meal’s totals</a></li>
+        </ul>
+      </li>
+      <li class="g"><a href="#tools-settings">Tools & settings</a>
+        <ul>
+          <li><a href="#what-s-in-tools-settings">What’s in Tools & settings</a></li>
+          <li><a href="#change-your-meal-layout">Change your meal layout</a></li>
+          <li><a href="#set-rest-day-targets">Set rest-day targets</a> <span class="badge badge-pro" title="Needs Plated Pro">PRO</span></li>
+          <li><a href="#switch-one-day-between-rest-and-training">Switch one day between rest and training</a> <span class="badge badge-pro" title="Needs Plated Pro">PRO</span></li>
+          <li><a href="#see-micronutrients">See micronutrients</a> <span class="badge badge-pro" title="Needs Plated Pro">PRO</span></li>
+          <li><a href="#use-the-calorie-calculator">Use the calorie calculator</a> <span class="badge badge-pro" title="Needs Plated Pro">PRO</span></li>
+          <li><a href="#use-fill-my-macros">Use Fill My Macros</a> <span class="badge badge-pro" title="Needs Plated Pro">PRO</span></li>
+        </ul>
+      </li>
+      <li class="g"><a href="#sharing-and-exporting">Sharing and exporting</a>
+        <ul>
+          <li><a href="#share-a-food-or-recipe-with-a-friend">Share a food or recipe with a friend</a></li>
+          <li><a href="#log-something-a-friend-sent-you">Log something a friend sent you</a></li>
+          <li><a href="#export-your-food-log">Export your food log</a></li>
+        </ul>
+      </li>
+    </ol>
+  </details></nav>
+  <script>if (window.matchMedia && matchMedia('(max-width:600px)').matches) document.getElementById('toc').open = false;</script>
+  <p class="legend-key"><span class="badge badge-pro" title="Needs Plated Pro">PRO</span> needs Plated Pro. &nbsp;<span class="badge badge-ios" title="In the iPhone app only">iPhone only</span> works in the iPhone app but not on the web.</p>
+
+  <h2 class="group" id="your-day">Your day</h2>
+  <section class="howto" id="read-your-day-at-a-glance" aria-labelledby="read-your-day-at-a-glance-h">
+    <h3 id="read-your-day-at-a-glance-h">Read your day at a glance<a class="anchor" href="#read-your-day-at-a-glance" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>The heading is the selected date. If you have a logging streak, a flame and a number sit beside it.</li>
+      <li>The big number is the calories you’ve eaten, then your target, then <b>N left</b>. Once you go past your target it reads <b>N over</b> in red.</li>
+      <li>The bar under it fills toward your calorie target.</li>
+      <li>Three rings show <b>PROTEIN</b>, <b>CARBS</b> and <b>FAT</b>: grams eaten in the middle, your target underneath.</li>
+      <li>No targets yet? You’ll see a <b>Set your macro targets</b> card instead. Tap it to set them.</li>
+    </ol>
+    <p class="tip"><span class="mono">Tip</span>Tap <b>Summary</b>, at the right of the day heading, for averages over a week, a month or any range.</p>
+    <figure class="shot">
+      <div class="phone"><img src="/assets/screens/nutrition.png" alt="The Nutrition tab on Monday, October 12: a 113-day streak flame, a Training day chip, 2,495 of 2,876 kcal eaten with 381 left, protein, carbs and fat rings, the Tools &amp; settings row, a food search box beside an orange Scan button, and links for Create food, My recipes and Copy a day." width="600" height="1301" loading="lazy"></div>
+      <figcaption>The Nutrition tab: the day’s totals, Tools & settings, and the logging row.</figcaption>
+    </figure>
+  </section>
+  <section class="howto" id="move-between-days" aria-labelledby="move-between-days-h">
+    <h3 id="move-between-days-h">Move between days<a class="anchor" href="#move-between-days" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>Tap a date in the week strip. A dot under a date means you logged food that day.</li>
+      <li>Use the <b>‹</b> and <b>›</b> arrows to move one day at a time.</li>
+      <li>Swipe the week strip left or right to jump a whole week.</li>
+      <li>Anything you log goes onto the selected day, so you can fill in yesterday or plan tomorrow.</li>
+    </ol>
+  </section>
+  <section class="howto" id="set-your-calorie-and-macro-targets" aria-labelledby="set-your-calorie-and-macro-targets-h">
+    <h3 id="set-your-calorie-and-macro-targets-h">Set your calorie and macro targets<a class="anchor" href="#set-your-calorie-and-macro-targets" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>Tap <b>Goals</b> at the top right, or <b>Set your macro targets</b> on the Nutrition tab.</li>
+      <li><b>Your stats</b>: set <b>Gender</b>, <b>Date of birth</b>, <b>Weight</b>, <b>Height</b> and <b>Activity level</b>, then tap <b>Next: set goals →</b>.</li>
+      <li><b>Your goals</b>: pick a goal and tap <b>Calculate →</b>.</li>
+      <li><b>Macro plan</b>: <b>Your daily target</b> shows calories, protein, carbs and fat. If you had targets already, choose <b>Keep mine</b> or <b>Use suggested</b>.</li>
+      <li>To set your own, tap <b>Customize macros</b>. Type the calories, then adjust protein and fat. Carbs fill in the rest. <b>Reset to recommended</b> undoes your changes.</li>
+      <li>Tap <b>Save goals ✓</b>.</li>
+    </ol>
+    <p class="tip"><span class="mono">Tip</span>Plated won’t set a target below 1,200 kcal a day (1,500 for men). If you type less, it offers the minimum instead.</p>
+  </section>
+  <section class="howto" id="keep-a-logging-streak" aria-labelledby="keep-a-logging-streak-h">
+    <h3 id="keep-a-logging-streak-h">Keep a logging streak<a class="anchor" href="#keep-a-logging-streak" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>Log at least one food every day. The streak counts days in a row, ending today (or yesterday, if you haven’t logged yet today).</li>
+      <li>When you log your first food of the day, a card shows <b>Streak started!</b> or <b>N-day tracking streak!</b>. Tap <b>Nice</b> to close it.</li>
+      <li>Tap the flame next to the date to see the card again.</li>
+    </ol>
+  </section>
+  <section class="howto" id="see-your-nutrition-summary" aria-labelledby="see-your-nutrition-summary-h">
+    <h3 id="see-your-nutrition-summary-h">See your nutrition summary<a class="anchor" href="#see-your-nutrition-summary" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>Tap <b>Summary</b> at the right of the day heading.</li>
+      <li>Choose <b>Last 7 days</b>, <b>Last 30 days</b> or <b>Custom</b>. For <b>Custom</b>, tap a start date and then an end date.</li>
+      <li>Read <b>Avg. calories / day</b> and its status, such as <b>On track</b> or <b>Over goal</b>.</li>
+      <li>Scroll for <b>Daily macros</b>, <b>Calories by meal</b>, <b>Calorie history</b> and <b>Day by day</b>. Tap a meal in <b>Calories by meal</b> for its macros.</li>
+    </ol>
+  </section>
+
+  <h2 class="group" id="log-food">Log food</h2>
+  <section class="howto" id="log-a-food-by-searching" aria-labelledby="log-a-food-by-searching-h">
+    <h3 id="log-a-food-by-searching-h">Log a food by searching<a class="anchor" href="#log-a-food-by-searching" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>Tap <b>Search foods and restaurants</b>, or tap <b>Add food</b> under a meal. The <b>Add food</b> sheet opens.</li>
+      <li>Check the meal chips near the top and tap the meal you want.</li>
+      <li>Type into <b>Search foods...</b>. Your own foods come first (<b>My foods</b>), then <b>Recent matches</b>, then <b>Results</b> from the food databases.</li>
+      <li>Tap a food to open its serving sheet. Choose an amount and tap <b>Add</b>.</li>
+      <li>The search sheet comes back so you can log the next food. Tap <b>✕</b> when you’re done.</li>
+    </ol>
+    <p class="tip"><span class="mono">Tip</span>Before you type, the sheet lists your recent foods. A recent food opens with the amount you used last time.</p>
+  </section>
+  <section class="howto" id="choose-a-serving-size-and-unit" aria-labelledby="choose-a-serving-size-and-unit-h">
+    <h3 id="choose-a-serving-size-and-unit-h">Choose a serving size and unit<a class="anchor" href="#choose-a-serving-size-and-unit" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>In the serving sheet, tap <b>Serving size</b>. The list starts with the food’s own serving, such as “1 cup (240g)”, then <b>g</b>, <b>oz</b>, <b>lb</b>, <b>kg</b>, <b>fl oz</b> and <b>ml</b>.</li>
+      <li>Type the amount into <b>Number of servings</b>. With a weight or volume unit, the field reads <b>Amount (oz)</b> or similar.</li>
+      <li>Tap <b>Meal</b> to move the food to a different meal.</li>
+      <li>The donut and the <b>Carbs / Fat / Protein</b> percentages update as you type. Tap <b>Add</b>.</li>
+    </ol>
+    <p class="tip"><span class="mono">Tip</span>If a food has no weight yet, a <b>1 serving weighs</b> row appears first. Fill it in and the weight units become available.</p>
+  </section>
+  <section class="howto" id="log-a-restaurant-meal" aria-labelledby="log-a-restaurant-meal-h">
+    <h3 id="log-a-restaurant-meal-h">Log a restaurant meal<a class="anchor" href="#log-a-restaurant-meal" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>Type the chain and the dish into <b>Search foods and restaurants</b>, for example “chipotle chicken”.</li>
+      <li>Look for the <b>Restaurant</b> badge in the results. The chain’s name is in orange underneath.</li>
+      <li>Tap the item. Log it by the serving, by the piece (say, one wing from a 6-count) or, when the chain publishes a weight, in grams or ounces.</li>
+    </ol>
+    <p class="tip"><span class="mono">Tip</span>Browse what’s on offer on our <a href="/restaurants/">restaurant macros</a> pages.</p>
+  </section>
+  <section class="howto" id="scan-a-barcode" aria-labelledby="scan-a-barcode-h">
+    <h3 id="scan-a-barcode-h">Scan a barcode <span class="badge badge-ios" title="In the iPhone app only">iPhone only</span><a class="anchor" href="#scan-a-barcode" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>Tap the orange <b>Scan</b> button next to the search box, or <b>Scan barcode</b> at the top of the <b>Add food</b> sheet.</li>
+      <li>Allow camera access if you’re asked.</li>
+      <li>Point the camera at the barcode. Tap the flash icon for the torch, or <b>Cancel</b> to back out.</li>
+      <li>When Plated finds the product, the serving sheet opens with a <b>Does this match the label?</b> check.</li>
+      <li>Not found? Tap <b>Enter nutrition facts</b> on the <b>Product not found</b> card. The barcode is filled in for you, so the next person who scans it gets your numbers.</li>
+    </ol>
+    <figure class="shot">
+      <div class="phone"><img src="/assets/screens/barcode.png" alt="A scanned barcode’s serving sheet: a chocolate whey protein at 140 calories and 30 g protein per scoop, with a “Does this match the label?” check offering Looks good and Fix manually, and an Add button." width="600" height="1301" loading="lazy"></div>
+      <figcaption>After a scan, check the numbers against the label.</figcaption>
+    </figure>
+  </section>
+  <section class="howto" id="scan-a-barcode-from-a-photo" aria-labelledby="scan-a-barcode-from-a-photo-h">
+    <h3 id="scan-a-barcode-from-a-photo-h">Scan a barcode from a photo <span class="badge badge-ios" title="In the iPhone app only">iPhone only</span><a class="anchor" href="#scan-a-barcode-from-a-photo" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>Open the scanner as above.</li>
+      <li>Tap <b>Photo</b> (bottom left) and choose the picture.</li>
+      <li>A straight-on shot with the whole barcode in frame works best. If none is found, you’ll see <b>No Barcode Found</b>.</li>
+    </ol>
+  </section>
+  <section class="howto" id="check-or-correct-a-scanned-food" aria-labelledby="check-or-correct-a-scanned-food-h">
+    <h3 id="check-or-correct-a-scanned-food-h">Check or correct a scanned food<a class="anchor" href="#check-or-correct-a-scanned-food" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>After a scan, the serving sheet asks <b>Does this match the label?</b></li>
+      <li>Tap <b>Looks good</b> to carry on, or <b>Fix manually</b> to open <b>Correct nutrition</b>.</li>
+      <li>Edit <b>Calories</b>, <b>Protein (g)</b>, <b>Carbs (g)</b> and <b>Fat (g)</b> for one serving. An <b>Edited</b> badge shows you changed them.</li>
+    </ol>
+    <p class="tip"><span class="mono">Tip</span><b>Correct nutrition</b> is on every food’s serving sheet, not only scanned ones. Tap it to open or close the fields.</p>
+  </section>
+  <section class="howto" id="read-a-nutrition-label-with-ai" aria-labelledby="read-a-nutrition-label-with-ai-h">
+    <h3 id="read-a-nutrition-label-with-ai-h">Read a nutrition label with AI <span class="badge badge-pro" title="Needs Plated Pro">PRO</span> <span class="badge badge-ios" title="In the iPhone app only">iPhone only</span><a class="anchor" href="#read-a-nutrition-label-with-ai" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>Scan a barcode. In the <b>Does this match the label?</b> box, tap <b>Scan with AI</b>.</li>
+      <li>Choose <b>Take Photo</b> or <b>Choose from Library</b>.</li>
+      <li>Wait for <b>Analyzing label…</b>. The label’s calories, macros and micronutrients replace the database numbers.</li>
+      <li><b>Correct nutrition</b> opens so you can check the values. Then tap <b>Add</b>.</li>
+    </ol>
+    <p class="tip"><span class="mono">Tip</span>Labels in any language work, including ones that give energy in kJ or values per 100 g.</p>
+    <figure class="shot">
+      <div class="phone"><img src="/assets/screens/label.png" alt="A Create food form filled in by the AI label scanner from a Chinese nutrition label: hotpot starch noodles at 184 calories per 100 g, 45 g carbs, no protein or fat, and 48 mg sodium." width="600" height="1301" loading="lazy"></div>
+      <figcaption>The AI label scanner reads labels in any language.</figcaption>
+    </figure>
+  </section>
+  <section class="howto" id="look-up-a-food-with-ai" aria-labelledby="look-up-a-food-with-ai-h">
+    <h3 id="look-up-a-food-with-ai-h">Look up a food with AI <span class="badge badge-pro" title="Needs Plated Pro">PRO</span><a class="anchor" href="#look-up-a-food-with-ai" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>Open the <b>Add food</b> sheet and type the food’s name, for example “homemade lasagna”.</li>
+      <li>Tap <b>Look up "homemade lasagna" with AI</b>.</li>
+      <li>After <b>Estimating nutrition…</b>, the serving sheet opens with an estimate. Adjust the amount and tap <b>Add</b>.</li>
+    </ol>
+    <p class="tip"><span class="mono">Tip</span>AI estimates are close but not exact. Check them against the package when it matters.</p>
+  </section>
+  <section class="howto" id="create-your-own-food" aria-labelledby="create-your-own-food-h">
+    <h3 id="create-your-own-food-h">Create your own food<a class="anchor" href="#create-your-own-food" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>Tap <b>Create food</b> under the search box.</li>
+      <li>Under <b>Basic info</b>, fill in <b>Food name</b>, and optionally <b>Brand</b>. On iPhone you can tap <b>Scan</b> to add the <b>Barcode</b>.</li>
+      <li>Under <b>Serving</b>, fill in <b>Serving size</b>, <b>Weight per serving</b> and <b>Servings / container</b>.</li>
+      <li>Under <b>Nutrition facts</b>, fill in <b>Total fat</b>, <b>Total carbohydrates</b> and <b>Protein</b>. <b>Calories</b> fills itself in, and you can type over it.</li>
+      <li>Tap <b>Save</b>. If the numbers look off, <b>Heads up before saving</b> offers <b>Review</b> or <b>Save anyway</b>.</li>
+      <li>The food is saved to <b>My foods</b> and its serving sheet opens, ready to log.</li>
+    </ol>
+    <p class="tip"><span class="mono">Tip</span>Pro on iPhone: tap <b>Scan label with AI</b> at the top, add up to four photos and tap <b>Analyze photo</b>. The form fills itself in.</p>
+    <p class="note">Foods you create are shared with other Plated users as <b>Community</b> foods. Recipes aren’t shared.</p>
+  </section>
+  <section class="howto" id="edit-or-delete-one-of-your-foods" aria-labelledby="edit-or-delete-one-of-your-foods-h">
+    <h3 id="edit-or-delete-one-of-your-foods-h">Edit or delete one of your foods<a class="anchor" href="#edit-or-delete-one-of-your-foods" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>Tap <b>Search foods</b>. Your foods are listed under <b>My foods</b>, each with a <b>My food</b> badge.</li>
+      <li>Tap <b>•••</b> at the end of the food’s row.</li>
+      <li>To change it, tap <b>Edit</b>. The <b>Edit food</b> form opens filled in. Change anything and tap <b>Save</b>.</li>
+      <li>To remove it, tap <b>Delete</b> and confirm. Portions you already logged stay in your diary.</li>
+    </ol>
+    <p class="tip"><span class="mono">Tip</span>Tapping the row itself still logs the food, as before.</p>
+  </section>
+
+  <h2 class="group" id="recipes-copying-and-editing">Recipes, copying and editing</h2>
+  <section class="howto" id="build-a-recipe" aria-labelledby="build-a-recipe-h">
+    <h3 id="build-a-recipe-h">Build a recipe<a class="anchor" href="#build-a-recipe" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>Tap <b>My recipes</b>, then <b>New recipe</b>.</li>
+      <li>Enter a <b>Recipe name</b>.</li>
+      <li>Tap <b>Add ingredient</b> and search for each one. Each starts at 100 g. Change the grams on its row.</li>
+      <li>Under <b>End weight</b>, enter the cooked dish’s total weight in grams. Cooking usually makes it lighter.</li>
+      <li>Check <b>Macro breakdown</b> (<b>Whole recipe</b> and <b>Per 100g</b>), then tap <b>Save</b>.</li>
+    </ol>
+    <p class="tip"><span class="mono">Tip</span>On iPhone, the <b>Scan</b> button next to <b>Add ingredient</b> adds a packaged ingredient from its barcode.</p>
+  </section>
+  <section class="howto" id="log-edit-or-delete-a-recipe" aria-labelledby="log-edit-or-delete-a-recipe-h">
+    <h3 id="log-edit-or-delete-a-recipe-h">Log, edit or delete a recipe<a class="anchor" href="#log-edit-or-delete-a-recipe" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>Tap <b>My recipes</b> and tap a recipe. It opens a serving sheet for the whole recipe.</li>
+      <li>To log a portion, choose <b>g</b> under <b>Serving size</b>, enter your portion’s weight and tap <b>Add</b>.</li>
+      <li>To edit it, tap its pencil icon. Change the ingredients and tap <b>Save</b>.</li>
+      <li>To delete it, tap its bin icon and confirm <b>Delete</b>. Portions you already logged stay in your diary.</li>
+    </ol>
+  </section>
+  <section class="howto" id="copy-food-from-a-past-day" aria-labelledby="copy-food-from-a-past-day-h">
+    <h3 id="copy-food-from-a-past-day-h">Copy food from a past day<a class="anchor" href="#copy-food-from-a-past-day" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>Tap <b>Copy a day</b> under the search box. The newest day is at the top.</li>
+      <li>Tap a day to open it. Its foods are grouped by meal.</li>
+      <li>Tick the foods you want, or tap <b>Select all (N)</b>.</li>
+      <li>Tap the copy button at the bottom. The foods go onto the day selected on the Nutrition tab, under their original meals.</li>
+    </ol>
+  </section>
+  <section class="howto" id="copy-a-previous-meal" aria-labelledby="copy-a-previous-meal-h">
+    <h3 id="copy-a-previous-meal-h">Copy a previous meal<a class="anchor" href="#copy-a-previous-meal" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>Find the meal you want to fill, for example Breakfast.</li>
+      <li>Tap <b>Copy previous</b> below it. It only appears if you’ve logged that meal before.</li>
+      <li>Everything from that meal on the last day you logged it is copied in one go. Swipe away anything you don’t want.</li>
+    </ol>
+  </section>
+  <section class="howto" id="edit-or-delete-a-logged-food" aria-labelledby="edit-or-delete-a-logged-food-h">
+    <h3 id="edit-or-delete-a-logged-food-h">Edit or delete a logged food<a class="anchor" href="#edit-or-delete-a-logged-food" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>Tap a food in your diary.</li>
+      <li>Change <b>Serving size</b>, <b>Number of servings</b> or <b>Meal</b>, or open <b>Correct nutrition</b>. Then tap <b>Update log</b>.</li>
+      <li>To delete it, tap <b>Remove</b>, or swipe the food left in your diary and tap <b>DELETE</b>.</li>
+    </ol>
+  </section>
+  <section class="howto" id="see-one-meal-s-totals" aria-labelledby="see-one-meal-s-totals-h">
+    <h3 id="see-one-meal-s-totals-h">See one meal’s totals<a class="anchor" href="#see-one-meal-s-totals" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>Tap a meal’s name (the header with the <b>›</b>).</li>
+      <li>You’ll see the meal’s calories, rings for <b>Calories</b>, <b>Protein</b>, <b>Carbs</b> and <b>Fat</b> against today’s goal, and its items.</li>
+      <li>Pro members also see the meal’s <b>Micronutrients</b>.</li>
+    </ol>
+  </section>
+
+  <h2 class="group" id="tools-settings">Tools & settings</h2>
+  <section class="howto" id="what-s-in-tools-settings" aria-labelledby="what-s-in-tools-settings-h">
+    <h3 id="what-s-in-tools-settings-h">What’s in Tools & settings<a class="anchor" href="#what-s-in-tools-settings" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>Tap <b>Tools & settings</b>, under the macro rings, to open or close the panel.</li>
+      <li><b>Meal layout</b>: named or numbered meals.</li>
+      <li><b>Rest-day targets</b> (Pro): fewer carbs on the days you rest.</li>
+      <li><b>Calorie calculator</b> (Pro) and <b>Micronutrients</b> (Pro): the day’s sodium, fiber, iron and more.</li>
+    </ol>
+    <p class="tip"><span class="mono">Tip</span><b>Create food</b>, <b>My recipes</b> and <b>Copy a day</b> are the links under the search box.</p>
+  </section>
+  <section class="howto" id="change-your-meal-layout" aria-labelledby="change-your-meal-layout-h">
+    <h3 id="change-your-meal-layout-h">Change your meal layout<a class="anchor" href="#change-your-meal-layout" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>Open <b>Tools & settings</b> and tap <b>Meal layout</b>.</li>
+      <li>Choose <b>Named</b> (Breakfast, Lunch, Dinner, Snack) or <b>Numbered</b>. <b>Numbered</b> is a Plated Pro option.</li>
+      <li>With <b>Numbered</b>, set <b>How many meals</b>, from 2 to 10. <b>Your day</b> previews it.</li>
+      <li>Tap <b>Save</b>. Food you already logged keeps its meal.</li>
+    </ol>
+  </section>
+  <section class="howto" id="set-rest-day-targets" aria-labelledby="set-rest-day-targets-h">
+    <h3 id="set-rest-day-targets-h">Set rest-day targets <span class="badge badge-pro" title="Needs Plated Pro">PRO</span><a class="anchor" href="#set-rest-day-targets" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>Open <b>Tools & settings</b> and tap <b>Rest-day targets</b>. (It’s also in Goals, on the <b>Macro plan</b> step.)</li>
+      <li>Turn on <b>Lower carbs on rest days</b>.</li>
+      <li>Under <b>How</b>, choose <b>Carb cycling</b> (training days go up, so the week evens out) or <b>Lower-calorie rest days</b>.</li>
+      <li>Under <b>Rest days</b>, tap the days you rest. Under <b>How much lower</b>, pick <b>−10% Mild</b>, <b>−15% Standard</b> or <b>−25% Large</b>.</li>
+      <li>Leave <b>A logged workout makes it a training day</b> on if a workout should override the schedule. Check <b>Your days</b>, then tap <b>Save</b>.</li>
+    </ol>
+    <p class="tip"><span class="mono">Tip</span>Rest days never go below 1,200 kcal (1,500 for men), or below half your usual carbs.</p>
+  </section>
+  <section class="howto" id="switch-one-day-between-rest-and-training" aria-labelledby="switch-one-day-between-rest-and-training-h">
+    <h3 id="switch-one-day-between-rest-and-training-h">Switch one day between rest and training <span class="badge badge-pro" title="Needs Plated Pro">PRO</span><a class="anchor" href="#switch-one-day-between-rest-and-training" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>Go to the day you want to change.</li>
+      <li>Under the date, tap the <b>Rest day</b> or <b>Training day</b> chip (it has a ⇄ icon).</li>
+      <li>The day flips and its targets update. Your weekly schedule stays the same.</li>
+    </ol>
+    <p class="tip"><span class="mono">Tip</span>The chip appears once you’ve turned on rest-day targets.</p>
+  </section>
+  <section class="howto" id="see-micronutrients" aria-labelledby="see-micronutrients-h">
+    <h3 id="see-micronutrients-h">See micronutrients <span class="badge badge-pro" title="Needs Plated Pro">PRO</span><a class="anchor" href="#see-micronutrients" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li><b>For a food:</b> open its serving sheet. The <b>Micronutrients</b> card scales to the amount you’re logging.</li>
+      <li><b>For a meal:</b> tap the meal’s name.</li>
+      <li><b>For the whole day:</b> open <b>Tools & settings</b> and tap <b>Micronutrients</b>. Each nutrient shows its share of the FDA Daily Value.</li>
+      <li>Nutrients you should limit turn amber, then red, as they climb.</li>
+    </ol>
+    <p class="tip"><span class="mono">Tip</span>A note at the top says how many of the day’s foods carry nutrient data. Label scans and AI lookups fill in more.</p>
+  </section>
+  <section class="howto" id="use-the-calorie-calculator" aria-labelledby="use-the-calorie-calculator-h">
+    <h3 id="use-the-calorie-calculator-h">Use the calorie calculator <span class="badge badge-pro" title="Needs Plated Pro">PRO</span><a class="anchor" href="#use-the-calorie-calculator" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>Open <b>Tools & settings</b> and tap <b>Calorie calculator</b>.</li>
+      <li>Under <b>Enter your macros</b>, type grams of <b>Protein</b>, <b>Carbs</b> and <b>Fat</b>.</li>
+      <li>Read <b>Total calories</b> and the <b>Macro split</b>. Tap <b>Clear</b> to start again.</li>
+    </ol>
+    <p class="tip"><span class="mono">Tip</span>In Goals, <b>Or calculate from a macro split</b> opens the calculator. <b>Use these macros for my goal</b> sends the numbers back.</p>
+  </section>
+  <section class="howto" id="use-fill-my-macros" aria-labelledby="use-fill-my-macros-h">
+    <h3 id="use-fill-my-macros-h">Use Fill My Macros <span class="badge badge-pro" title="Needs Plated Pro">PRO</span><a class="anchor" href="#use-fill-my-macros" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>Below <b>Dinner</b> (or your last meal), tap <b>Fill My Macros</b>.</li>
+      <li><b>Remaining today</b> shows the calories, protein, carbs and fat you have left.</li>
+      <li>Choose where ideas come from: <b>Last dinner</b> or <b>Other foods you’ve logged</b>.</li>
+      <li>Review the suggestion, with a weight for each food. Tap <b>Another option</b> for a different mix.</li>
+      <li>Tap <b>Log this dinner</b> to add it all at once.</li>
+    </ol>
+  </section>
+
+  <h2 class="group" id="sharing-and-exporting">Sharing and exporting</h2>
+  <section class="howto" id="share-a-food-or-recipe-with-a-friend" aria-labelledby="share-a-food-or-recipe-with-a-friend-h">
+    <h3 id="share-a-food-or-recipe-with-a-friend-h">Share a food or recipe with a friend<a class="anchor" href="#share-a-food-or-recipe-with-a-friend" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li><b>A logged food:</b> tap it in your diary, then tap the share icon at the top. <b>A recipe:</b> tap <b>My recipes</b>, then the paper-plane icon.</li>
+      <li>To send it privately, tap <b>Send to a friend</b> (Pro). Pick someone, add a note if you like, and tap <b>Send to [name]</b>.</li>
+      <li>To post it instead, tap <b>Post to feed</b>. Add a caption and a photo if you like, then tap <b>Post to feed</b>.</li>
+    </ol>
+    <p class="tip"><span class="mono">Tip</span>Posting a logged food to the feed is free. Sending to a friend and sharing recipes are part of Plated Pro.</p>
+  </section>
+  <section class="howto" id="log-something-a-friend-sent-you" aria-labelledby="log-something-a-friend-sent-you-h">
+    <h3 id="log-something-a-friend-sent-you-h">Log something a friend sent you<a class="anchor" href="#log-something-a-friend-sent-you" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>A <b>Shared with you</b> card appears on your Nutrition tab, under the day’s totals.</li>
+      <li>It shows who sent it, the calories and macros, and their note. Tap <b>View ingredients (N)</b> to see what’s in a recipe.</li>
+      <li>Tap <b>Log it</b> to add it to the selected day. For a recipe, <b>Save</b> puts it in <b>My recipes</b>. <b>Dismiss</b> removes the card.</li>
+    </ol>
+  </section>
+  <section class="howto" id="export-your-food-log" aria-labelledby="export-your-food-log-h">
+    <h3 id="export-your-food-log-h">Export your food log<a class="anchor" href="#export-your-food-log" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>Go to <b>Profile</b> → <b>☰</b> → <b>Settings</b>.</li>
+      <li>Under <b>App</b>, tap <b>Export food log</b>. You get every food you’ve logged, with its macros and micronutrients, as a CSV.</li>
+      <li>Choose where to save or send the file. Exporting is free.</li>
+    </ol>
+  </section>
+
+  <nav class="pager" aria-label="More guides">
+    <a class="prev" href="/guide/getting-started/"><span class="mono">&larr; Previous</span>Getting started</a>
+    <a class="next" href="/guide/train/"><span class="mono">Next &rarr;</span>Train</a>
+  </nav>
+  <p class="allguides"><a href="/guide/">All guides</a> &nbsp;·&nbsp; <a href="/support/">Contact support</a></p>
+</main>
+
+<footer>
+  <div class="foot">
+    <div>
+      <a href="/guide/">Guide</a>
+      <a href="/support/">Support</a>
+      <a href="/privacy/">Privacy</a>
+      <a href="/terms/">Terms</a>
+    </div>
+    <p class="copy">&copy; 2026 Plated Fitness</p>
+  </div>
+</footer>
+
+</body>
+</html>

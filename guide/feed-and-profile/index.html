@@ -1,0 +1,465 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Feed and Profile &mdash; How to use Plated</title>
+<meta name="description" content="How to use Plated’s Feed and Profile: follow people, post workouts and meals, compare lifts, report or block, notifications, privacy and settings.">
+<meta name="theme-color" content="#0D0D0D">
+<link rel="canonical" href="https://plated-fitness.com/guide/feed-and-profile/">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://plated-fitness.com/guide/feed-and-profile/">
+<meta property="og:title" content="Feed and Profile — How to use Plated">
+<meta property="og:description" content="How to use Plated’s Feed and Profile: follow people, post workouts and meals, compare lifts, report or block, notifications, privacy and settings.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;900&family=IBM+Plex+Mono:wght@400;500&display=swap">
+
+<style>
+  :root {
+    --ground:#0D0D0D; --surface:#151515; --raised:#1C1C1C; --border:#262626; --line:#333333;
+    --text:#F0F0F0; --body:#C4C4C4; --muted:#8C8C8C; --dim:#5E5E5E; --accent:#FF4500; --accent-d:#C93600;
+    --tint: rgba(255,69,0,.10);
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  body {
+    margin:0; background:var(--ground); color:var(--text);
+    font-family: Archivo, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-size:16px; line-height:1.65; -webkit-font-smoothing:antialiased;
+    overflow-wrap: break-word;
+  }
+  .wrap { width:100%; max-width:760px; margin:0 auto; padding:0 24px; }
+  a { color: var(--accent); }
+  a:focus-visible, input:focus-visible, button:focus-visible {
+    outline:2px solid var(--accent); outline-offset:3px; border-radius:3px;
+  }
+  .skip { position:absolute; left:-9999px; top:8px; background:var(--accent); color:#fff;
+          padding:8px 14px; border-radius:8px; font-weight:600; text-decoration:none; z-index:20; }
+  .skip:focus { left:16px; }
+
+  .mono {
+    font-family:"IBM Plex Mono", ui-monospace, monospace;
+    font-size:11px; font-weight:500; letter-spacing:.16em; text-transform:uppercase;
+  }
+
+  header { border-bottom:1px solid var(--border); }
+  .bar { display:flex; align-items:center; justify-content:space-between; height:62px;
+         max-width:1080px; margin:0 auto; padding:0 24px; }
+  .wordmark { font-weight:900; font-size:19px; color:var(--text); text-decoration:none; letter-spacing:-.01em; }
+  .wordmark span { color:var(--accent); }
+  .back { color:var(--muted); text-decoration:none; font-size:13.5px; font-weight:500; }
+  .back:hover { color:var(--text); }
+
+  main.wrap { padding-top:56px; padding-bottom:88px; }
+  .eyebrow { color:var(--accent); margin:0 0 14px; }
+  .eyebrow a { color:var(--muted); text-decoration:none; }
+  .eyebrow a:hover { color:var(--text); }
+  h1 { font-size:clamp(30px,5vw,42px); font-weight:700; letter-spacing:-.03em; line-height:1.06;
+       margin:0 0 14px; text-wrap:balance; }
+  .lede { font-size:17px; color:var(--muted); margin:0 0 36px; max-width:58ch; text-wrap:pretty; }
+  .lede b { color:var(--text); font-weight:600; }
+
+  p { margin:0 0 14px; color:var(--muted); font-size:15px; }
+  b, strong { color:var(--text); font-weight:600; }
+
+  .badge {
+    display:inline-block; vertical-align:2px; margin-left:4px;
+    font-family:"IBM Plex Mono", ui-monospace, monospace; font-size:10px; font-weight:500;
+    letter-spacing:.1em; text-transform:uppercase; line-height:1; padding:4px 6px 3px; border-radius:5px;
+    white-space:nowrap;
+  }
+  .badge-pro { color:var(--accent); background:var(--tint); border:1px solid rgba(255,69,0,.45); }
+  .badge-ios { color:var(--muted); border:1px solid var(--line); }
+
+  /* On this page */
+  .toc { background:var(--surface); border:1px solid var(--border); border-radius:14px;
+         padding:22px 24px 10px; margin:0 0 20px; }
+  .toc > summary { color:var(--muted); margin:0 0 12px; cursor:pointer; list-style:none; display:flex; justify-content:space-between; gap:12px; }
+  .toc > summary::-webkit-details-marker { display:none; }
+  .toc > summary::after { content:"Hide"; color:var(--accent); letter-spacing:.12em; }
+  .toc:not([open]) > summary { margin-bottom:12px; }
+  .toc:not([open]) > summary::after { content:"Show"; }
+  .toc > summary:focus-visible { outline:2px solid var(--accent); outline-offset:4px; border-radius:3px; }
+  .toc ol { list-style:none; margin:0; padding:0; columns:2 250px; column-gap:32px; }
+  .toc li.g { break-inside:avoid; margin:0 0 16px; }
+  .toc li.g > a { color:var(--text); font-weight:600; font-size:15px; text-decoration:none; }
+  .toc ul { list-style:none; margin:4px 0 0; padding:0; }
+  .toc ul li { margin:3px 0; font-size:14px; line-height:1.45; }
+  .toc ul a { color:var(--muted); text-decoration:none; }
+  .toc a:hover { color:var(--accent); }
+  .toc .badge { font-size:9px; padding:3px 5px 2px; }
+
+  .legend-key { font-size:13.5px; color:var(--muted); margin:0 0 8px; }
+
+  /* Groups and how-tos */
+  h2.group { font-size:26px; font-weight:700; letter-spacing:-.02em; line-height:1.15;
+             margin:64px 0 6px; padding-top:28px; border-top:1px solid var(--border); scroll-margin-top:16px; }
+  .group-intro { margin-bottom:8px; }
+  .howto { margin:34px 0 0; scroll-margin-top:16px; }
+  .howto h3 { font-size:19px; font-weight:650; letter-spacing:-.01em; line-height:1.3; margin:0 0 12px; }
+  .howto h3 a.anchor { color:var(--dim); text-decoration:none; font-weight:400; margin-left:6px; opacity:0; }
+  .howto h3:hover a.anchor, .howto h3 a.anchor:focus-visible { opacity:1; }
+
+  ol.steps { list-style:none; counter-reset:step; margin:0 0 14px; padding:0; }
+  ol.steps > li { counter-increment:step; position:relative; padding:0 0 0 38px; margin:0 0 10px;
+                  color:var(--body); font-size:15.5px; line-height:1.6; }
+  ol.steps > li::before {
+    content:counter(step); position:absolute; left:0; top:1px; width:24px; height:24px; border-radius:50%;
+    background:var(--raised); border:1px solid var(--line); color:var(--accent);
+    font-family:"IBM Plex Mono", ui-monospace, monospace; font-size:12px; font-weight:500;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .tip { background:var(--surface); border:1px solid var(--border); border-left:3px solid var(--accent);
+         border-radius:8px; padding:12px 16px; margin:0 0 14px; color:var(--body); font-size:14.5px; }
+  .tip .mono { color:var(--accent); margin-right:8px; letter-spacing:.14em; }
+  .note { color:var(--body); font-size:14.5px; }
+
+  /* Phone screenshots */
+  figure.shot { margin:22px 0 22px; }
+  .phone {
+    --pr: 34px; --pp: 8px;
+    position:relative; width:100%; max-width:280px;
+    border-radius:var(--pr); padding:var(--pp);
+    background:#090909; border:1px solid #2c2c2c;
+    box-shadow:0 30px 70px -35px rgba(0,0,0,.95), inset 0 0 0 1px rgba(255,255,255,.035);
+  }
+  .phone img { display:block; width:100%; height:auto; border-radius:calc(var(--pr) - var(--pp)); background:var(--surface); }
+  figcaption { color:var(--muted); font-size:13.5px; margin-top:10px; max-width:300px; }
+
+  /* Anatomy */
+  .anatomy { display:grid; grid-template-columns:minmax(0,340px) minmax(0,1fr); gap:28px; align-items:start; margin:24px 0 36px; }
+  .anatomy figure { margin:0; }
+  .anatomy .phone { max-width:340px; }
+  .pinbox { position:relative; }
+  .pin {
+    position:absolute; transform:translate(-50%,-50%); width:22px; height:22px; border-radius:50%;
+    background:var(--accent); color:#fff; border:2px solid #0D0D0D; box-shadow:0 0 0 1px rgba(255,255,255,.25), 0 2px 6px rgba(0,0,0,.6);
+    font-family:"IBM Plex Mono", ui-monospace, monospace; font-size:11px; font-weight:500; line-height:1;
+    display:flex; align-items:center; justify-content:center; pointer-events:none;
+  }
+  ol.legend { list-style:none; margin:0; padding:0; counter-reset:pin; }
+  ol.legend li { counter-increment:pin; position:relative; padding:0 0 0 32px; margin:0 0 9px;
+                 color:var(--body); font-size:14.5px; line-height:1.5; }
+  ol.legend li::before {
+    content:counter(pin); position:absolute; left:0; top:0; width:21px; height:21px; border-radius:50%;
+    background:var(--accent); color:#fff; font-family:"IBM Plex Mono", ui-monospace, monospace;
+    font-size:11px; font-weight:500; display:flex; align-items:center; justify-content:center;
+  }
+  @media (max-width:700px) {
+    .anatomy { grid-template-columns:minmax(0,1fr); gap:20px; }
+    .anatomy .phone { max-width:360px; margin:0 auto; }
+    .anatomy figcaption { margin-left:auto; margin-right:auto; text-align:center; }
+  }
+
+  /* Pro table */
+  .table-wrap { margin:8px 0 14px; border:1px solid var(--border); border-radius:12px; overflow:hidden; }
+  table { width:100%; border-collapse:collapse; font-size:14.5px; }
+  th, td { text-align:left; vertical-align:top; padding:11px 14px; border-bottom:1px solid var(--border); }
+  tr:last-child td { border-bottom:0; }
+  th { background:var(--surface); color:var(--muted); font-weight:500; }
+  td:first-child { color:var(--text); font-weight:500; width:52%; }
+  td { color:var(--muted); }
+
+  /* Prev / next */
+  .pager { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:72px 0 0; }
+  .pager a { display:block; background:var(--surface); border:1px solid var(--border); border-radius:12px;
+             padding:16px 20px; text-decoration:none; color:var(--text); font-weight:600; font-size:16px; }
+  .pager a:hover { border-color:var(--accent); }
+  .pager .mono { display:block; color:var(--muted); margin-bottom:4px; font-weight:500; }
+  .pager .next { text-align:right; grid-column:2; }
+  .allguides { text-align:center; margin:22px 0 0; font-size:14.5px; }
+
+  /* Hub */
+  .search { margin:0 0 22px; }
+  .search label { display:block; color:var(--muted); margin:0 0 10px; }
+  .search input {
+    width:100%; background:var(--surface); color:var(--text); border:1px solid var(--line);
+    border-radius:12px; padding:15px 18px; font:inherit; font-size:16px;
+  }
+  .search input::placeholder { color:var(--dim); }
+  .search input:focus-visible { outline:2px solid var(--accent); outline-offset:2px; border-color:transparent; }
+  #count { color:var(--muted); font-size:13.5px; margin:10px 0 0; min-height:1.4em; }
+  .tour { display:block; text-decoration:none; color:var(--muted); border:1px solid var(--accent); border-radius:14px; padding:22px 24px; margin:0 0 36px; background:linear-gradient(180deg, var(--tint), var(--surface) 70%); }
+  .tour:hover h2 { color:var(--accent); }
+  .tour .mono { color:var(--accent); margin:0 0 8px; }
+  .tour h2 { color:var(--text); font-size:22px; font-weight:700; letter-spacing:-.015em; margin:0 0 6px; }
+  .tour p:last-child { margin:0; font-size:15px; }
+  .cards { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:0 0 56px; }
+  .cards a { display:block; background:var(--surface); border:1px solid var(--border); border-radius:14px;
+             padding:22px 22px 18px; text-decoration:none; transition:border-color .15s ease; }
+  .cards a:hover { border-color:var(--accent); }
+  .cards .mono { color:var(--accent); margin:0 0 8px; }
+  .cards h2 { color:var(--text); font-size:20px; font-weight:700; letter-spacing:-.015em; margin:0 0 6px; }
+  .cards p:last-child { margin:0; font-size:14.5px; }
+  h2.sec { font-size:22px; font-weight:700; letter-spacing:-.02em; margin:0 0 6px; }
+  .all-group { margin:22px 0 0; }
+  .all-group h3 { font-size:15px; font-weight:600; margin:0 0 6px; }
+  .all-group h3 a { color:var(--text); text-decoration:none; }
+  .all-group ul { list-style:none; padding:0; margin:0; columns:2 240px; column-gap:28px; }
+  .all-group li { margin:4px 0; font-size:14.5px; line-height:1.45; break-inside:avoid; }
+  .all-group li a { color:var(--muted); text-decoration:none; }
+  .all-group li a:hover { color:var(--accent); }
+  body.searching .cards, body.searching .browse { display:none; }
+  body.searching .all-group ul { columns:1; }
+
+  footer { border-top:1px solid var(--border); padding:36px 0 52px; }
+  .foot { display:flex; justify-content:space-between; gap:20px; flex-wrap:wrap;
+          max-width:1080px; margin:0 auto; padding:0 24px; }
+  .foot a { color:var(--muted); text-decoration:none; font-size:13.5px; margin-right:22px; }
+  .foot a:hover { color:var(--text); }
+  .copy { color:var(--dim); font-size:12.5px; margin:0; }
+
+  @media (max-width:600px) {
+    .wrap, .bar, .foot { padding-left:16px; padding-right:16px; }
+    main.wrap { padding-top:36px; }
+    .cards { grid-template-columns:1fr; }
+    .toc { padding:18px 18px 6px; }
+    .pager { grid-template-columns:1fr; }
+    .pager .next { grid-column:1; }
+    h2.group { font-size:23px; margin-top:52px; }
+    td:first-child { width:50%; }
+    th, td { padding:10px 12px; }
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header>
+  <div class="bar">
+    <a href="/" class="wordmark"><span>PLA</span>TED</a>
+    <a href="/guide/" class="back">&larr; All guides</a>
+  </div>
+</header>
+
+<main class="wrap" id="main">
+  <p class="mono eyebrow"><a href="/guide/">How to use Plated</a> &nbsp;/&nbsp; Feed and Profile</p>
+  <h1>Feed and Profile</h1>
+  <p class="lede">The <b>Feed</b> shows your posts and posts from everyone you follow, newest first. <b>Profile</b> is your own page, and <b>Settings</b> is reached from it.</p>
+  <nav aria-label="On this page"><details class="toc" id="toc" open>
+    <summary class="mono">On this page &middot; 17 how-tos</summary>
+    <ol>
+      <li class="g"><a href="#the-feed">The feed</a>
+        <ul>
+          <li><a href="#find-people-and-follow-them">Find people and follow them</a></li>
+          <li><a href="#read-and-refresh-the-feed">Read and refresh the feed</a></li>
+          <li><a href="#post-a-workout-run-or-meal">Post a workout, run or meal</a></li>
+          <li><a href="#like-and-comment">Like and comment</a></li>
+          <li><a href="#compare-an-exercise-with-a-friend-s">Compare an exercise with a friend’s</a></li>
+          <li><a href="#save-a-workout-or-exercise-from-a-post">Save a workout or exercise from a post</a> <span class="badge badge-pro" title="Needs Plated Pro">PRO</span></li>
+          <li><a href="#manage-your-own-post">Manage your own post</a></li>
+          <li><a href="#report-a-post-or-block-someone">Report a post or block someone</a></li>
+          <li><a href="#use-notifications">Use notifications</a></li>
+        </ul>
+      </li>
+      <li class="g"><a href="#profiles">Profiles</a>
+        <ul>
+          <li><a href="#look-at-someone-s-profile">Look at someone’s profile</a></li>
+          <li><a href="#find-your-way-around-your-profile">Find your way around your profile</a></li>
+          <li><a href="#use-the-four-profile-tabs">Use the four profile tabs</a></li>
+          <li><a href="#change-your-photo-name-and-username">Change your photo, name and username</a></li>
+          <li><a href="#make-your-account-private">Make your account private</a></li>
+        </ul>
+      </li>
+      <li class="g"><a href="#settings">Settings</a>
+        <ul>
+          <li><a href="#what-s-in-settings">What’s in Settings</a></li>
+          <li><a href="#export-your-data">Export your data</a></li>
+          <li><a href="#sign-out-or-delete-your-account">Sign out or delete your account</a></li>
+        </ul>
+      </li>
+    </ol>
+  </details></nav>
+  <script>if (window.matchMedia && matchMedia('(max-width:600px)').matches) document.getElementById('toc').open = false;</script>
+  <p class="legend-key"><span class="badge badge-pro" title="Needs Plated Pro">PRO</span> needs Plated Pro. &nbsp;<span class="badge badge-ios" title="In the iPhone app only">iPhone only</span> works in the iPhone app but not on the web.</p>
+
+  <h2 class="group" id="the-feed">The feed</h2>
+  <section class="howto" id="find-people-and-follow-them" aria-labelledby="find-people-and-follow-them-h">
+    <h3 id="find-people-and-follow-them-h">Find people and follow them<a class="anchor" href="#find-people-and-follow-them" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>Tap the <b>Search</b> magnifier at the top of any tab.</li>
+      <li>Type a name or @handle. People appear under <b>People</b>.</li>
+      <li>Tap <b>Follow</b>. It changes to <b>Following</b>.</li>
+      <li>If the account is private, it shows <b>Requested</b> until they accept.</li>
+    </ol>
+    <p class="tip"><span class="mono">Tip</span>To unfollow, tap <b>Following</b> on their profile or in search.</p>
+  </section>
+  <section class="howto" id="read-and-refresh-the-feed" aria-labelledby="read-and-refresh-the-feed-h">
+    <h3 id="read-and-refresh-the-feed-h">Read and refresh the feed<a class="anchor" href="#read-and-refresh-the-feed" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>Each post shows who posted it, what they did and when.</li>
+      <li>Pull down to refresh.</li>
+      <li>Swipe across photos if there’s more than one. Tap a photo or video to see it full screen.</li>
+      <li>Tap <b>Exercises</b> on a workout post to see every exercise and its sets.</li>
+      <li>Tap the <b>N PRs</b> or <b>avg bpm</b> badges for the highlights and the heart-rate chart.</li>
+    </ol>
+    <figure class="shot">
+      <div class="phone"><img src="/assets/guide/feed.png" alt="A workout post in the Feed from @platedfitness: a gym photo, the title Quad day, 37,530 lbs volume, 119 minutes and 24 sets, badges for 2 PRs and 136 avg bpm, and an Exercises dropdown." width="600" height="1301" loading="lazy"></div>
+      <figcaption>A workout post. Tap the badges or Exercises for more.</figcaption>
+    </figure>
+  </section>
+  <section class="howto" id="post-a-workout-run-or-meal" aria-labelledby="post-a-workout-run-or-meal-h">
+    <h3 id="post-a-workout-run-or-meal-h">Post a workout, run or meal<a class="anchor" href="#post-a-workout-run-or-meal" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li><b>A workout or run:</b> finish it on the <b>Train</b> tab, add photos and a caption, and tap <b>Post to feed</b>.</li>
+      <li><b>A meal:</b> on the <b>Nutrition</b> tab, tap a logged food, tap the share icon, choose <b>Post to feed</b>, and post.</li>
+      <li><b>An older workout you never shared:</b> <b>Profile</b> → <b>Workouts</b> → tap it → <b>Post</b>.</li>
+    </ol>
+    <p class="tip"><span class="mono">Tip</span>There’s no compose button on the Feed. You post from where the activity happened.</p>
+  </section>
+  <section class="howto" id="like-and-comment" aria-labelledby="like-and-comment-h">
+    <h3 id="like-and-comment-h">Like and comment<a class="anchor" href="#like-and-comment" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>Tap the heart under a post to like it. Tap again to unlike.</li>
+      <li>Tap the speech bubble, type in <b>Add a comment...</b> and tap <b>Post</b>.</li>
+      <li>To delete your own comment, tap its bin icon and confirm.</li>
+      <li>To report someone’s comment, tap its flag icon.</li>
+    </ol>
+  </section>
+  <section class="howto" id="compare-an-exercise-with-a-friend-s" aria-labelledby="compare-an-exercise-with-a-friend-s-h">
+    <h3 id="compare-an-exercise-with-a-friend-s-h">Compare an exercise with a friend’s<a class="anchor" href="#compare-an-exercise-with-a-friend-s" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>On a workout post, tap <b>Exercises</b>, then tap an exercise.</li>
+      <li>See <b>Theirs</b>, <b>Yours</b> and <b>Diff</b>. Switch between <b>Max weight</b> and <b>Max volume</b>.</li>
+      <li>Press and drag across the chart to read values.</li>
+    </ol>
+    <p class="tip"><span class="mono">Tip</span>Comparing one exercise is free.</p>
+  </section>
+  <section class="howto" id="save-a-workout-or-exercise-from-a-post" aria-labelledby="save-a-workout-or-exercise-from-a-post-h">
+    <h3 id="save-a-workout-or-exercise-from-a-post-h">Save a workout or exercise from a post <span class="badge badge-pro" title="Needs Plated Pro">PRO</span><a class="anchor" href="#save-a-workout-or-exercise-from-a-post" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>On someone’s workout post, tap <b>Save workout</b>. It goes into your saved workouts on the Train tab.</li>
+      <li>To take one exercise, tap <b>Exercises</b>, then <b>Add to my library</b> under it.</li>
+    </ol>
+    <p class="tip"><span class="mono">Tip</span>Saving from your own posts is free.</p>
+  </section>
+  <section class="howto" id="manage-your-own-post" aria-labelledby="manage-your-own-post-h">
+    <h3 id="manage-your-own-post-h">Manage your own post<a class="anchor" href="#manage-your-own-post" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>Tap <b>•••</b> at the top right of your post.</li>
+      <li>Add, replace or remove photos and videos.</li>
+      <li>Tap <b>Add Note</b> or <b>Edit Note</b> to change the text.</li>
+      <li><b>Make a Sticker</b> makes a story sticker from a workout post.</li>
+      <li><b>Archive</b> hides the post from the feed. <b>Delete</b> removes it for good.</li>
+    </ol>
+  </section>
+  <section class="howto" id="report-a-post-or-block-someone" aria-labelledby="report-a-post-or-block-someone-h">
+    <h3 id="report-a-post-or-block-someone-h">Report a post or block someone<a class="anchor" href="#report-a-post-or-block-someone" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>On someone else’s post, tap <b>•••</b>.</li>
+      <li>Tap <b>Report Post</b>. To add detail, fill in <b>Anything else? (optional)</b> first, then tap a reason. The report sends as soon as you tap the reason.</li>
+      <li>Or tap <b>Block @handle</b> and confirm <b>Block</b>. Neither of you will see the other’s posts or comments.</li>
+      <li>To unblock, go to <b>Profile</b> → <b>☰</b> → <b>Settings</b> → <b>Blocked accounts</b> → <b>Unblock</b>.</li>
+    </ol>
+    <p class="tip"><span class="mono">Tip</span>Every report is reviewed within 24 hours.</p>
+  </section>
+  <section class="howto" id="use-notifications" aria-labelledby="use-notifications-h">
+    <h3 id="use-notifications-h">Use notifications<a class="anchor" href="#use-notifications" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>Tap the bell. An orange badge shows how many are unread.</li>
+      <li>Tap a notification to go to the post, comment, profile or shared food it’s about.</li>
+      <li>For a follow request, tap <b>Accept</b> or <b>Decline</b>.</li>
+      <li>Swipe a notification left and tap <b>DELETE</b> to remove it. <b>Mark all read</b> clears the badge.</li>
+    </ol>
+  </section>
+
+  <h2 class="group" id="profiles">Profiles</h2>
+  <section class="howto" id="look-at-someone-s-profile" aria-labelledby="look-at-someone-s-profile-h">
+    <h3 id="look-at-someone-s-profile-h">Look at someone’s profile<a class="anchor" href="#look-at-someone-s-profile" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>Tap a name on a post, in search or in a notification.</li>
+      <li>See their posts, followers and following, and <b>Follow</b>.</li>
+      <li>Open <b>Workout calendar</b> or <b>Muscle heatmap</b>. <b>Compare with me</b> (Pro) adds yours alongside.</li>
+      <li>Browse their <b>Posts</b>, <b>Workouts</b> and <b>Awards</b> tabs.</li>
+    </ol>
+  </section>
+  <section class="howto" id="find-your-way-around-your-profile" aria-labelledby="find-your-way-around-your-profile-h">
+    <h3 id="find-your-way-around-your-profile-h">Find your way around your profile<a class="anchor" href="#find-your-way-around-your-profile" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>Open <b>Profile</b>. The <b>☰</b> icon at the top right opens <b>Settings</b>.</li>
+      <li>Under your photo: <b>posts</b>, <b>followers</b> and <b>following</b>. Tap a count to see the list.</li>
+      <li><b>Edit goals</b> opens your targets. <b>Share profile</b> sends a link to your profile.</li>
+      <li>Four tabs: <b>Posts</b>, <b>Workouts</b>, <b>Awards</b> and <b>Overview</b>.</li>
+    </ol>
+  </section>
+  <section class="howto" id="use-the-four-profile-tabs" aria-labelledby="use-the-four-profile-tabs-h">
+    <h3 id="use-the-four-profile-tabs-h">Use the four profile tabs<a class="anchor" href="#use-the-four-profile-tabs" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li><b>Posts</b>: a grid of your posts. The grid and list icons switch the view.</li>
+      <li><b>Workouts</b>: every session. Tap one you never shared to <b>Post</b> or <b>Delete</b> it.</li>
+      <li><b>Awards</b>: your achievements, with filters for <b>Nutrition</b>, <b>Lifting</b>, <b>Consistency</b> and <b>Social</b>.</li>
+      <li><b>Overview</b>: your current weight, daily average calories, today’s macros and your targets.</li>
+    </ol>
+  </section>
+  <section class="howto" id="change-your-photo-name-and-username" aria-labelledby="change-your-photo-name-and-username-h">
+    <h3 id="change-your-photo-name-and-username-h">Change your photo, name and username<a class="anchor" href="#change-your-photo-name-and-username" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>Tap your profile picture to <b>Take Photo</b>, <b>Choose from Library</b> or <b>Remove Photo</b>.</li>
+      <li>Tap your name, or go to <b>Settings</b> → <b>Name</b>.</li>
+      <li>In <b>Edit profile</b>, change <b>Name</b> and <b>Username</b> and tap <b>Save</b>.</li>
+    </ol>
+  </section>
+  <section class="howto" id="make-your-account-private" aria-labelledby="make-your-account-private-h">
+    <h3 id="make-your-account-private-h">Make your account private<a class="anchor" href="#make-your-account-private" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>Go to <b>Profile</b> → <b>☰</b> → <b>Settings</b>.</li>
+      <li>Under <b>Account</b>, tap the <b>Public</b> pill next to <b>Profile visibility</b>. It switches to <b>Private</b>.</li>
+      <li>New followers now have to send a request, which you accept in Notifications.</li>
+    </ol>
+  </section>
+
+  <h2 class="group" id="settings">Settings</h2>
+  <section class="howto" id="what-s-in-settings" aria-labelledby="what-s-in-settings-h">
+    <h3 id="what-s-in-settings-h">What’s in Settings<a class="anchor" href="#what-s-in-settings" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li><b>Account</b>: your name, handle, email, <b>Profile visibility</b> and, on iPhone, <b>Apple Health sync</b>.</li>
+      <li><b>Subscription</b>: your plan, restore purchases and how to cancel.</li>
+      <li><b>App</b>: <b>How Plated works</b>, <b>Send feedback</b>, import and export, <b>Blocked accounts</b> and <b>Appearance</b>.</li>
+      <li><b>About</b>: privacy policy, terms and <b>Contact support</b>.</li>
+      <li><b>Security</b> (<b>Change password</b>) and <b>Session</b> (<b>Sign out</b>, <b>Delete account</b>).</li>
+    </ol>
+    <p class="tip"><span class="mono">Tip</span>Units aren’t in Settings. They’re on the Progress tab’s Bodyweight card and the Train tab.</p>
+  </section>
+  <section class="howto" id="export-your-data" aria-labelledby="export-your-data-h">
+    <h3 id="export-your-data-h">Export your data<a class="anchor" href="#export-your-data" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>Go to <b>Profile</b> → <b>☰</b> → <b>Settings</b>.</li>
+      <li>Tap <b>Export workout history</b>, <b>Export food log</b> or <b>Export body metrics</b>.</li>
+      <li>Choose where to send the CSV. All three are free.</li>
+    </ol>
+  </section>
+  <section class="howto" id="sign-out-or-delete-your-account" aria-labelledby="sign-out-or-delete-your-account-h">
+    <h3 id="sign-out-or-delete-your-account-h">Sign out or delete your account<a class="anchor" href="#sign-out-or-delete-your-account" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>Go to <b>Profile</b> → <b>☰</b> → <b>Settings</b>.</li>
+      <li>Tap <b>Sign out</b>. Your data stays saved to your account.</li>
+      <li>Or tap <b>Delete account</b> → <b>Continue</b> → <b>Delete</b>. This removes your profile, workouts, food log and posts for good.</li>
+    </ol>
+    <p class="tip"><span class="mono">Tip</span>Deleting your account doesn’t cancel Plated Pro. Cancel it with Apple too.</p>
+  </section>
+
+  <nav class="pager" aria-label="More guides">
+    <a class="prev" href="/guide/progress/"><span class="mono">&larr; Previous</span>Progress</a>
+    <a class="next" href="/guide/plated-pro/"><span class="mono">Next &rarr;</span>Plated Pro</a>
+  </nav>
+  <p class="allguides"><a href="/guide/">All guides</a> &nbsp;·&nbsp; <a href="/support/">Contact support</a></p>
+</main>
+
+<footer>
+  <div class="foot">
+    <div>
+      <a href="/guide/">Guide</a>
+      <a href="/support/">Support</a>
+      <a href="/privacy/">Privacy</a>
+      <a href="/terms/">Terms</a>
+    </div>
+    <p class="copy">&copy; 2026 Plated Fitness</p>
+  </div>
+</footer>
+
+</body>
+</html>

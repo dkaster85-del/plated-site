@@ -1,0 +1,479 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How to use Plated &mdash; Plated Fitness</title>
+<meta name="description" content="Step-by-step help for Plated: logging food and workouts, GPS runs, progress charts, the feed, Plated Pro and common fixes.">
+<meta name="theme-color" content="#0D0D0D">
+<link rel="canonical" href="https://plated-fitness.com/guide/">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://plated-fitness.com/guide/">
+<meta property="og:title" content="How to use Plated — Plated Fitness">
+<meta property="og:description" content="Step-by-step help for Plated: logging food and workouts, GPS runs, progress charts, the feed, Plated Pro and common fixes.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;900&family=IBM+Plex+Mono:wght@400;500&display=swap">
+
+<style>
+  :root {
+    --ground:#0D0D0D; --surface:#151515; --raised:#1C1C1C; --border:#262626; --line:#333333;
+    --text:#F0F0F0; --body:#C4C4C4; --muted:#8C8C8C; --dim:#5E5E5E; --accent:#FF4500; --accent-d:#C93600;
+    --tint: rgba(255,69,0,.10);
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  body {
+    margin:0; background:var(--ground); color:var(--text);
+    font-family: Archivo, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-size:16px; line-height:1.65; -webkit-font-smoothing:antialiased;
+    overflow-wrap: break-word;
+  }
+  .wrap { width:100%; max-width:760px; margin:0 auto; padding:0 24px; }
+  a { color: var(--accent); }
+  a:focus-visible, input:focus-visible, button:focus-visible {
+    outline:2px solid var(--accent); outline-offset:3px; border-radius:3px;
+  }
+  .skip { position:absolute; left:-9999px; top:8px; background:var(--accent); color:#fff;
+          padding:8px 14px; border-radius:8px; font-weight:600; text-decoration:none; z-index:20; }
+  .skip:focus { left:16px; }
+
+  .mono {
+    font-family:"IBM Plex Mono", ui-monospace, monospace;
+    font-size:11px; font-weight:500; letter-spacing:.16em; text-transform:uppercase;
+  }
+
+  header { border-bottom:1px solid var(--border); }
+  .bar { display:flex; align-items:center; justify-content:space-between; height:62px;
+         max-width:1080px; margin:0 auto; padding:0 24px; }
+  .wordmark { font-weight:900; font-size:19px; color:var(--text); text-decoration:none; letter-spacing:-.01em; }
+  .wordmark span { color:var(--accent); }
+  .back { color:var(--muted); text-decoration:none; font-size:13.5px; font-weight:500; }
+  .back:hover { color:var(--text); }
+
+  main.wrap { padding-top:56px; padding-bottom:88px; }
+  .eyebrow { color:var(--accent); margin:0 0 14px; }
+  .eyebrow a { color:var(--muted); text-decoration:none; }
+  .eyebrow a:hover { color:var(--text); }
+  h1 { font-size:clamp(30px,5vw,42px); font-weight:700; letter-spacing:-.03em; line-height:1.06;
+       margin:0 0 14px; text-wrap:balance; }
+  .lede { font-size:17px; color:var(--muted); margin:0 0 36px; max-width:58ch; text-wrap:pretty; }
+  .lede b { color:var(--text); font-weight:600; }
+
+  p { margin:0 0 14px; color:var(--muted); font-size:15px; }
+  b, strong { color:var(--text); font-weight:600; }
+
+  .badge {
+    display:inline-block; vertical-align:2px; margin-left:4px;
+    font-family:"IBM Plex Mono", ui-monospace, monospace; font-size:10px; font-weight:500;
+    letter-spacing:.1em; text-transform:uppercase; line-height:1; padding:4px 6px 3px; border-radius:5px;
+    white-space:nowrap;
+  }
+  .badge-pro { color:var(--accent); background:var(--tint); border:1px solid rgba(255,69,0,.45); }
+  .badge-ios { color:var(--muted); border:1px solid var(--line); }
+
+  /* On this page */
+  .toc { background:var(--surface); border:1px solid var(--border); border-radius:14px;
+         padding:22px 24px 10px; margin:0 0 20px; }
+  .toc > summary { color:var(--muted); margin:0 0 12px; cursor:pointer; list-style:none; display:flex; justify-content:space-between; gap:12px; }
+  .toc > summary::-webkit-details-marker { display:none; }
+  .toc > summary::after { content:"Hide"; color:var(--accent); letter-spacing:.12em; }
+  .toc:not([open]) > summary { margin-bottom:12px; }
+  .toc:not([open]) > summary::after { content:"Show"; }
+  .toc > summary:focus-visible { outline:2px solid var(--accent); outline-offset:4px; border-radius:3px; }
+  .toc ol { list-style:none; margin:0; padding:0; columns:2 250px; column-gap:32px; }
+  .toc li.g { break-inside:avoid; margin:0 0 16px; }
+  .toc li.g > a { color:var(--text); font-weight:600; font-size:15px; text-decoration:none; }
+  .toc ul { list-style:none; margin:4px 0 0; padding:0; }
+  .toc ul li { margin:3px 0; font-size:14px; line-height:1.45; }
+  .toc ul a { color:var(--muted); text-decoration:none; }
+  .toc a:hover { color:var(--accent); }
+  .toc .badge { font-size:9px; padding:3px 5px 2px; }
+
+  .legend-key { font-size:13.5px; color:var(--muted); margin:0 0 8px; }
+
+  /* Groups and how-tos */
+  h2.group { font-size:26px; font-weight:700; letter-spacing:-.02em; line-height:1.15;
+             margin:64px 0 6px; padding-top:28px; border-top:1px solid var(--border); scroll-margin-top:16px; }
+  .group-intro { margin-bottom:8px; }
+  .howto { margin:34px 0 0; scroll-margin-top:16px; }
+  .howto h3 { font-size:19px; font-weight:650; letter-spacing:-.01em; line-height:1.3; margin:0 0 12px; }
+  .howto h3 a.anchor { color:var(--dim); text-decoration:none; font-weight:400; margin-left:6px; opacity:0; }
+  .howto h3:hover a.anchor, .howto h3 a.anchor:focus-visible { opacity:1; }
+
+  ol.steps { list-style:none; counter-reset:step; margin:0 0 14px; padding:0; }
+  ol.steps > li { counter-increment:step; position:relative; padding:0 0 0 38px; margin:0 0 10px;
+                  color:var(--body); font-size:15.5px; line-height:1.6; }
+  ol.steps > li::before {
+    content:counter(step); position:absolute; left:0; top:1px; width:24px; height:24px; border-radius:50%;
+    background:var(--raised); border:1px solid var(--line); color:var(--accent);
+    font-family:"IBM Plex Mono", ui-monospace, monospace; font-size:12px; font-weight:500;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .tip { background:var(--surface); border:1px solid var(--border); border-left:3px solid var(--accent);
+         border-radius:8px; padding:12px 16px; margin:0 0 14px; color:var(--body); font-size:14.5px; }
+  .tip .mono { color:var(--accent); margin-right:8px; letter-spacing:.14em; }
+  .note { color:var(--body); font-size:14.5px; }
+
+  /* Phone screenshots */
+  figure.shot { margin:22px 0 22px; }
+  .phone {
+    --pr: 34px; --pp: 8px;
+    position:relative; width:100%; max-width:280px;
+    border-radius:var(--pr); padding:var(--pp);
+    background:#090909; border:1px solid #2c2c2c;
+    box-shadow:0 30px 70px -35px rgba(0,0,0,.95), inset 0 0 0 1px rgba(255,255,255,.035);
+  }
+  .phone img { display:block; width:100%; height:auto; border-radius:calc(var(--pr) - var(--pp)); background:var(--surface); }
+  figcaption { color:var(--muted); font-size:13.5px; margin-top:10px; max-width:300px; }
+
+  /* Anatomy */
+  .anatomy { display:grid; grid-template-columns:minmax(0,340px) minmax(0,1fr); gap:28px; align-items:start; margin:24px 0 36px; }
+  .anatomy figure { margin:0; }
+  .anatomy .phone { max-width:340px; }
+  .pinbox { position:relative; }
+  .pin {
+    position:absolute; transform:translate(-50%,-50%); width:22px; height:22px; border-radius:50%;
+    background:var(--accent); color:#fff; border:2px solid #0D0D0D; box-shadow:0 0 0 1px rgba(255,255,255,.25), 0 2px 6px rgba(0,0,0,.6);
+    font-family:"IBM Plex Mono", ui-monospace, monospace; font-size:11px; font-weight:500; line-height:1;
+    display:flex; align-items:center; justify-content:center; pointer-events:none;
+  }
+  ol.legend { list-style:none; margin:0; padding:0; counter-reset:pin; }
+  ol.legend li { counter-increment:pin; position:relative; padding:0 0 0 32px; margin:0 0 9px;
+                 color:var(--body); font-size:14.5px; line-height:1.5; }
+  ol.legend li::before {
+    content:counter(pin); position:absolute; left:0; top:0; width:21px; height:21px; border-radius:50%;
+    background:var(--accent); color:#fff; font-family:"IBM Plex Mono", ui-monospace, monospace;
+    font-size:11px; font-weight:500; display:flex; align-items:center; justify-content:center;
+  }
+  @media (max-width:700px) {
+    .anatomy { grid-template-columns:minmax(0,1fr); gap:20px; }
+    .anatomy .phone { max-width:360px; margin:0 auto; }
+    .anatomy figcaption { margin-left:auto; margin-right:auto; text-align:center; }
+  }
+
+  /* Pro table */
+  .table-wrap { margin:8px 0 14px; border:1px solid var(--border); border-radius:12px; overflow:hidden; }
+  table { width:100%; border-collapse:collapse; font-size:14.5px; }
+  th, td { text-align:left; vertical-align:top; padding:11px 14px; border-bottom:1px solid var(--border); }
+  tr:last-child td { border-bottom:0; }
+  th { background:var(--surface); color:var(--muted); font-weight:500; }
+  td:first-child { color:var(--text); font-weight:500; width:52%; }
+  td { color:var(--muted); }
+
+  /* Prev / next */
+  .pager { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:72px 0 0; }
+  .pager a { display:block; background:var(--surface); border:1px solid var(--border); border-radius:12px;
+             padding:16px 20px; text-decoration:none; color:var(--text); font-weight:600; font-size:16px; }
+  .pager a:hover { border-color:var(--accent); }
+  .pager .mono { display:block; color:var(--muted); margin-bottom:4px; font-weight:500; }
+  .pager .next { text-align:right; grid-column:2; }
+  .allguides { text-align:center; margin:22px 0 0; font-size:14.5px; }
+
+  /* Hub */
+  .search { margin:0 0 22px; }
+  .search label { display:block; color:var(--muted); margin:0 0 10px; }
+  .search input {
+    width:100%; background:var(--surface); color:var(--text); border:1px solid var(--line);
+    border-radius:12px; padding:15px 18px; font:inherit; font-size:16px;
+  }
+  .search input::placeholder { color:var(--dim); }
+  .search input:focus-visible { outline:2px solid var(--accent); outline-offset:2px; border-color:transparent; }
+  #count { color:var(--muted); font-size:13.5px; margin:10px 0 0; min-height:1.4em; }
+  .tour { display:block; text-decoration:none; color:var(--muted); border:1px solid var(--accent); border-radius:14px; padding:22px 24px; margin:0 0 36px; background:linear-gradient(180deg, var(--tint), var(--surface) 70%); }
+  .tour:hover h2 { color:var(--accent); }
+  .tour .mono { color:var(--accent); margin:0 0 8px; }
+  .tour h2 { color:var(--text); font-size:22px; font-weight:700; letter-spacing:-.015em; margin:0 0 6px; }
+  .tour p:last-child { margin:0; font-size:15px; }
+  .cards { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:0 0 56px; }
+  .cards a { display:block; background:var(--surface); border:1px solid var(--border); border-radius:14px;
+             padding:22px 22px 18px; text-decoration:none; transition:border-color .15s ease; }
+  .cards a:hover { border-color:var(--accent); }
+  .cards .mono { color:var(--accent); margin:0 0 8px; }
+  .cards h2 { color:var(--text); font-size:20px; font-weight:700; letter-spacing:-.015em; margin:0 0 6px; }
+  .cards p:last-child { margin:0; font-size:14.5px; }
+  h2.sec { font-size:22px; font-weight:700; letter-spacing:-.02em; margin:0 0 6px; }
+  .all-group { margin:22px 0 0; }
+  .all-group h3 { font-size:15px; font-weight:600; margin:0 0 6px; }
+  .all-group h3 a { color:var(--text); text-decoration:none; }
+  .all-group ul { list-style:none; padding:0; margin:0; columns:2 240px; column-gap:28px; }
+  .all-group li { margin:4px 0; font-size:14.5px; line-height:1.45; break-inside:avoid; }
+  .all-group li a { color:var(--muted); text-decoration:none; }
+  .all-group li a:hover { color:var(--accent); }
+  body.searching .cards, body.searching .browse { display:none; }
+  body.searching .all-group ul { columns:1; }
+
+  footer { border-top:1px solid var(--border); padding:36px 0 52px; }
+  .foot { display:flex; justify-content:space-between; gap:20px; flex-wrap:wrap;
+          max-width:1080px; margin:0 auto; padding:0 24px; }
+  .foot a { color:var(--muted); text-decoration:none; font-size:13.5px; margin-right:22px; }
+  .foot a:hover { color:var(--text); }
+  .copy { color:var(--dim); font-size:12.5px; margin:0; }
+
+  @media (max-width:600px) {
+    .wrap, .bar, .foot { padding-left:16px; padding-right:16px; }
+    main.wrap { padding-top:36px; }
+    .cards { grid-template-columns:1fr; }
+    .toc { padding:18px 18px 6px; }
+    .pager { grid-template-columns:1fr; }
+    .pager .next { grid-column:1; }
+    h2.group { font-size:23px; margin-top:52px; }
+    td:first-child { width:50%; }
+    th, td { padding:10px 12px; }
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header>
+  <div class="bar">
+    <a href="/" class="wordmark"><span>PLA</span>TED</a>
+    <a href="/" class="back">&larr; Back to site</a>
+  </div>
+</header>
+
+<main class="wrap" id="main">
+  <p class="mono eyebrow">Help</p>
+  <h1>How to use Plated</h1>
+  <p class="lede">Step-by-step help for every part of the app, from your first food log to your hundredth PR. Pick a section, or search for what you want to do.</p>
+  <a class="tour" href="/guide/tour/"><p class="mono">Start here</p><h2>Take the tour &rarr;</h2><p>Step through every screen, one button at a time.</p></a>
+  <div class="search" id="search" hidden>
+    <label class="mono" for="q">Search the guide</label>
+    <input id="q" type="search" placeholder="Try “barcode”, “superset” or “cancel”" autocomplete="off" spellcheck="false" aria-describedby="count">
+    <p id="count" aria-live="polite"></p>
+  </div>
+  <div class="cards">
+    <a href="/guide/getting-started/"><p class="mono">01 &middot; 12 how-tos</p><h2>Getting started</h2><p>Sign up, set your calorie and macro targets, and find your way around the five tabs.</p></a>
+    <a href="/guide/nutrition/"><p class="mono">02 &middot; 31 how-tos</p><h2>Nutrition</h2><p>Log food by search, barcode or AI, build recipes, copy meals, and use the Pro tools for macros and micronutrients.</p></a>
+    <a href="/guide/train/"><p class="mono">03 &middot; 44 how-tos</p><h2>Train</h2><p>Start, log and finish workouts, track runs with GPS, use the plate calculator, make stickers and move your history in.</p></a>
+    <a href="/guide/progress/"><p class="mono">04 &middot; 10 how-tos</p><h2>Progress</h2><p>Your workout calendar, steps, the muscle heatmap, bodyweight, body measurements and lift charts.</p></a>
+    <a href="/guide/feed-and-profile/"><p class="mono">05 &middot; 17 how-tos</p><h2>Feed and Profile</h2><p>Follow friends, post, like and compare lifts, and manage your profile, privacy and settings.</p></a>
+    <a href="/guide/plated-pro/"><p class="mono">06 &middot; 4 how-tos</p><h2>Plated Pro</h2><p>What Pro adds, how to subscribe, restore on a new phone, and cancel.</p></a>
+    <a href="/guide/faq/"><p class="mono">07 &middot; 18 how-tos</p><h2>FAQ and troubleshooting</h2><p>Quick fixes for Apple Health, GPS, heart rate, notifications and syncing, plus what’s different on the web.</p></a>
+  </div>
+  <h2 class="sec browse" id="every-how-to">Every how-to</h2>
+  <p class="browse">The full list, by section.</p>
+  <div id="all">
+    <div class="all-group">
+      <h3><a href="/guide/getting-started/">Getting started</a></h3>
+      <ul>
+        <li data-k="get your plan before you sign up getting started sign up"><a href="/guide/getting-started/#get-your-plan-before-you-sign-up">Get your plan before you sign up</a></li>
+        <li data-k="create an account getting started sign up"><a href="/guide/getting-started/#create-an-account">Create an account</a></li>
+        <li data-k="sign in or reset your password getting started sign up"><a href="/guide/getting-started/#sign-in-or-reset-your-password">Sign in or reset your password</a></li>
+        <li data-k="what happens the first time you sign in getting started sign up"><a href="/guide/getting-started/#what-happens-the-first-time-you-sign-in">What happens the first time you sign in</a></li>
+        <li data-k="move between the tabs getting started find your way around"><a href="/guide/getting-started/#move-between-the-tabs">Move between the tabs</a></li>
+        <li data-k="find any feature with search getting started find your way around"><a href="/guide/getting-started/#find-any-feature-with-search">Find any feature with Search</a></li>
+        <li data-k="open the intro guide again getting started find your way around"><a href="/guide/getting-started/#open-the-intro-guide-again">Open the intro guide again</a></li>
+        <li data-k="open this guide from the app getting started find your way around"><a href="/guide/getting-started/#open-this-guide-from-the-app">Open this guide from the app</a></li>
+        <li data-k="change your goals later getting started set things up your way"><a href="/guide/getting-started/#change-your-goals-later">Change your goals later</a></li>
+        <li data-k="switch units getting started set things up your way"><a href="/guide/getting-started/#switch-units">Switch units</a></li>
+        <li data-k="switch between dark and light getting started set things up your way"><a href="/guide/getting-started/#switch-between-dark-and-light">Switch between dark and light</a></li>
+        <li data-k="use plated in a web browser getting started plated on the web"><a href="/guide/getting-started/#use-plated-in-a-web-browser">Use Plated in a web browser</a></li>
+      </ul>
+    </div>
+    <div class="all-group">
+      <h3><a href="/guide/nutrition/">Nutrition</a></h3>
+      <ul>
+        <li data-k="read your day at a glance nutrition your day"><a href="/guide/nutrition/#read-your-day-at-a-glance">Read your day at a glance</a></li>
+        <li data-k="move between days nutrition your day"><a href="/guide/nutrition/#move-between-days">Move between days</a></li>
+        <li data-k="set your calorie and macro targets nutrition your day"><a href="/guide/nutrition/#set-your-calorie-and-macro-targets">Set your calorie and macro targets</a></li>
+        <li data-k="keep a logging streak nutrition your day"><a href="/guide/nutrition/#keep-a-logging-streak">Keep a logging streak</a></li>
+        <li data-k="see your nutrition summary nutrition your day"><a href="/guide/nutrition/#see-your-nutrition-summary">See your nutrition summary</a></li>
+        <li data-k="log a food by searching nutrition log food"><a href="/guide/nutrition/#log-a-food-by-searching">Log a food by searching</a></li>
+        <li data-k="choose a serving size and unit nutrition log food"><a href="/guide/nutrition/#choose-a-serving-size-and-unit">Choose a serving size and unit</a></li>
+        <li data-k="log a restaurant meal nutrition log food"><a href="/guide/nutrition/#log-a-restaurant-meal">Log a restaurant meal</a></li>
+        <li data-k="scan a barcode nutrition log food"><a href="/guide/nutrition/#scan-a-barcode">Scan a barcode</a> <span class="badge badge-ios" title="In the iPhone app only">iPhone only</span></li>
+        <li data-k="scan a barcode from a photo nutrition log food"><a href="/guide/nutrition/#scan-a-barcode-from-a-photo">Scan a barcode from a photo</a> <span class="badge badge-ios" title="In the iPhone app only">iPhone only</span></li>
+        <li data-k="check or correct a scanned food nutrition log food"><a href="/guide/nutrition/#check-or-correct-a-scanned-food">Check or correct a scanned food</a></li>
+        <li data-k="read a nutrition label with ai nutrition log food pro"><a href="/guide/nutrition/#read-a-nutrition-label-with-ai">Read a nutrition label with AI</a> <span class="badge badge-pro" title="Needs Plated Pro">PRO</span> <span class="badge badge-ios" title="In the iPhone app only">iPhone only</span></li>
+        <li data-k="look up a food with ai nutrition log food pro"><a href="/guide/nutrition/#look-up-a-food-with-ai">Look up a food with AI</a> <span class="badge badge-pro" title="Needs Plated Pro">PRO</span></li>
+        <li data-k="create your own food nutrition log food"><a href="/guide/nutrition/#create-your-own-food">Create your own food</a></li>
+        <li data-k="edit or delete one of your foods nutrition log food"><a href="/guide/nutrition/#edit-or-delete-one-of-your-foods">Edit or delete one of your foods</a></li>
+        <li data-k="build a recipe nutrition recipes, copying and editing"><a href="/guide/nutrition/#build-a-recipe">Build a recipe</a></li>
+        <li data-k="log, edit or delete a recipe nutrition recipes, copying and editing"><a href="/guide/nutrition/#log-edit-or-delete-a-recipe">Log, edit or delete a recipe</a></li>
+        <li data-k="copy food from a past day nutrition recipes, copying and editing"><a href="/guide/nutrition/#copy-food-from-a-past-day">Copy food from a past day</a></li>
+        <li data-k="copy a previous meal nutrition recipes, copying and editing"><a href="/guide/nutrition/#copy-a-previous-meal">Copy a previous meal</a></li>
+        <li data-k="edit or delete a logged food nutrition recipes, copying and editing"><a href="/guide/nutrition/#edit-or-delete-a-logged-food">Edit or delete a logged food</a></li>
+        <li data-k="see one meal's totals nutrition recipes, copying and editing"><a href="/guide/nutrition/#see-one-meal-s-totals">See one meal’s totals</a></li>
+        <li data-k="what's in tools &amp; settings nutrition tools &amp; settings"><a href="/guide/nutrition/#what-s-in-tools-settings">What’s in Tools & settings</a></li>
+        <li data-k="change your meal layout nutrition tools &amp; settings"><a href="/guide/nutrition/#change-your-meal-layout">Change your meal layout</a></li>
+        <li data-k="set rest-day targets nutrition tools &amp; settings pro"><a href="/guide/nutrition/#set-rest-day-targets">Set rest-day targets</a> <span class="badge badge-pro" title="Needs Plated Pro">PRO</span></li>
+        <li data-k="switch one day between rest and training nutrition tools &amp; settings pro"><a href="/guide/nutrition/#switch-one-day-between-rest-and-training">Switch one day between rest and training</a> <span class="badge badge-pro" title="Needs Plated Pro">PRO</span></li>
+        <li data-k="see micronutrients nutrition tools &amp; settings pro"><a href="/guide/nutrition/#see-micronutrients">See micronutrients</a> <span class="badge badge-pro" title="Needs Plated Pro">PRO</span></li>
+        <li data-k="use the calorie calculator nutrition tools &amp; settings pro"><a href="/guide/nutrition/#use-the-calorie-calculator">Use the calorie calculator</a> <span class="badge badge-pro" title="Needs Plated Pro">PRO</span></li>
+        <li data-k="use fill my macros nutrition tools &amp; settings pro"><a href="/guide/nutrition/#use-fill-my-macros">Use Fill My Macros</a> <span class="badge badge-pro" title="Needs Plated Pro">PRO</span></li>
+        <li data-k="share a food or recipe with a friend nutrition sharing and exporting"><a href="/guide/nutrition/#share-a-food-or-recipe-with-a-friend">Share a food or recipe with a friend</a></li>
+        <li data-k="log something a friend sent you nutrition sharing and exporting"><a href="/guide/nutrition/#log-something-a-friend-sent-you">Log something a friend sent you</a></li>
+        <li data-k="export your food log nutrition sharing and exporting"><a href="/guide/nutrition/#export-your-food-log">Export your food log</a></li>
+      </ul>
+    </div>
+    <div class="all-group">
+      <h3><a href="/guide/train/">Train</a></h3>
+      <ul>
+        <li data-k="anatomy of the workout screen train workout screen controls buttons icons"><a href="/guide/train/#anatomy-of-the-workout-screen">Anatomy of the workout screen</a></li>
+        <li data-k="find your way around the train tab train start a workout"><a href="/guide/train/#find-your-way-around-the-train-tab">Find your way around the Train tab</a></li>
+        <li data-k="start an empty workout train start a workout"><a href="/guide/train/#start-an-empty-workout">Start an empty workout</a></li>
+        <li data-k="start from a saved workout or a built-in split train start a workout"><a href="/guide/train/#start-from-a-saved-workout-or-a-built-in-split">Start from a saved workout or a built-in split</a></li>
+        <li data-k="build a template without starting a workout train start a workout"><a href="/guide/train/#build-a-template-without-starting-a-workout">Build a template without starting a workout</a></li>
+        <li data-k="save the workout you're doing as a template train start a workout"><a href="/guide/train/#save-the-workout-you-re-doing-as-a-template">Save the workout you’re doing as a template</a></li>
+        <li data-k="add exercises train exercises"><a href="/guide/train/#add-exercises">Add exercises</a></li>
+        <li data-k="create a custom exercise train exercises"><a href="/guide/train/#create-a-custom-exercise">Create a custom exercise</a></li>
+        <li data-k="edit an exercise train exercises"><a href="/guide/train/#edit-an-exercise">Edit an exercise</a></li>
+        <li data-k="read the exercise card train exercises"><a href="/guide/train/#read-the-exercise-card">Read the exercise card</a></li>
+        <li data-k="pick the machine you're on train exercises"><a href="/guide/train/#pick-the-machine-you-re-on">Pick the machine you’re on</a></li>
+        <li data-k="switch between both sides and one side train exercises"><a href="/guide/train/#switch-between-both-sides-and-one-side">Switch between Both sides and One side</a></li>
+        <li data-k="make a superset train exercises"><a href="/guide/train/#make-a-superset">Make a superset</a></li>
+        <li data-k="replace, remove or reorder exercises train exercises"><a href="/guide/train/#replace-remove-or-reorder-exercises">Replace, remove or reorder exercises</a></li>
+        <li data-k="log an assisted exercise train exercises"><a href="/guide/train/#log-an-assisted-exercise">Log an assisted exercise</a></li>
+        <li data-k="log sets train sets, timers and live tools"><a href="/guide/train/#log-sets">Log sets</a></li>
+        <li data-k="change a set's type train sets, timers and live tools"><a href="/guide/train/#change-a-set-s-type">Change a set’s type</a></li>
+        <li data-k="add a note to an exercise train sets, timers and live tools"><a href="/guide/train/#add-a-note-to-an-exercise">Add a note to an exercise</a></li>
+        <li data-k="use the next suggestion train sets, timers and live tools pro"><a href="/guide/train/#use-the-next-suggestion">Use the Next suggestion</a> <span class="badge badge-pro" title="Needs Plated Pro">PRO</span></li>
+        <li data-k="use the rest timer train sets, timers and live tools"><a href="/guide/train/#use-the-rest-timer">Use the rest timer</a></li>
+        <li data-k="adjust the workout clock train sets, timers and live tools"><a href="/guide/train/#adjust-the-workout-clock">Adjust the workout clock</a></li>
+        <li data-k="minimise the workout train sets, timers and live tools"><a href="/guide/train/#minimise-the-workout">Minimise the workout</a></li>
+        <li data-k="use the lock screen and dynamic island train sets, timers and live tools"><a href="/guide/train/#use-the-lock-screen-and-dynamic-island">Use the Lock Screen and Dynamic Island</a> <span class="badge badge-ios" title="In the iPhone app only">iPhone only</span></li>
+        <li data-k="connect heart rate train sets, timers and live tools pro"><a href="/guide/train/#connect-heart-rate">Connect heart rate</a> <span class="badge badge-pro" title="Needs Plated Pro">PRO</span></li>
+        <li data-k="log cardio train cardio and gps"><a href="/guide/train/#log-cardio">Log cardio</a></li>
+        <li data-k="track a run, walk or ride with gps train cardio and gps"><a href="/guide/train/#track-a-run-walk-or-ride-with-gps">Track a run, walk or ride with GPS</a></li>
+        <li data-k="see splits and elevation train cardio and gps"><a href="/guide/train/#see-splits-and-elevation">See splits and elevation</a></li>
+        <li data-k="finish a workout train finish and save"><a href="/guide/train/#finish-a-workout">Finish a workout</a></li>
+        <li data-k="post or save the finished workout train finish and save"><a href="/guide/train/#post-or-save-the-finished-workout">Post or save the finished workout</a></li>
+        <li data-k="how prs work train finish and save"><a href="/guide/train/#how-prs-work">How PRs work</a></li>
+        <li data-k="discard a workout train finish and save"><a href="/guide/train/#discard-a-workout">Discard a workout</a></li>
+        <li data-k="view an exercise's history train history and clean-up"><a href="/guide/train/#view-an-exercise-s-history">View an exercise’s history</a></li>
+        <li data-k="edit a past workout train history and clean-up"><a href="/guide/train/#edit-a-past-workout">Edit a past workout</a></li>
+        <li data-k="merge duplicate exercises train history and clean-up"><a href="/guide/train/#merge-duplicate-exercises">Merge duplicate exercises</a></li>
+        <li data-k="make a sticker when you finish a workout train stickers"><a href="/guide/train/#make-a-sticker-when-you-finish-a-workout">Make a sticker when you finish a workout</a></li>
+        <li data-k="make a sticker from a post you shared train stickers"><a href="/guide/train/#make-a-sticker-from-a-post-you-shared">Make a sticker from a post you shared</a></li>
+        <li data-k="set up a run sticker train stickers"><a href="/guide/train/#set-up-a-run-sticker">Set up a run sticker</a></li>
+        <li data-k="set up a pr sticker train stickers"><a href="/guide/train/#set-up-a-pr-sticker">Set up a PR sticker</a></li>
+        <li data-k="set up a workout sticker train stickers pro"><a href="/guide/train/#set-up-a-workout-sticker">Set up a workout sticker</a> <span class="badge badge-pro" title="Needs Plated Pro">PRO</span></li>
+        <li data-k="set up an exercise or set sticker train stickers pro"><a href="/guide/train/#set-up-an-exercise-or-set-sticker">Set up an exercise or set sticker</a> <span class="badge badge-pro" title="Needs Plated Pro">PRO</span></li>
+        <li data-k="save or share a sticker train stickers"><a href="/guide/train/#save-or-share-a-sticker">Save or share a sticker</a></li>
+        <li data-k="use the plate calculator train plate calculator pro"><a href="/guide/train/#use-the-plate-calculator">Use the plate calculator</a> <span class="badge badge-pro" title="Needs Plated Pro">PRO</span></li>
+        <li data-k="set up your bar, collars and plates train plate calculator pro"><a href="/guide/train/#set-up-your-bar-collars-and-plates">Set up your bar, collars and plates</a> <span class="badge badge-pro" title="Needs Plated Pro">PRO</span></li>
+        <li data-k="import your history from hevy, strong or another app train move your history"><a href="/guide/train/#import-your-history-from-hevy-strong-or-another-app">Import your history from Hevy, Strong or another app</a></li>
+        <li data-k="export your workouts as a csv train move your history"><a href="/guide/train/#export-your-workouts-as-a-csv">Export your workouts as a CSV</a></li>
+      </ul>
+    </div>
+    <div class="all-group">
+      <h3><a href="/guide/progress/">Progress</a></h3>
+      <ul>
+        <li data-k="read the workout calendar progress calendar and steps"><a href="/guide/progress/#read-the-workout-calendar">Read the workout calendar</a></li>
+        <li data-k="see what you did on a given day progress calendar and steps"><a href="/guide/progress/#see-what-you-did-on-a-given-day">See what you did on a given day</a></li>
+        <li data-k="see your steps and walking distance progress calendar and steps"><a href="/guide/progress/#see-your-steps-and-walking-distance">See your steps and walking distance</a> <span class="badge badge-ios" title="In the iPhone app only">iPhone only</span></li>
+        <li data-k="use the muscle heatmap progress muscle heatmap pro"><a href="/guide/progress/#use-the-muscle-heatmap">Use the muscle heatmap</a> <span class="badge badge-pro" title="Needs Plated Pro">PRO</span></li>
+        <li data-k="log your bodyweight progress bodyweight and measurements"><a href="/guide/progress/#log-your-bodyweight">Log your bodyweight</a></li>
+        <li data-k="fix or delete a bodyweight entry progress bodyweight and measurements"><a href="/guide/progress/#fix-or-delete-a-bodyweight-entry">Fix or delete a bodyweight entry</a></li>
+        <li data-k="log body measurements progress bodyweight and measurements"><a href="/guide/progress/#log-body-measurements">Log body measurements</a></li>
+        <li data-k="view and edit one body part's trend progress bodyweight and measurements"><a href="/guide/progress/#view-and-edit-one-body-part-s-trend">View and edit one body part’s trend</a></li>
+        <li data-k="switch bodyweight units progress bodyweight and measurements"><a href="/guide/progress/#switch-bodyweight-units">Switch bodyweight units</a></li>
+        <li data-k="see your progress on an exercise progress lift progress"><a href="/guide/progress/#see-your-progress-on-an-exercise">See your progress on an exercise</a></li>
+      </ul>
+    </div>
+    <div class="all-group">
+      <h3><a href="/guide/feed-and-profile/">Feed and Profile</a></h3>
+      <ul>
+        <li data-k="find people and follow them feed and profile the feed"><a href="/guide/feed-and-profile/#find-people-and-follow-them">Find people and follow them</a></li>
+        <li data-k="read and refresh the feed feed and profile the feed"><a href="/guide/feed-and-profile/#read-and-refresh-the-feed">Read and refresh the feed</a></li>
+        <li data-k="post a workout, run or meal feed and profile the feed"><a href="/guide/feed-and-profile/#post-a-workout-run-or-meal">Post a workout, run or meal</a></li>
+        <li data-k="like and comment feed and profile the feed"><a href="/guide/feed-and-profile/#like-and-comment">Like and comment</a></li>
+        <li data-k="compare an exercise with a friend's feed and profile the feed"><a href="/guide/feed-and-profile/#compare-an-exercise-with-a-friend-s">Compare an exercise with a friend’s</a></li>
+        <li data-k="save a workout or exercise from a post feed and profile the feed pro"><a href="/guide/feed-and-profile/#save-a-workout-or-exercise-from-a-post">Save a workout or exercise from a post</a> <span class="badge badge-pro" title="Needs Plated Pro">PRO</span></li>
+        <li data-k="manage your own post feed and profile the feed"><a href="/guide/feed-and-profile/#manage-your-own-post">Manage your own post</a></li>
+        <li data-k="report a post or block someone feed and profile the feed"><a href="/guide/feed-and-profile/#report-a-post-or-block-someone">Report a post or block someone</a></li>
+        <li data-k="use notifications feed and profile the feed"><a href="/guide/feed-and-profile/#use-notifications">Use notifications</a></li>
+        <li data-k="look at someone's profile feed and profile profiles"><a href="/guide/feed-and-profile/#look-at-someone-s-profile">Look at someone’s profile</a></li>
+        <li data-k="find your way around your profile feed and profile profiles"><a href="/guide/feed-and-profile/#find-your-way-around-your-profile">Find your way around your profile</a></li>
+        <li data-k="use the four profile tabs feed and profile profiles"><a href="/guide/feed-and-profile/#use-the-four-profile-tabs">Use the four profile tabs</a></li>
+        <li data-k="change your photo, name and username feed and profile profiles"><a href="/guide/feed-and-profile/#change-your-photo-name-and-username">Change your photo, name and username</a></li>
+        <li data-k="make your account private feed and profile profiles"><a href="/guide/feed-and-profile/#make-your-account-private">Make your account private</a></li>
+        <li data-k="what's in settings feed and profile settings"><a href="/guide/feed-and-profile/#what-s-in-settings">What’s in Settings</a></li>
+        <li data-k="export your data feed and profile settings"><a href="/guide/feed-and-profile/#export-your-data">Export your data</a></li>
+        <li data-k="sign out or delete your account feed and profile settings"><a href="/guide/feed-and-profile/#sign-out-or-delete-your-account">Sign out or delete your account</a></li>
+      </ul>
+    </div>
+    <div class="all-group">
+      <h3><a href="/guide/plated-pro/">Plated Pro</a></h3>
+      <ul>
+        <li data-k="what pro adds plated pro pro free features price"><a href="/guide/plated-pro/#what-pro-adds">What Pro adds</a></li>
+        <li data-k="subscribe to plated pro plated pro subscribe and manage"><a href="/guide/plated-pro/#subscribe-to-plated-pro">Subscribe to Plated Pro</a> <span class="badge badge-ios" title="In the iPhone app only">iPhone only</span></li>
+        <li data-k="restore pro on a new phone plated pro subscribe and manage"><a href="/guide/plated-pro/#restore-pro-on-a-new-phone">Restore Pro on a new phone</a></li>
+        <li data-k="manage or cancel plated pro subscribe and manage"><a href="/guide/plated-pro/#manage-or-cancel">Manage or cancel</a></li>
+        <li data-k="use pro on the web and other devices plated pro subscribe and manage"><a href="/guide/plated-pro/#use-pro-on-the-web-and-other-devices">Use Pro on the web and other devices</a></li>
+      </ul>
+    </div>
+    <div class="all-group">
+      <h3><a href="/guide/faq/">FAQ and troubleshooting</a></h3>
+      <ul>
+        <li data-k="i don't see a new feature or fix faq and troubleshooting something isn't working"><a href="/guide/faq/#i-don-t-see-a-new-feature-or-fix">I don’t see a new feature or fix</a></li>
+        <li data-k="steps or distance don't show faq and troubleshooting something isn't working"><a href="/guide/faq/#steps-or-distance-don-t-show">Steps or distance don’t show</a> <span class="badge badge-ios" title="In the iPhone app only">iPhone only</span></li>
+        <li data-k="workouts don't appear in apple health faq and troubleshooting something isn't working"><a href="/guide/faq/#workouts-don-t-appear-in-apple-health">Workouts don’t appear in Apple Health</a> <span class="badge badge-ios" title="In the iPhone app only">iPhone only</span></li>
+        <li data-k="heart rate isn't showing faq and troubleshooting something isn't working pro"><a href="/guide/faq/#heart-rate-isn-t-showing">Heart rate isn’t showing</a> <span class="badge badge-pro" title="Needs Plated Pro">PRO</span></li>
+        <li data-k="my route has gaps, or tracking stopped when the phone locked faq and troubleshooting something isn't working"><a href="/guide/faq/#my-route-has-gaps-or-tracking-stopped-when-the-phone-locked">My route has gaps, or tracking stopped when the phone locked</a></li>
+        <li data-k="the barcode scanner won't open faq and troubleshooting something isn't working"><a href="/guide/faq/#the-barcode-scanner-won-t-open">The barcode scanner won’t open</a></li>
+        <li data-k="save to photos doesn't work for a sticker faq and troubleshooting something isn't working"><a href="/guide/faq/#save-to-photos-doesn-t-work-for-a-sticker">Save to Photos doesn’t work for a sticker</a></li>
+        <li data-k="i'm not getting notifications faq and troubleshooting something isn't working"><a href="/guide/faq/#i-m-not-getting-notifications">I’m not getting notifications</a></li>
+        <li data-k="my data looks different on another device faq and troubleshooting something isn't working"><a href="/guide/faq/#my-data-looks-different-on-another-device">My data looks different on another device</a></li>
+        <li data-k="the workout timer is wrong faq and troubleshooting something isn't working"><a href="/guide/faq/#the-workout-timer-is-wrong">The workout timer is wrong</a></li>
+        <li data-k="where are my older workouts? faq and troubleshooting your account and data"><a href="/guide/faq/#where-are-my-older-workouts">Where are my older workouts?</a></li>
+        <li data-k="it says “template limit reached” faq and troubleshooting your account and data"><a href="/guide/faq/#it-says-template-limit-reached">It says “Template limit reached”</a></li>
+        <li data-k="i blocked someone by mistake faq and troubleshooting your account and data"><a href="/guide/faq/#i-blocked-someone-by-mistake">I blocked someone by mistake</a></li>
+        <li data-k="i signed up with apple or google and have no password faq and troubleshooting your account and data"><a href="/guide/faq/#i-signed-up-with-apple-or-google-and-have-no-password">I signed up with Apple or Google and have no password</a></li>
+        <li data-k="can i edit or delete a food i created? faq and troubleshooting your account and data"><a href="/guide/faq/#can-i-edit-or-delete-a-food-i-created">Can I edit or delete a food I created?</a></li>
+        <li data-k="how do i get help or report a problem? faq and troubleshooting your account and data"><a href="/guide/faq/#how-do-i-get-help-or-report-a-problem">How do I get help or report a problem?</a></li>
+        <li data-k="how do i delete my account? faq and troubleshooting your account and data"><a href="/guide/faq/#how-do-i-delete-my-account">How do I delete my account?</a></li>
+        <li data-k="what's different on the web? faq and troubleshooting plated on the web"><a href="/guide/faq/#what-s-different-on-the-web">What’s different on the web?</a></li>
+      </ul>
+    </div>
+  </div>
+  <p id="none" hidden>Nothing matches that. Try fewer words, or <a href="/support/">ask us</a>.</p>
+</main>
+
+<footer>
+  <div class="foot">
+    <div>
+      <a href="/guide/">Guide</a>
+      <a href="/support/">Support</a>
+      <a href="/privacy/">Privacy</a>
+      <a href="/terms/">Terms</a>
+    </div>
+    <p class="copy">&copy; 2026 Plated Fitness</p>
+  </div>
+</footer>
+<script>
+(function () {
+  var box = document.getElementById('search'), q = document.getElementById('q'),
+      count = document.getElementById('count'), none = document.getElementById('none'),
+      groups = document.querySelectorAll('#all .all-group');
+  box.hidden = false;
+  function norm(s) { return s.toLowerCase().replace(/[\u2019]/g, "'").trim(); }
+  function run() {
+    var terms = norm(q.value).split(/\s+/).filter(Boolean), shown = 0;
+    document.body.classList.toggle('searching', terms.length > 0);
+    groups.forEach(function (g) {
+      var any = false;
+      g.querySelectorAll('li').forEach(function (li) {
+        var k = li.getAttribute('data-k'), ok = terms.every(function (t) { return k.indexOf(t) !== -1; });
+        li.hidden = !ok; if (ok) { any = true; shown++; }
+      });
+      g.hidden = !any;
+    });
+    none.hidden = !(terms.length && !shown);
+    count.textContent = terms.length ? (shown ? shown + (shown === 1 ? ' how-to matches' : ' how-tos match') : '') : '';
+  }
+  q.addEventListener('input', run);
+  q.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') { var a = document.querySelector('#all li:not([hidden]) a'); if (a) { e.preventDefault(); a.click(); } }
+    if (e.key === 'Escape') { q.value = ''; run(); }
+  });
+  if (q.value) run();
+})();
+</script>
+</body>
+</html>

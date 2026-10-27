@@ -65,6 +65,17 @@
   }
   .btn:hover { background:var(--accent-d); }
 
+  .guide-card {
+    display:block; background:var(--surface); border:1px solid var(--border); border-radius:14px;
+    padding:24px 28px; margin-bottom:8px; text-decoration:none; transition: border-color .15s ease;
+  }
+  .guide-card:hover { border-color:var(--accent); }
+  .guide-card:focus-visible { outline:2px solid var(--accent); outline-offset:3px; }
+  .guide-card p.mono { color:var(--accent); margin:0 0 10px; }
+  .guide-card h2 { color:var(--text); font-size:20px; font-weight:700; margin:0 0 8px; letter-spacing:-.015em; }
+  .guide-card p.sub { color:var(--muted); font-size:14.5px; margin:0 0 12px; }
+  .guide-card .go { color:var(--accent); font-weight:600; font-size:14.5px; }
+
   h2.sec { font-size:22px; font-weight:700; letter-spacing:-.02em; margin:44px 0 18px; }
   h3 { font-size:16px; font-weight:600; margin:26px 0 7px; }
   p { margin:0 0 14px; color:var(--muted); font-size:15px; }
@@ -113,6 +124,16 @@
     </p>
     <a class="btn" href="mailto:support@plated-fitness.com?subject=Plated%20Fitness%20support">Email support</a>
   </div>
+
+  <a class="guide-card" href="/guide/">
+    <p class="mono">How-to guide</p>
+    <h2>New to Plated? Read the how-to guide</h2>
+    <p class="sub">
+      Step-by-step help for logging food and workouts, GPS runs, progress charts, the feed and
+      Plated Pro, with fixes for the most common problems.
+    </p>
+    <span class="go">Open the guide &rarr;</span>
+  </a>
 
   <h2 class="sec">Common questions</h2>
 
@@ -213,6 +234,7 @@
   <div class="foot">
     <div>
       <a href="/support/">Support</a>
+      <a href="/guide/">Guide</a>
       <a href="/privacy/">Privacy</a>
       <a href="/terms/">Terms</a>
     </div>

@@ -1,0 +1,407 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Progress &mdash; How to use Plated</title>
+<meta name="description" content="How to use Plated’s Progress tab: the workout calendar, steps from Apple Health, the muscle heatmap, bodyweight, body measurements and lift progress charts.">
+<meta name="theme-color" content="#0D0D0D">
+<link rel="canonical" href="https://plated-fitness.com/guide/progress/">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://plated-fitness.com/guide/progress/">
+<meta property="og:title" content="Progress — How to use Plated">
+<meta property="og:description" content="How to use Plated’s Progress tab: the workout calendar, steps from Apple Health, the muscle heatmap, bodyweight, body measurements and lift progress charts.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;900&family=IBM+Plex+Mono:wght@400;500&display=swap">
+
+<style>
+  :root {
+    --ground:#0D0D0D; --surface:#151515; --raised:#1C1C1C; --border:#262626; --line:#333333;
+    --text:#F0F0F0; --body:#C4C4C4; --muted:#8C8C8C; --dim:#5E5E5E; --accent:#FF4500; --accent-d:#C93600;
+    --tint: rgba(255,69,0,.10);
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  body {
+    margin:0; background:var(--ground); color:var(--text);
+    font-family: Archivo, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-size:16px; line-height:1.65; -webkit-font-smoothing:antialiased;
+    overflow-wrap: break-word;
+  }
+  .wrap { width:100%; max-width:760px; margin:0 auto; padding:0 24px; }
+  a { color: var(--accent); }
+  a:focus-visible, input:focus-visible, button:focus-visible {
+    outline:2px solid var(--accent); outline-offset:3px; border-radius:3px;
+  }
+  .skip { position:absolute; left:-9999px; top:8px; background:var(--accent); color:#fff;
+          padding:8px 14px; border-radius:8px; font-weight:600; text-decoration:none; z-index:20; }
+  .skip:focus { left:16px; }
+
+  .mono {
+    font-family:"IBM Plex Mono", ui-monospace, monospace;
+    font-size:11px; font-weight:500; letter-spacing:.16em; text-transform:uppercase;
+  }
+
+  header { border-bottom:1px solid var(--border); }
+  .bar { display:flex; align-items:center; justify-content:space-between; height:62px;
+         max-width:1080px; margin:0 auto; padding:0 24px; }
+  .wordmark { font-weight:900; font-size:19px; color:var(--text); text-decoration:none; letter-spacing:-.01em; }
+  .wordmark span { color:var(--accent); }
+  .back { color:var(--muted); text-decoration:none; font-size:13.5px; font-weight:500; }
+  .back:hover { color:var(--text); }
+
+  main.wrap { padding-top:56px; padding-bottom:88px; }
+  .eyebrow { color:var(--accent); margin:0 0 14px; }
+  .eyebrow a { color:var(--muted); text-decoration:none; }
+  .eyebrow a:hover { color:var(--text); }
+  h1 { font-size:clamp(30px,5vw,42px); font-weight:700; letter-spacing:-.03em; line-height:1.06;
+       margin:0 0 14px; text-wrap:balance; }
+  .lede { font-size:17px; color:var(--muted); margin:0 0 36px; max-width:58ch; text-wrap:pretty; }
+  .lede b { color:var(--text); font-weight:600; }
+
+  p { margin:0 0 14px; color:var(--muted); font-size:15px; }
+  b, strong { color:var(--text); font-weight:600; }
+
+  .badge {
+    display:inline-block; vertical-align:2px; margin-left:4px;
+    font-family:"IBM Plex Mono", ui-monospace, monospace; font-size:10px; font-weight:500;
+    letter-spacing:.1em; text-transform:uppercase; line-height:1; padding:4px 6px 3px; border-radius:5px;
+    white-space:nowrap;
+  }
+  .badge-pro { color:var(--accent); background:var(--tint); border:1px solid rgba(255,69,0,.45); }
+  .badge-ios { color:var(--muted); border:1px solid var(--line); }
+
+  /* On this page */
+  .toc { background:var(--surface); border:1px solid var(--border); border-radius:14px;
+         padding:22px 24px 10px; margin:0 0 20px; }
+  .toc > summary { color:var(--muted); margin:0 0 12px; cursor:pointer; list-style:none; display:flex; justify-content:space-between; gap:12px; }
+  .toc > summary::-webkit-details-marker { display:none; }
+  .toc > summary::after { content:"Hide"; color:var(--accent); letter-spacing:.12em; }
+  .toc:not([open]) > summary { margin-bottom:12px; }
+  .toc:not([open]) > summary::after { content:"Show"; }
+  .toc > summary:focus-visible { outline:2px solid var(--accent); outline-offset:4px; border-radius:3px; }
+  .toc ol { list-style:none; margin:0; padding:0; columns:2 250px; column-gap:32px; }
+  .toc li.g { break-inside:avoid; margin:0 0 16px; }
+  .toc li.g > a { color:var(--text); font-weight:600; font-size:15px; text-decoration:none; }
+  .toc ul { list-style:none; margin:4px 0 0; padding:0; }
+  .toc ul li { margin:3px 0; font-size:14px; line-height:1.45; }
+  .toc ul a { color:var(--muted); text-decoration:none; }
+  .toc a:hover { color:var(--accent); }
+  .toc .badge { font-size:9px; padding:3px 5px 2px; }
+
+  .legend-key { font-size:13.5px; color:var(--muted); margin:0 0 8px; }
+
+  /* Groups and how-tos */
+  h2.group { font-size:26px; font-weight:700; letter-spacing:-.02em; line-height:1.15;
+             margin:64px 0 6px; padding-top:28px; border-top:1px solid var(--border); scroll-margin-top:16px; }
+  .group-intro { margin-bottom:8px; }
+  .howto { margin:34px 0 0; scroll-margin-top:16px; }
+  .howto h3 { font-size:19px; font-weight:650; letter-spacing:-.01em; line-height:1.3; margin:0 0 12px; }
+  .howto h3 a.anchor { color:var(--dim); text-decoration:none; font-weight:400; margin-left:6px; opacity:0; }
+  .howto h3:hover a.anchor, .howto h3 a.anchor:focus-visible { opacity:1; }
+
+  ol.steps { list-style:none; counter-reset:step; margin:0 0 14px; padding:0; }
+  ol.steps > li { counter-increment:step; position:relative; padding:0 0 0 38px; margin:0 0 10px;
+                  color:var(--body); font-size:15.5px; line-height:1.6; }
+  ol.steps > li::before {
+    content:counter(step); position:absolute; left:0; top:1px; width:24px; height:24px; border-radius:50%;
+    background:var(--raised); border:1px solid var(--line); color:var(--accent);
+    font-family:"IBM Plex Mono", ui-monospace, monospace; font-size:12px; font-weight:500;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .tip { background:var(--surface); border:1px solid var(--border); border-left:3px solid var(--accent);
+         border-radius:8px; padding:12px 16px; margin:0 0 14px; color:var(--body); font-size:14.5px; }
+  .tip .mono { color:var(--accent); margin-right:8px; letter-spacing:.14em; }
+  .note { color:var(--body); font-size:14.5px; }
+
+  /* Phone screenshots */
+  figure.shot { margin:22px 0 22px; }
+  .phone {
+    --pr: 34px; --pp: 8px;
+    position:relative; width:100%; max-width:280px;
+    border-radius:var(--pr); padding:var(--pp);
+    background:#090909; border:1px solid #2c2c2c;
+    box-shadow:0 30px 70px -35px rgba(0,0,0,.95), inset 0 0 0 1px rgba(255,255,255,.035);
+  }
+  .phone img { display:block; width:100%; height:auto; border-radius:calc(var(--pr) - var(--pp)); background:var(--surface); }
+  figcaption { color:var(--muted); font-size:13.5px; margin-top:10px; max-width:300px; }
+
+  /* Anatomy */
+  .anatomy { display:grid; grid-template-columns:minmax(0,340px) minmax(0,1fr); gap:28px; align-items:start; margin:24px 0 36px; }
+  .anatomy figure { margin:0; }
+  .anatomy .phone { max-width:340px; }
+  .pinbox { position:relative; }
+  .pin {
+    position:absolute; transform:translate(-50%,-50%); width:22px; height:22px; border-radius:50%;
+    background:var(--accent); color:#fff; border:2px solid #0D0D0D; box-shadow:0 0 0 1px rgba(255,255,255,.25), 0 2px 6px rgba(0,0,0,.6);
+    font-family:"IBM Plex Mono", ui-monospace, monospace; font-size:11px; font-weight:500; line-height:1;
+    display:flex; align-items:center; justify-content:center; pointer-events:none;
+  }
+  ol.legend { list-style:none; margin:0; padding:0; counter-reset:pin; }
+  ol.legend li { counter-increment:pin; position:relative; padding:0 0 0 32px; margin:0 0 9px;
+                 color:var(--body); font-size:14.5px; line-height:1.5; }
+  ol.legend li::before {
+    content:counter(pin); position:absolute; left:0; top:0; width:21px; height:21px; border-radius:50%;
+    background:var(--accent); color:#fff; font-family:"IBM Plex Mono", ui-monospace, monospace;
+    font-size:11px; font-weight:500; display:flex; align-items:center; justify-content:center;
+  }
+  @media (max-width:700px) {
+    .anatomy { grid-template-columns:minmax(0,1fr); gap:20px; }
+    .anatomy .phone { max-width:360px; margin:0 auto; }
+    .anatomy figcaption { margin-left:auto; margin-right:auto; text-align:center; }
+  }
+
+  /* Pro table */
+  .table-wrap { margin:8px 0 14px; border:1px solid var(--border); border-radius:12px; overflow:hidden; }
+  table { width:100%; border-collapse:collapse; font-size:14.5px; }
+  th, td { text-align:left; vertical-align:top; padding:11px 14px; border-bottom:1px solid var(--border); }
+  tr:last-child td { border-bottom:0; }
+  th { background:var(--surface); color:var(--muted); font-weight:500; }
+  td:first-child { color:var(--text); font-weight:500; width:52%; }
+  td { color:var(--muted); }
+
+  /* Prev / next */
+  .pager { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:72px 0 0; }
+  .pager a { display:block; background:var(--surface); border:1px solid var(--border); border-radius:12px;
+             padding:16px 20px; text-decoration:none; color:var(--text); font-weight:600; font-size:16px; }
+  .pager a:hover { border-color:var(--accent); }
+  .pager .mono { display:block; color:var(--muted); margin-bottom:4px; font-weight:500; }
+  .pager .next { text-align:right; grid-column:2; }
+  .allguides { text-align:center; margin:22px 0 0; font-size:14.5px; }
+
+  /* Hub */
+  .search { margin:0 0 22px; }
+  .search label { display:block; color:var(--muted); margin:0 0 10px; }
+  .search input {
+    width:100%; background:var(--surface); color:var(--text); border:1px solid var(--line);
+    border-radius:12px; padding:15px 18px; font:inherit; font-size:16px;
+  }
+  .search input::placeholder { color:var(--dim); }
+  .search input:focus-visible { outline:2px solid var(--accent); outline-offset:2px; border-color:transparent; }
+  #count { color:var(--muted); font-size:13.5px; margin:10px 0 0; min-height:1.4em; }
+  .tour { display:block; text-decoration:none; color:var(--muted); border:1px solid var(--accent); border-radius:14px; padding:22px 24px; margin:0 0 36px; background:linear-gradient(180deg, var(--tint), var(--surface) 70%); }
+  .tour:hover h2 { color:var(--accent); }
+  .tour .mono { color:var(--accent); margin:0 0 8px; }
+  .tour h2 { color:var(--text); font-size:22px; font-weight:700; letter-spacing:-.015em; margin:0 0 6px; }
+  .tour p:last-child { margin:0; font-size:15px; }
+  .cards { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:0 0 56px; }
+  .cards a { display:block; background:var(--surface); border:1px solid var(--border); border-radius:14px;
+             padding:22px 22px 18px; text-decoration:none; transition:border-color .15s ease; }
+  .cards a:hover { border-color:var(--accent); }
+  .cards .mono { color:var(--accent); margin:0 0 8px; }
+  .cards h2 { color:var(--text); font-size:20px; font-weight:700; letter-spacing:-.015em; margin:0 0 6px; }
+  .cards p:last-child { margin:0; font-size:14.5px; }
+  h2.sec { font-size:22px; font-weight:700; letter-spacing:-.02em; margin:0 0 6px; }
+  .all-group { margin:22px 0 0; }
+  .all-group h3 { font-size:15px; font-weight:600; margin:0 0 6px; }
+  .all-group h3 a { color:var(--text); text-decoration:none; }
+  .all-group ul { list-style:none; padding:0; margin:0; columns:2 240px; column-gap:28px; }
+  .all-group li { margin:4px 0; font-size:14.5px; line-height:1.45; break-inside:avoid; }
+  .all-group li a { color:var(--muted); text-decoration:none; }
+  .all-group li a:hover { color:var(--accent); }
+  body.searching .cards, body.searching .browse { display:none; }
+  body.searching .all-group ul { columns:1; }
+
+  footer { border-top:1px solid var(--border); padding:36px 0 52px; }
+  .foot { display:flex; justify-content:space-between; gap:20px; flex-wrap:wrap;
+          max-width:1080px; margin:0 auto; padding:0 24px; }
+  .foot a { color:var(--muted); text-decoration:none; font-size:13.5px; margin-right:22px; }
+  .foot a:hover { color:var(--text); }
+  .copy { color:var(--dim); font-size:12.5px; margin:0; }
+
+  @media (max-width:600px) {
+    .wrap, .bar, .foot { padding-left:16px; padding-right:16px; }
+    main.wrap { padding-top:36px; }
+    .cards { grid-template-columns:1fr; }
+    .toc { padding:18px 18px 6px; }
+    .pager { grid-template-columns:1fr; }
+    .pager .next { grid-column:1; }
+    h2.group { font-size:23px; margin-top:52px; }
+    td:first-child { width:50%; }
+    th, td { padding:10px 12px; }
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header>
+  <div class="bar">
+    <a href="/" class="wordmark"><span>PLA</span>TED</a>
+    <a href="/guide/" class="back">&larr; All guides</a>
+  </div>
+</header>
+
+<main class="wrap" id="main">
+  <p class="mono eyebrow"><a href="/guide/">How to use Plated</a> &nbsp;/&nbsp; Progress</p>
+  <h1>Progress</h1>
+  <p class="lede">The <b>Progress</b> tab is one long page. From the top: <b>Workout calendar</b>, <b>Steps & distance</b>, <b>Muscle activity</b>, <b>Bodyweight</b>, <b>Body measurements</b> and <b>Lift progress</b>.</p>
+  <nav aria-label="On this page"><details class="toc" id="toc" open>
+    <summary class="mono">On this page &middot; 10 how-tos</summary>
+    <ol>
+      <li class="g"><a href="#calendar-and-steps">Calendar and steps</a>
+        <ul>
+          <li><a href="#read-the-workout-calendar">Read the workout calendar</a></li>
+          <li><a href="#see-what-you-did-on-a-given-day">See what you did on a given day</a></li>
+          <li><a href="#see-your-steps-and-walking-distance">See your steps and walking distance</a> <span class="badge badge-ios" title="In the iPhone app only">iPhone only</span></li>
+        </ul>
+      </li>
+      <li class="g"><a href="#muscle-heatmap">Muscle heatmap</a>
+        <ul>
+          <li><a href="#use-the-muscle-heatmap">Use the muscle heatmap</a> <span class="badge badge-pro" title="Needs Plated Pro">PRO</span></li>
+        </ul>
+      </li>
+      <li class="g"><a href="#bodyweight-and-measurements">Bodyweight and measurements</a>
+        <ul>
+          <li><a href="#log-your-bodyweight">Log your bodyweight</a></li>
+          <li><a href="#fix-or-delete-a-bodyweight-entry">Fix or delete a bodyweight entry</a></li>
+          <li><a href="#log-body-measurements">Log body measurements</a></li>
+          <li><a href="#view-and-edit-one-body-part-s-trend">View and edit one body part’s trend</a></li>
+          <li><a href="#switch-bodyweight-units">Switch bodyweight units</a></li>
+        </ul>
+      </li>
+      <li class="g"><a href="#lift-progress">Lift progress</a>
+        <ul>
+          <li><a href="#see-your-progress-on-an-exercise">See your progress on an exercise</a></li>
+        </ul>
+      </li>
+    </ol>
+  </details></nav>
+  <p class="legend-key"><span class="badge badge-pro" title="Needs Plated Pro">PRO</span> needs Plated Pro. &nbsp;<span class="badge badge-ios" title="In the iPhone app only">iPhone only</span> works in the iPhone app but not on the web.</p>
+
+  <h2 class="group" id="calendar-and-steps">Calendar and steps</h2>
+  <section class="howto" id="read-the-workout-calendar" aria-labelledby="read-the-workout-calendar-h">
+    <h3 id="read-the-workout-calendar-h">Read the workout calendar<a class="anchor" href="#read-the-workout-calendar" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>Open <b>Progress</b>. <b>Workout calendar</b> opens on this month.</li>
+      <li>Days you trained are filled orange circles.</li>
+      <li>Use <b>‹</b> and <b>›</b> to change month.</li>
+      <li>Under the grid, <b>N days total</b> counts every day you’ve ever trained.</li>
+    </ol>
+    <figure class="shot">
+      <div class="phone"><img src="/assets/screens/progress.png" alt="The Progress tab: a Workout calendar for October 2026 with trained days filled in orange and 53 days total, then the Steps &amp; distance card showing 13,112 steps and a bar chart of the last 7 days." width="600" height="1301" loading="lazy"></div>
+      <figcaption>The workout calendar and the Steps & distance card.</figcaption>
+    </figure>
+  </section>
+  <section class="howto" id="see-what-you-did-on-a-given-day" aria-labelledby="see-what-you-did-on-a-given-day-h">
+    <h3 id="see-what-you-did-on-a-given-day-h">See what you did on a given day<a class="anchor" href="#see-what-you-did-on-a-given-day" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>Tap a day with a filled circle.</li>
+      <li>A sheet shows each session: time, volume, sets and, if recorded, average heart rate.</li>
+      <li>Every exercise is listed with its sets. Tap <b>✕</b> to close.</li>
+    </ol>
+    <p class="tip"><span class="mono">Tip</span>Free accounts browse the last 60 days. Older workouts aren’t deleted, and Plated Pro shows them all.</p>
+  </section>
+  <section class="howto" id="see-your-steps-and-walking-distance" aria-labelledby="see-your-steps-and-walking-distance-h">
+    <h3 id="see-your-steps-and-walking-distance-h">See your steps and walking distance <span class="badge badge-ios" title="In the iPhone app only">iPhone only</span><a class="anchor" href="#see-your-steps-and-walking-distance" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>Find <b>Steps & distance</b>.</li>
+      <li>The first time, tap <b>Connect Apple Health</b> and allow access.</li>
+      <li>The big number is today’s steps. Use the <b>Steps | mi</b> switch to show distance instead.</li>
+      <li>Pick a range: <b>7D</b>, <b>14D</b>, <b>30D</b>, <b>90D</b>, <b>1Y</b> or <b>Custom</b>.</li>
+      <li>Tap a bar to see that day’s figure. Tap <b>↻</b> to reload from Apple Health.</li>
+    </ol>
+    <p class="tip"><span class="mono">Tip</span>Steps and distance are free.</p>
+  </section>
+
+  <h2 class="group" id="muscle-heatmap">Muscle heatmap</h2>
+  <section class="howto" id="use-the-muscle-heatmap" aria-labelledby="use-the-muscle-heatmap-h">
+    <h3 id="use-the-muscle-heatmap-h">Use the muscle heatmap <span class="badge badge-pro" title="Needs Plated Pro">PRO</span><a class="anchor" href="#use-the-muscle-heatmap" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>Find <b>Muscle activity</b>.</li>
+      <li>Choose a window: <b>7D</b>, <b>14D</b> or <b>30D</b>.</li>
+      <li>The <b>FRONT</b> and <b>BACK</b> figures shade each muscle by how many sets it got, from <b>LIGHT</b> to <b>HEAVY</b>.</li>
+      <li>Tap a muscle. A panel shows its sets, sessions, when you last trained it and the exercises that did the most.</li>
+      <li>Tap it again, or <b>✕</b>, to clear it.</li>
+    </ol>
+    <p class="tip"><span class="mono">Tip</span>Custom exercises count too, scored by the muscles you tagged them with.</p>
+    <figure class="shot">
+      <div class="phone"><img src="/assets/guide/progress-muscle.png" alt="The Muscle activity card set to 14D, showing 11 sessions in the last 14 days: front and back figures with trained muscles shaded orange on a light-to-heavy scale, above the Bodyweight card at 149 lbs." width="600" height="1301" loading="lazy"></div>
+      <figcaption>The muscle heatmap (Plated Pro). Tap a muscle to see its numbers.</figcaption>
+    </figure>
+  </section>
+
+  <h2 class="group" id="bodyweight-and-measurements">Bodyweight and measurements</h2>
+  <section class="howto" id="log-your-bodyweight" aria-labelledby="log-your-bodyweight-h">
+    <h3 id="log-your-bodyweight-h">Log your bodyweight<a class="anchor" href="#log-your-bodyweight" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>Go to the <b>Bodyweight</b> card.</li>
+      <li>Type your weight in the box.</li>
+      <li>To log a past day, tap the <b>Today</b> date pill first and pick the date.</li>
+      <li>Tap <b>Log</b>.</li>
+      <li>The big number is your latest weight, with the change since your first entry and a chart below.</li>
+    </ol>
+  </section>
+  <section class="howto" id="fix-or-delete-a-bodyweight-entry" aria-labelledby="fix-or-delete-a-bodyweight-entry-h">
+    <h3 id="fix-or-delete-a-bodyweight-entry-h">Fix or delete a bodyweight entry<a class="anchor" href="#fix-or-delete-a-bodyweight-entry" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>Under the chart, your latest entries are listed. Tap <b>Show all (N)</b> for the rest.</li>
+      <li>Tap an entry’s value.</li>
+      <li>Edit it and tap the orange <b>✓</b>, or tap the red bin to delete it.</li>
+    </ol>
+  </section>
+  <section class="howto" id="log-body-measurements" aria-labelledby="log-body-measurements-h">
+    <h3 id="log-body-measurements-h">Log body measurements<a class="anchor" href="#log-body-measurements" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>Tap <b>Body measurements</b> to open it, then <b>Log measurements</b>.</li>
+      <li>Check the date at the top. Tap it to pick a past day.</li>
+      <li>Fill in any of the 13 body parts. Each shows your last reading.</li>
+      <li>Tap <b>Save N measurements</b>.</li>
+    </ol>
+    <p class="tip"><span class="mono">Tip</span>Left and right are kept separate, so you can spot a difference between sides.</p>
+  </section>
+  <section class="howto" id="view-and-edit-one-body-part-s-trend" aria-labelledby="view-and-edit-one-body-part-s-trend-h">
+    <h3 id="view-and-edit-one-body-part-s-trend-h">View and edit one body part’s trend<a class="anchor" href="#view-and-edit-one-body-part-s-trend" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>In <b>Body measurements</b>, tap a body part chip.</li>
+      <li>You’ll see the latest value, the change and a chart.</li>
+      <li>Tap <b>History (N)</b> to list every reading. Tap a value to edit or delete it.</li>
+    </ol>
+  </section>
+  <section class="howto" id="switch-bodyweight-units" aria-labelledby="switch-bodyweight-units-h">
+    <h3 id="switch-bodyweight-units-h">Switch bodyweight units<a class="anchor" href="#switch-bodyweight-units" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>On the <b>Bodyweight</b> card, tap <b>lb / in</b> or <b>kg / cm</b>.</li>
+      <li>Bodyweight and measurements switch together. Nothing stored changes.</li>
+    </ol>
+    <p class="tip"><span class="mono">Tip</span>Lifts have their own switch, on the <b>Train</b> tab.</p>
+  </section>
+
+  <h2 class="group" id="lift-progress">Lift progress</h2>
+  <section class="howto" id="see-your-progress-on-an-exercise" aria-labelledby="see-your-progress-on-an-exercise-h">
+    <h3 id="see-your-progress-on-an-exercise-h">See your progress on an exercise<a class="anchor" href="#see-your-progress-on-an-exercise" aria-label="Link to this how-to">#</a></h3>
+    <ol class="steps">
+      <li>Tap <b>Lift progress</b> to open it.</li>
+      <li>Filter with the muscle chips, then tap an exercise.</li>
+      <li>Choose <b>Max weight</b>, <b>Volume</b> or <b>Best set</b>.</li>
+      <li>Read the latest value and the change across the chart.</li>
+      <li>Tap <b>‹</b> to go back to the list.</li>
+    </ol>
+    <p class="tip"><span class="mono">Tip</span>Free accounts chart the last 7 days; Plated Pro adds older sessions. <b>Est. 1RM</b> is in an exercise’s history on the Train tab.</p>
+  </section>
+
+  <nav class="pager" aria-label="More guides">
+    <a class="prev" href="/guide/train/"><span class="mono">&larr; Previous</span>Train</a>
+    <a class="next" href="/guide/feed-and-profile/"><span class="mono">Next &rarr;</span>Feed and Profile</a>
+  </nav>
+  <p class="allguides"><a href="/guide/">All guides</a> &nbsp;·&nbsp; <a href="/support/">Contact support</a></p>
+</main>
+
+<footer>
+  <div class="foot">
+    <div>
+      <a href="/guide/">Guide</a>
+      <a href="/support/">Support</a>
+      <a href="/privacy/">Privacy</a>
+      <a href="/terms/">Terms</a>
+    </div>
+    <p class="copy">&copy; 2026 Plated Fitness</p>
+  </div>
+</footer>
+
+</body>
+</html>
