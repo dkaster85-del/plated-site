@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://plated-fitness.com/</loc></url>
-  <url><loc>https://plated-fitness.com/restaurants/</loc><lastmod>2026-10-08</lastmod></url>
+  <url><loc>https://plated-fitness.com/restaurants/</loc><lastmod>2026-10-17</lastmod></url>
   <url><loc>https://plated-fitness.com/restaurants/auntie-annes/</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://plated-fitness.com/restaurants/baskin-robbins/</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://plated-fitness.com/restaurants/bonefish/</loc><lastmod>2026-10-08</lastmod></url>
@@ -25,17 +25,18 @@
   <url><loc>https://plated-fitness.com/restaurants/pf-changs/</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://plated-fitness.com/restaurants/papa-johns/</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://plated-fitness.com/restaurants/tgi-fridays/</loc><lastmod>2026-10-08</lastmod></url>
+  <url><loc>https://plated-fitness.com/restaurants/halal-guys/</loc><lastmod>2026-10-17</lastmod></url>
   <url><loc>https://plated-fitness.com/alternatives/</loc></url>
   <url><loc>https://plated-fitness.com/support/</loc></url>
-  <url><loc>https://plated-fitness.com/guide/</loc><lastmod>2026-10-26</lastmod></url>
-  <url><loc>https://plated-fitness.com/guide/tour/</loc><lastmod>2026-10-26</lastmod></url>
-  <url><loc>https://plated-fitness.com/guide/getting-started/</loc><lastmod>2026-10-26</lastmod></url>
-  <url><loc>https://plated-fitness.com/guide/nutrition/</loc><lastmod>2026-10-26</lastmod></url>
-  <url><loc>https://plated-fitness.com/guide/train/</loc><lastmod>2026-10-26</lastmod></url>
-  <url><loc>https://plated-fitness.com/guide/progress/</loc><lastmod>2026-10-26</lastmod></url>
-  <url><loc>https://plated-fitness.com/guide/feed-and-profile/</loc><lastmod>2026-10-26</lastmod></url>
-  <url><loc>https://plated-fitness.com/guide/plated-pro/</loc><lastmod>2026-10-26</lastmod></url>
-  <url><loc>https://plated-fitness.com/guide/faq/</loc><lastmod>2026-10-26</lastmod></url>
+  <url><loc>https://plated-fitness.com/guide/</loc></url>
+  <url><loc>https://plated-fitness.com/guide/tour/</loc></url>
+  <url><loc>https://plated-fitness.com/guide/faq/</loc></url>
+  <url><loc>https://plated-fitness.com/guide/feed-and-profile/</loc></url>
+  <url><loc>https://plated-fitness.com/guide/getting-started/</loc></url>
+  <url><loc>https://plated-fitness.com/guide/nutrition/</loc></url>
+  <url><loc>https://plated-fitness.com/guide/plated-pro/</loc></url>
+  <url><loc>https://plated-fitness.com/guide/progress/</loc></url>
+  <url><loc>https://plated-fitness.com/guide/train/</loc></url>
   <url><loc>https://plated-fitness.com/privacy/</loc></url>
   <url><loc>https://plated-fitness.com/terms/</loc></url>
 </urlset>
