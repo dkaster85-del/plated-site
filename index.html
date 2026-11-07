@@ -384,6 +384,8 @@
     font-size: 32px; font-weight: 500; margin: 10px 0 2px; letter-spacing: -.02em;
   }
   .plan-per { font-size: 13px; color: var(--dim); margin: 0 0 20px; }
+  .plan-per:has(+ .plan-yearly) { margin-bottom: 4px; }
+  .plan-yearly { font-size: 14px; font-weight: 600; color: var(--text); margin: 0 0 20px; }
   .plan ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
   .plan li { font-size: 14px; color: var(--muted); padding-left: 20px; position: relative; }
   .plan li::before {
@@ -656,6 +658,7 @@
         <p class="plan-name">Plated Pro</p>
         <p class="plan-price" data-plated="pro-price">$9.99</p>
         <p class="plan-per" data-plated="pro-period">per month, auto-renewing</p>
+        <p class="plan-yearly" data-plated="pro-yearly">or $59.99 a year ($4.99 a month)</p>
         <ul>
           <li>AI label scanner and food lookup</li>
           <li>Fill My Macros dinner suggestions</li>
