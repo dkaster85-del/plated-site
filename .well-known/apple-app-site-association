@@ -1,0 +1,13 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["L5CH5M7X3Z.com.dkaise.platedfitness"],
+        "components": [
+          { "/": "/u", "comment": "Profile links: plated-fitness.com/u?handle" },
+          { "/": "/u/*", "comment": "Profile links: plated-fitness.com/u/?handle" }
+        ]
+      }
+    ]
+  }
+}
