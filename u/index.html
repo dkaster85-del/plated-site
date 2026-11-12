@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A profile on Plated</title>
+<meta name="description" content="Open this profile in Plated, the gym and calorie tracker for iPhone.">
+<!-- One page for every profile link the app sends (plated-fitness.com/u/?handle),
+     so there is nothing here for a search engine to list. Not in robots.txt on
+     purpose: the crawlers that build link previews for messaging apps need to
+     fetch it. -->
+<meta name="robots" content="noindex, nofollow">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Plated">
+<meta property="og:title" content="See this profile on Plated">
+<meta property="og:description" content="Gym and calorie tracker for iPhone. Tap to open the profile in the app.">
+<meta name="theme-color" content="#0D0D0D">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Archivo+Black&display=swap" rel="stylesheet">
+<style>
+  /* The same card as /email-confirmed/ and /reset-password/: the pages a
+     person lands on from outside the app should look like one place. */
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background-color: #0D0D0D;
+    font-family: 'Archivo', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    color: #FAFAFA;
+    min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    padding: 24px;
+  }
+  .card { background-color: #141414; border-radius: 8px; max-width: 420px; width: 100%; overflow: hidden; }
+  .accent-bar { height: 6px; background-color: #FF4500; }
+  .content { padding: 40px 32px; }
+  .logo { text-align: center; margin-bottom: 32px; }
+  .logo .word { font-size: 32px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .logo .pla { font-family: 'Archivo Black', 'Arial Black', Arial, sans-serif; font-weight: 900; color: #FF4500; }
+  .logo .ted { font-weight: 400; color: #FAFAFA; }
+  .logo .sub { font-size: 12px; font-weight: 600; letter-spacing: 3px; color: #8A8A8A; text-transform: uppercase; margin-top: 4px; }
+  h1 { font-size: 20px; font-weight: 700; margin-bottom: 8px; overflow-wrap: anywhere; }
+  p.subtext { font-size: 14px; line-height: 22px; color: #A3A3A3; margin-bottom: 24px; }
+  a.button {
+    display: block; text-align: center; text-decoration: none; width: 100%;
+    background-color: #FF4500; border-radius: 6px; padding: 14px;
+    font-size: 14px; font-weight: 700; color: #FFFFFF;
+    text-transform: uppercase; letter-spacing: 0.5px;
+  }
+  .divider { height: 1px; background-color: #242424; margin: 28px 0 24px; }
+  h2 { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+  p.small { font-size: 13px; line-height: 20px; color: #A3A3A3; margin-bottom: 16px; }
+  .badge { display: block; width: 150px; margin: 0 auto; }
+  .badge img { display: block; width: 150px; height: 50px; }
+  .notice {
+    font-size: 13px; line-height: 20px; color: #FAFAFA;
+    background-color: #1F1611; border: 1px solid #4A2A16; border-radius: 6px;
+    padding: 12px 14px; margin-top: 14px;
+  }
+  .footer-note { font-size: 11px; line-height: 16px; color: #666666; text-align: center; margin-top: 24px; }
+  .footer-note a { color: #8A8A8A; }
+</style>
+</head>
+<body>
+
+  <div class="card">
+    <div class="accent-bar"></div>
+    <div class="content">
+
+      <div class="logo">
+        <div class="word"><span class="pla">PLA</span><span class="ted">TED</span></div>
+        <div class="sub">Fitness</div>
+      </div>
+
+      <!-- A link with a handle on it. -->
+      <div id="profileState" style="display:none;">
+        <h1 id="profileTitle"></h1>
+        <p class="subtext">Open their profile in the app to follow them and see their workouts.</p>
+        <a class="button" id="openButton" href="platedfitness://">Open in Plated</a>
+        <p class="notice" id="notOpened" style="display:none;" role="status">Didn't open? Plated may not be on this device yet. Get it below, then tap the link in your messages again.</p>
+
+        <div class="divider"></div>
+
+        <h2>Don't have Plated yet?</h2>
+        <p class="small">It's a free iPhone app for tracking your workouts, food and cardio. Once you've signed up, tap the link again and it opens on <span id="profileHandleAgain"></span>.</p>
+        <a class="badge" href="https://apps.apple.com/app/apple-store/id6784593510?pt=129024014&ct=profile-link&mt=8"><img src="/assets/app-store-badge.svg" alt="Download on the App Store" width="150" height="50"></a>
+      </div>
+
+      <!-- The bare address, or a handle that could not be one. Somebody typed
+           it, or a messaging app cut the link short. -->
+      <div id="idleState" style="display:none;">
+        <h1>Find your friends on Plated</h1>
+        <p class="subtext">This page opens a profile when it comes with someone's handle on the end. To share yours, open Plated, go to Profile and tap Share profile.</p>
+        <a class="button" href="platedfitness://">Open Plated</a>
+
+        <div class="divider"></div>
+
+        <h2>Don't have Plated yet?</h2>
+        <p class="small">It's a free iPhone app for tracking your workouts, food and cardio.</p>
+        <a class="badge" href="https://apps.apple.com/app/apple-store/id6784593510?pt=129024014&ct=profile-link&mt=8"><img src="/assets/app-store-badge.svg" alt="Download on the App Store" width="150" height="50"></a>
+      </div>
+
+      <noscript>
+        <h1>A profile on Plated</h1>
+        <p class="subtext">Open Plated on your iPhone and search for the handle at the end of this link.</p>
+        <a class="badge" href="https://apps.apple.com/app/apple-store/id6784593510?pt=129024014&ct=profile-link&mt=8"><img src="/assets/app-store-badge.svg" alt="Download on the App Store" width="150" height="50"></a>
+      </noscript>
+
+      <p class="footer-note"><a href="/">plated-fitness.com</a> &middot; <a href="/support/">Need help?</a></p>
+
+    </div>
+  </div>
+
+<script>
+(function () {
+  'use strict';
+
+  // The handle is whatever follows the ? (or #): /u/?dkaise19, /u/?h=dkaise19.
+  // Kept to the characters a handle can have, and only ever written to the
+  // page as text, so a made-up link can't put markup or another address here.
+  // The app reads its links by the same rules (src/lib/profileLinks.ts).
+  var HANDLE = /^[A-Za-z0-9_.]{1,30}$/;
+
+  function fromParams(raw) {
+    var parts = raw.replace(/^[?#]/, '').split('&').filter(Boolean);
+    var named = null;
+    for (var i = 0; i < parts.length; i++) {
+      if (/^h=/i.test(parts[i])) { named = parts[i].slice(2); break; }
+    }
+    var value = named;
+    if (value === null) {
+      var first = parts[0] || '';
+      if (first.indexOf('=') !== -1 && first.charAt(first.length - 1) !== '=') return null;
+      value = first.replace(/=$/, '');
+    }
+    try { value = decodeURIComponent(value); } catch (e) {}
+    value = value.trim().replace(/^@/, '');
+    return HANDLE.test(value) ? value : null;
+  }
+
+  var handle = fromParams(location.search) || fromParams(location.hash);
+
+  if (!handle) {
+    document.getElementById('idleState').style.display = 'block';
+    return;
+  }
+
+  document.title = '@' + handle + ' on Plated';
+  document.getElementById('profileTitle').textContent = '@' + handle + ' is on Plated';
+  document.getElementById('profileHandleAgain').textContent = '@' + handle;
+  document.getElementById('profileState').style.display = 'block';
+
+  var open = document.getElementById('openButton');
+  open.href = 'platedfitness://u/' + encodeURIComponent(handle);
+
+  // When the app is installed the phone leaves this page for it. Still being
+  // here a few seconds later usually means it isn't, and a button that does
+  // nothing needs saying so. "May not be", because the phone asks before it
+  // switches apps and someone can be slow to answer; the note goes away again
+  // the moment the page is left.
+  var notOpened = document.getElementById('notOpened');
+  var timer = null;
+  open.addEventListener('click', function () {
+    clearTimeout(timer);
+    timer = setTimeout(function () {
+      if (document.visibilityState === 'visible') notOpened.style.display = 'block';
+    }, 2500);
+  });
+  document.addEventListener('visibilitychange', function () {
+    if (document.visibilityState !== 'hidden') return;
+    clearTimeout(timer);
+    notOpened.style.display = 'none';
+  });
+})();
+</script>
+
+</body>
+</html>
