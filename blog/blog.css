@@ -5,7 +5,15 @@
 .post p { margin: 0 0 16px; }
 .post ul, .post ol { padding-left: 22px; margin: 0 0 16px; }
 .post li { margin: 0 0 8px; }
-.post section { margin-top: 44px; }
+.post section { margin-top: 44px; display: flow-root; }
+.hero { margin: 26px 0 0; }
+.hero img { display: block; width: 100%; height: auto; border-radius: 16px; border: 1px solid var(--border); }
+.fig { float: right; width: 220px; margin: 4px 0 18px 28px; }
+.fig img { display: block; width: 100%; height: auto; border-radius: 14px; border: 1px solid var(--border); }
+.fig figcaption, .wide figcaption { font-size: 13px; color: var(--muted); margin-top: 8px; line-height: 1.45; }
+.wide { margin: 8px 0 22px; }
+.wide img { display: block; width: 100%; max-width: 560px; height: auto; border-radius: 14px; border: 1px solid var(--border); }
+@media (max-width: 640px) { .fig { float: none; width: 72%; max-width: 280px; margin: 6px auto 22px; } }
 .post h2 { font-size: 26px; margin: 0 0 12px; }
 .post h3 { font-size: 17px; margin: 26px 0 8px; }
 .byline { font-size: 13.5px; color: var(--dim); margin: 0 0 8px; }
