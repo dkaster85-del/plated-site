@@ -49,7 +49,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;900&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500&display=swap">
 
 <style>
   /* Single-theme by intent. The app itself is dark-only — userInterfaceStyle is
@@ -63,6 +63,7 @@
     --border:   #262626;
     --line:     #333333;
     --text:     #F0F0F0;
+    --soft:     #BDBDBD;
     --muted:    #8C8C8C;
     --dim:      #5E5E5E;
     --accent:   #FF4500;
@@ -346,29 +347,97 @@
   }
   .sec-lede { font-size: 16.5px; color: var(--muted); margin: 0 0 44px; max-width: 58ch; }
 
-  .features { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
-  @media (max-width: 780px) { .features { grid-template-columns: 1fr; } }
-
-  .feat {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: 14px; padding: 26px 26px 28px;
-  }
+  /* The small label over a tour step's heading. */
   .feat-tab {
     display: inline-block; background: var(--raised); color: var(--dim);
     padding: 4px 9px; border-radius: 5px; margin-bottom: 16px;
   }
-  .feat h3 { font-size: 18px; font-weight: 700; letter-spacing: -.015em; margin: 0 0 10px; }
-  .feat p { font-size: 14.5px; color: var(--muted); margin: 0 0 16px; }
-  .feat ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 9px; }
-  .feat li {
-    font-size: 14px; color: var(--muted); padding-left: 20px; position: relative;
+
+  /* ── What's in the app ────────────────────────────────────────────────── */
+  /* A row per tab: a piece of a real screen beside a few sentences, where
+     there used to be four boxes of bullet points. A .crop is a window onto a
+     capture 600px wide. --x --y --w --h name the piece in the capture's own
+     pixels and the image is placed in percentages, so the window scales with
+     its column and needs no script. */
+  #features { padding-bottom: 20px; }
+  #features h2 {
+    font-size: clamp(34px, 5.4vw, 52px); font-weight: 800;
+    letter-spacing: -.035em; line-height: 1;
   }
-  .feat li::before {
-    content: ""; position: absolute; left: 0; top: 8px;
-    width: 7px; height: 7px; border-radius: 2px;
-    background: var(--accent); opacity: .75;
+  #features .sec-lede { margin-bottom: 30px; }
+
+  .frow {
+    display: grid; grid-template-columns: repeat(12, 1fr); column-gap: 24px;
+    align-items: center; padding: 70px 0; border-top: 1px solid var(--border);
   }
-  .feat li strong { color: var(--text); font-weight: 600; }
+  .frow > * { grid-row: 1; }
+  .frow-tab { font-size: 15px; font-weight: 600; color: var(--muted); margin: 0 0 12px; }
+  .frow h3 {
+    font-size: clamp(28px, 4vw, 38px); font-weight: 800; letter-spacing: -.03em;
+    line-height: 1.05; margin: 0 0 16px; text-wrap: balance;
+  }
+  .frow-say { font-size: 17.5px; color: var(--soft); margin: 0 0 22px; max-width: 42ch; }
+  .frow-also {
+    font-size: 14.5px; color: var(--muted); margin: 0; padding-top: 16px;
+    border-top: 1px solid var(--border); max-width: 46ch;
+  }
+  .frow-also b { color: var(--soft); font-weight: 600; }
+
+  .crop {
+    position: relative; overflow: hidden; aspect-ratio: var(--w) / var(--h);
+    border-radius: 22px; border: 1px solid #2A2A2A; background: var(--ground);
+    box-shadow: 0 40px 80px -40px #000;
+  }
+  .crop img {
+    position: absolute; max-width: none; height: auto;
+    width: calc(600 / var(--w) * 100%);
+    left: calc(var(--x) / var(--w) * -100%);
+    top: calc(var(--y) / var(--h) * -100%);
+  }
+  /* The muscle figures stand on the page itself, with no card around them.
+     The capture's black isn't quite the page's, so its edges fade out. */
+  .crop.bare {
+    border: 0; border-radius: 0; box-shadow: none; background: none;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 3%, #000 97%, transparent),
+                        linear-gradient(transparent, #000 2.5%, #000 97.5%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 3%, #000 97%, transparent),
+                linear-gradient(transparent, #000 2.5%, #000 97.5%, transparent);
+    -webkit-mask-composite: source-in; mask-composite: intersect;
+  }
+  /* Two crops, the second laid over the first's corner. */
+  .pile { position: relative; }
+  .pile .crop + .crop { position: absolute; }
+
+  .f-nutrition .frow-words { grid-column: 9 / span 4; }
+  .f-nutrition .frow-pics  { grid-column: 1 / span 7; }
+  .f-nutrition .pile { aspect-ratio: 630 / 412; }
+  .f-nutrition .crop { width: 74.6%; }
+  .f-nutrition .crop + .crop { width: 52.4%; left: 47.6%; top: 60.7%; }
+
+  .f-train .frow-words { grid-column: 1 / span 5; }
+  .f-train .frow-pics  { grid-column: 7 / span 6; }
+  .f-train .crop { max-width: 500px; margin-left: auto; }
+
+  .f-progress { padding: 40px 0 30px; }
+  .f-progress .frow-words { grid-column: 1 / span 4; }
+  .f-progress .frow-pics  { grid-column: 5 / span 8; }
+  .f-progress .crop { max-width: 640px; margin: 0 auto; }
+
+  .f-feed .frow-words { grid-column: 9 / span 4; }
+  .f-feed .frow-pics  { grid-column: 1 / span 7; }
+  .f-feed .pile { aspect-ratio: 620 / 627; }
+  .f-feed .crop { width: 64.5%; }
+  .f-feed .crop + .crop { width: 51.6%; left: 48.4%; top: 52.6%; }
+
+  /* One column: the words, then their picture. */
+  @media (max-width: 860px) {
+    .frow, .f-progress { display: block; padding: 48px 0; }
+    .frow-pics { margin-top: 32px; }
+    .frow-say, .frow-also { max-width: 56ch; }
+    .crop { border-radius: 16px; }
+    .pile { max-width: 520px; }
+    .f-train .crop { margin-left: 0; }
+  }
 
   /* ── Pricing ──────────────────────────────────────────────────────────── */
   .plans { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; max-width: 780px; }
@@ -568,64 +637,60 @@
 
 <section id="features">
   <div class="wrap">
-    <p class="sec-label mono reveal">What's inside</p>
-    <h2 class="reveal" style="--i:1">Five tabs, and none of them are filler</h2>
-    <p class="sec-lede reveal" style="--i:2">
-      Plated is built around the things you do every day, not around a dashboard you check once
-      and forget. Each tab does one job properly.
+    <h2 class="reveal">What's in the app</h2>
+    <p class="sec-lede reveal" style="--i:1">
+      Every picture below is a screen from the app. Most of it is free, and anything that needs
+      Pro says so.
     </p>
 
-    <div class="features">
-
-      <div class="feat reveal" style="--i:0">
-        <span class="feat-tab mono">Nutrition</span>
-        <h3>Logging that doesn't fight you</h3>
-        <p>The fastest path from a package in your hand to a number in your day.</p>
-        <ul>
-          <li><strong>Barcode scanning</strong> against Open Food Facts and USDA FoodData Central</li>
-          <li><strong>AI label scanner</strong> — photograph a nutrition label and it fills itself in, serving size included</li>
-          <li><strong>Recipes and meals</strong> you build once and log in a tap</li>
-          <li><strong>Fill My Macros</strong> suggests dinner based on what you have left</li>
-        </ul>
+    <div class="frow f-nutrition">
+      <div class="frow-words reveal">
+        <p class="frow-tab">Nutrition</p>
+        <h3>Scan it and it's logged</h3>
+        <p class="frow-say">Scan a barcode and the food is in your day. With Pro, take a photo of the nutrition label instead and Plated fills in the food, serving size included. It reads labels in any language.</p>
+        <p class="frow-also"><b>Also here:</b> recipes and saved meals, restaurant menus, and with Pro, Fill My Macros, which suggests dinner from what you have left.</p>
       </div>
-
-      <div class="feat reveal" style="--i:1">
-        <span class="feat-tab mono">Train</span>
-        <h3>Every set, and what to do next</h3>
-        <p>A workout log that reads your history instead of just storing it.</p>
-        <ul>
-          <li><strong>Progressive overload</strong> suggestions anchored to your best over 90 days, not your last bad night</li>
-          <li><strong>Full exercise library</strong>, editable, plus your own custom movements</li>
-          <li><strong>Heart rate</strong> live from a Bluetooth strap or Apple Watch</li>
-          <li><strong>GPS run tracking</strong> with route, distance, pace and elevation</li>
-          <li><strong>Import your history</strong> from another app's CSV export, so you don't start from zero</li>
-        </ul>
+      <div class="frow-pics pile reveal" style="--i:1">
+        <div class="crop" style="--x:0; --y:300; --w:600; --h:440"><img src="/assets/screens/nutrition.png" alt="Plated&rsquo;s Nutrition tab on a training day: 2,495 of 2,876 kcal eaten, 381 left, and a ring each for protein, carbs and fat." width="600" height="1301" loading="lazy"></div>
+        <div class="crop" style="--x:0; --y:455; --w:600; --h:295"><img src="/assets/screens/label.png" alt="The numbers read from a photographed label, ready to correct: 184 calories, 45 g carbs, no protein and no fat." width="600" height="1301" loading="lazy"></div>
       </div>
+    </div>
 
-      <div class="feat reveal" style="--i:2">
-        <span class="feat-tab mono">Progress</span>
-        <h3>Proof it's working</h3>
-        <p>The part that keeps you going when the mirror is being unhelpful.</p>
-        <ul>
-          <li><strong>Muscle heatmap</strong> showing what you've actually trained</li>
-          <li><strong>Per-exercise charts</strong> of max weight, best set and volume over time</li>
-          <li><strong>Weight and measurements</strong> charted over time</li>
-          <li><strong>Apple Health</strong> sync, both directions</li>
-        </ul>
+    <div class="frow f-train">
+      <div class="frow-words reveal">
+        <p class="frow-tab">Train</p>
+        <h3>It tells you the next weight</h3>
+        <p class="frow-say">Before each exercise, Pro suggests a weight and reps from your best sets over the last 90 days. Tick the set off and the timer and volume keep running.</p>
+        <p class="frow-also"><b>Also here:</b> an exercise library you can edit, GPS runs with route and pace, live heart rate from a strap or Apple Watch (Pro), and import from another app's CSV file.</p>
       </div>
-
-      <div class="feat reveal" style="--i:3">
-        <span class="feat-tab mono">Feed</span>
-        <h3>People doing the same thing</h3>
-        <p>Small and accountable, not another place to perform.</p>
-        <ul>
-          <li><strong>Share workouts and meals</strong> with photos or video</li>
-          <li><strong>Follow friends</strong>, comment, and keep each other honest</li>
-          <li><strong>Public or private</strong> — your profile, your call</li>
-          <li><strong>Report and block</strong> on everything, enforced both ways</li>
-        </ul>
+      <div class="frow-pics reveal" style="--i:1">
+        <div class="crop" style="--x:0; --y:676; --w:600; --h:450"><img src="/assets/screens/train.png" alt="An Incline Bench Press in a Plated workout: three sets of 50 lbs for 12 reps, and a suggested next set of 55 lbs for 8." width="600" height="1301" loading="lazy"></div>
       </div>
+    </div>
 
+    <div class="frow f-progress">
+      <div class="frow-words reveal">
+        <p class="frow-tab">Progress</p>
+        <h3>See which muscles you trained</h3>
+        <p class="frow-say">The heatmap shades each muscle by how much work it got over 7, 14 or 30 days. Tap one for its numbers. It comes with Pro.</p>
+        <p class="frow-also"><b>Also here:</b> a workout calendar, bodyweight and measurements, Apple Health sync in both directions, and with Pro, a chart for every exercise.</p>
+      </div>
+      <div class="frow-pics reveal" style="--i:1">
+        <div class="crop bare" style="--x:0; --y:268; --w:600; --h:572"><img src="/assets/screens/muscle.png" alt="Plated&rsquo;s muscle heatmap: front and back figures with the trained muscles shaded orange, on a scale from light to heavy." width="600" height="1301" loading="lazy"></div>
+      </div>
+    </div>
+
+    <div class="frow f-feed">
+      <div class="frow-words reveal">
+        <p class="frow-tab">Feed</p>
+        <h3>Post the workout</h3>
+        <p class="frow-say">Share a workout, a meal or a run with a photo or video. Friends see every lift, and with Pro they can save the workout to try it themselves.</p>
+        <p class="frow-also"><b>Also here:</b> PR badges, stickers for your Instagram story, private profiles, and report and block on every post.</p>
+      </div>
+      <div class="frow-pics pile reveal" style="--i:1">
+        <div class="crop" style="--x:0; --y:182; --w:600; --h:890"><img src="/assets/screens/profile.png" alt="A workout posted to Plated&rsquo;s feed by @platedfitness with a gym photo: Quad day, 37,530 lbs volume, 119 minutes, 2 PRs and 136 avg bpm." width="600" height="1301" loading="lazy"></div>
+        <div class="crop" style="--x:48; --y:258; --w:504; --h:468"><img src="/assets/screens/sticker.png" alt="A Plated workout sticker for an Instagram story: Quad day, 37,530 lbs lifted, and new PRs on Leg Extension and Hip Adduction." width="600" height="1301" loading="lazy"></div>
+      </div>
     </div>
   </div>
 </section>
