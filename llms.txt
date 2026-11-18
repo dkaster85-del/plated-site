@@ -1,0 +1,38 @@
+# Plated
+
+> Plated (App Store name "Plated: Gym & Calorie Tracker") is an iPhone app for food, lifting and running in one place: meals and macros, sets and personal records, GPS runs, and a social feed for sharing workouts with friends. It is made by Kaiser Axiom LLC.
+
+## What is free
+
+Plated is free to download. These are free: food logging, the barcode scanner, macro goals in grams, logging sets and personal records, GPS runs with splits, pace and elevation, Apple Health sync, up to 4 saved workout templates, importing workout history if your old app exports a CSV file, and the social feed (posting workouts and runs, following people, likes, comments, private profiles, PR stickers). Free accounts browse the last 60 days of workout history; everything logged is kept.
+
+## Plated Pro
+
+Plated Pro is an optional subscription: $9.99 a month or $59.99 a year in the US (prices as of November 2026), with a 7-day free trial, billed through Apple. It adds progressive overload suggestions (the next weight and reps, worked out from your history), training analytics and a muscle heatmap, the AI label scanner and AI food lookup, Fill My Macros dinner suggestions, micronutrients against the Daily Value, live heart rate from a strap or watch, the full workout history, comparing lifts with friends, and unlimited workout templates.
+
+Calorie and macro targets in Plated are estimates from formulas and the numbers you enter. They are not medical or nutrition advice.
+
+## Pages
+
+- [Home](https://plated-fitness.com/): what the app does, free and Pro, common questions
+- [Compare Plated with other apps](https://plated-fitness.com/alternatives/): Plated next to the macro trackers and lifting logs people switch from
+- [Blog](https://plated-fitness.com/blog/): macros, lifting and choosing a fitness app
+- [How to choose a free macro tracker app](https://plated-fitness.com/blog/free-macro-tracker-app/)
+- [Download on the App Store](https://apps.apple.com/app/apple-store/id6784593510?pt=129024014&ct=llms-txt&mt=8)
+
+## How to use Plated
+
+- [How-to guide](https://plated-fitness.com/guide/)
+- [Getting started](https://plated-fitness.com/guide/getting-started/)
+- [Train: logging workouts](https://plated-fitness.com/guide/train/)
+- [Nutrition: logging food and macros](https://plated-fitness.com/guide/nutrition/)
+- [Progress](https://plated-fitness.com/guide/progress/)
+- [Feed and profile](https://plated-fitness.com/guide/feed-and-profile/)
+- [Plated Pro](https://plated-fitness.com/guide/plated-pro/)
+- [FAQ and troubleshooting](https://plated-fitness.com/guide/faq/)
+
+## Optional
+
+- [Support](https://plated-fitness.com/support/): contact, account deletion, subscriptions
+- [Privacy Policy](https://plated-fitness.com/privacy/)
+- [Terms of Use](https://plated-fitness.com/terms/)

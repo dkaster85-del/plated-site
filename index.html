@@ -13,10 +13,26 @@
 <meta property="og:description" content="Workouts, food and cardio in one app, with a feed to share your progress with friends.">
 <meta name="theme-color" content="#0D0D0D">
 <link rel="canonical" href="https://plated-fitness.com/">
+<meta property="og:image" content="https://plated-fitness.com/assets/blog/hero.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": "https://plated-fitness.com/#website",
+  "name": "Plated",
+  "alternateName": "Plated Fitness",
+  "url": "https://plated-fitness.com/",
+  "publisher": {
+    "@id": "https://plated-fitness.com/#organization"
+  }
+}
+</script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "MobileApplication",
+  "@id": "https://plated-fitness.com/#app",
   "name": "Plated: Gym & Calorie Tracker",
   "alternateName": ["Plated", "Plated Fitness"],
   "operatingSystem": "iOS",
@@ -25,7 +41,56 @@
   "url": "https://plated-fitness.com/",
   "downloadUrl": "https://apps.apple.com/us/app/plated-fitness/id6784593510",
   "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-  "publisher": { "@id": "https://plated-fitness.com/#organization" }
+  "publisher": { "@id": "https://plated-fitness.com/#organization" },
+  "sameAs": ["https://apps.apple.com/us/app/plated-fitness/id6784593510"]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is Plated?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Plated is an iPhone app for food, lifting and running in one place. You log meals and macros, sets and personal records, and GPS runs, and you can post workouts to a feed your friends follow."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is Plated free?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Plated is free to download. Logging food and workouts, the barcode scanner, macro goals in grams, GPS runs and the feed are free. Plated Pro is an optional subscription that adds the AI label scanner, progressive overload suggestions, the muscle heatmap and training analytics."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I set macro goals in grams?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. You set protein, carb and fat targets in grams, then scan a barcode or search for a food to log it. Both are free."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I bring my workout history from another app?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "If your old app exports a CSV file, Plated can import it, so your training history comes with you."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Which phones does Plated work on?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Plated is on the App Store for iPhone, and it syncs with Apple Health if you allow it."
+      }
+    }
+  ]
 }
 </script>
 <script type="application/ld+json">
@@ -461,6 +526,12 @@
     content: "→"; position: absolute; left: 0; color: var(--accent); font-size: 12px;
   }
 
+  /* ── FAQ ──────────────────────────────────────────────────────────────── */
+  .faq { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px 40px; max-width: 900px; }
+  @media (max-width: 780px) { .faq { grid-template-columns: 1fr; } }
+  .faq-item h3 { font-size: 16px; font-weight: 700; margin: 0 0 8px; }
+  .faq-item p { font-size: 14.5px; color: var(--muted); margin: 0; line-height: 1.6; }
+
   .note {
     font-size: 13px; color: var(--dim); margin-top: 26px; max-width: 62ch; line-height: 1.65;
   }
@@ -762,6 +833,35 @@
   </div>
 </section>
 
+<section id="faq">
+  <div class="wrap">
+    <p class="sec-label mono reveal">Questions</p>
+    <h2 class="reveal" style="--i:1">Common questions</h2>
+    <div class="faq">
+      <div class="faq-item reveal" style="--i:2">
+        <h3>What is Plated?</h3>
+        <p>Plated is an iPhone app for food, lifting and running in one place. You log meals and macros, sets and personal records, and GPS runs, and you can post workouts to a feed your friends follow.</p>
+      </div>
+      <div class="faq-item reveal" style="--i:3">
+        <h3>Is Plated free?</h3>
+        <p>Plated is free to download. Logging food and workouts, the barcode scanner, macro goals in grams, GPS runs and the feed are free. Plated Pro is an optional subscription that adds the AI label scanner, progressive overload suggestions, the muscle heatmap and training analytics.</p>
+      </div>
+      <div class="faq-item reveal" style="--i:4">
+        <h3>Can I set macro goals in grams?</h3>
+        <p>Yes. You set protein, carb and fat targets in grams, then scan a barcode or search for a food to log it. Both are free.</p>
+      </div>
+      <div class="faq-item reveal" style="--i:4">
+        <h3>Can I bring my workout history from another app?</h3>
+        <p>If your old app exports a CSV file, Plated can import it, so your training history comes with you.</p>
+      </div>
+      <div class="faq-item reveal" style="--i:4">
+        <h3>Which phones does Plated work on?</h3>
+        <p>Plated is on the App Store for iPhone, and it syncs with Apple Health if you allow it.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <footer>
   <div class="wrap foot">
     <div>
@@ -771,6 +871,7 @@
     </div>
     <div class="foot-links">
       <a href="/blog/">Blog</a>
+      <a href="/guide/">How-to guide</a>
       <a href="/restaurants/">Restaurant macros</a>
       <a href="/alternatives/">Compare</a>
       <a href="/support/">Support</a>
